@@ -8,10 +8,6 @@ package view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.util.ArrayList;
-import java.util.Arrays;
-import static javafx.scene.input.KeyCode.T;
-import javax.lang.model.type.ArrayType;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,19 +18,7 @@ import javax.swing.text.JTextComponent;
  *
  * @author rafa0
  */
-public class UiUtils {
-
-    public static ArrayList<Component> getAllComponents(Container c) {
-        Component[] comps = c.getComponents();
-        ArrayList<Component> compList = new ArrayList<>();
-        for (Component comp : comps) {
-            compList.add(comp);
-            if (comp instanceof Container) {
-                compList.addAll(getAllComponents((Container) comp));
-            }
-        }
-        return compList;
-    }
+public class PrintComponents {
 
     public static void printAllComponents(Container con, Color col) {
         Component[] comps = con.getComponents();
@@ -149,12 +133,4 @@ public class UiUtils {
                 break;
         }
     }
-
-    public static ArrayList<?> transformTextToArrayList(String allTheValues){
-        String[] eachValue=allTheValues.split(".+\\n");
-        ArrayList<String> myValues;
-        myValues =new ArrayList<String>(Arrays.asList(eachValue));
-        return myValues;
-    }
-    
 }

@@ -46,7 +46,7 @@ public class UI extends javax.swing.JFrame {
         primaryColor = myController.getPrimaryColor();
         setThemeColors();
         initComponents();
-        setMainTable(Query.showAll());
+        //setMainTable(Query.showAll());
         myImageManager = new ImageManager(me, true);
         setLocationRelativeTo(null);
         hideLayouts();
