@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<connection>
+        <host>127.0.0.1</host>
+        <database>POLICE_STATION</database>
+        <user>root</user>
+        <password> </password>
+</connection>
