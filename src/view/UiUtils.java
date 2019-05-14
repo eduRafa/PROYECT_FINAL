@@ -5,6 +5,7 @@
  */
 package view;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.util.ArrayList;
@@ -33,6 +34,15 @@ public class UiUtils {
         ArrayList<String> myValues;
         myValues = new ArrayList<String>(Arrays.asList(eachValue));
         return myValues;
+    }
+    
+    public static String rgbFormatted(Color rgb) {
+        StringBuilder stringRGB = new StringBuilder();
+
+        stringRGB.append(rgb.getRed() + "," + rgb.getGreen() + "," + rgb.getBlue());
+
+        return stringRGB.toString();
+
     }
 
 }
