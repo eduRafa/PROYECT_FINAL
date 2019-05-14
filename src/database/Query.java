@@ -82,6 +82,7 @@ public class Query {
             Statement s=c.createStatement();
             s.executeQuery("Update "+table+" set "+type+"='"+value+"' where "+key+"='"+code+"'");
             updated=true;
+            s.close();
             Connect.closeConnection();
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
@@ -95,24 +96,23 @@ public class Query {
     */
     public static boolean Update(Suspect sus){
         boolean updated=false;
-        ResultSet preUpdate=Query.searchBy("CodeSuspect",sus.getCodeSuspect().toString());
+        Suspect preUpdate=Query.find(sus.getCodeSuspect().toString());
         try {
             if(rs.last()){
                 if(sus!=null){
-                    
-                    if(sus.getName()!=rs.getString(1)){
+                    if(!sus.getName().equals(preUpdate.getName())){
                         updated=updateAttribute("Name",sus.getCodeSuspect().toString(),sus.getName(),"Suspect","CodeSuspect");
                     }
-                    if(sus.getLastname1()!=rs.getString(2)){
+                    if(!sus.equals(preUpdate.getLastname1())){
                         updated=updateAttribute("Lastname1",sus.getCodeSuspect().toString(),sus.getLastname1(),"Suspect","CodeSuspect");
                     }
-                    if(sus.getLastname2()!=rs.getString(3)){
+                    if(!sus.equals(preUpdate.getLastname2())){
                         updated=updateAttribute("Lastname2",sus.getCodeSuspect().toString(),sus.getLastname2(),"Suspect","CodeSuspect");
                     }
-                    if(sus.getRecord()!=rs.getBlob(4)){
+                    if(!sus.getRecord().equals(preUpdate.getRecord())){
                         updated=updateAttribute("Record",sus.getCodeSuspect().toString(),sus.getRecord().toString(),"Suspect","CodeSuspect");
                     }
-                    if(sus.getFacts()!=rs.getBlob(5)){
+                    if(!sus.getFacts().equals(preUpdate.getFacts())){
                         updated=updateAttribute("Facts",sus.getCodeSuspect().toString(),sus.getFacts().toString(),"Suspect","CodeSuspect");
                     }
                     if(sus.getSuspect()!=null){
@@ -226,6 +226,7 @@ public class Query {
                 }
                                 
                 added=true;
+                s.close();
                 Connect.closeConnection();
             } catch (SQLException ex) {
                 Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
@@ -260,6 +261,7 @@ public class Query {
             correct=addAtrivute(last,suspect.getSuspect());
             correct=addAtrivute(last,suspect.getCar_Resgistration());
             correct=addAtrivute(last, (ArrayList<Object>) suspect.getImages());
+            s.close();
             Connect.closeConnection();
          
         } catch (SQLException ex) {
@@ -339,6 +341,7 @@ public class Query {
                 images=new Images(rs.getBlob(1),rs.getInt(2), rs.getString(3),Integer.valueOf(code));
                 img.add(images);
             }
+            s.close();
             Connect.closeConnection();
             sus=new Suspect(Integer.valueOf(code), name, lastname1, lastname2, as, Record, Facts, ph, em, ad, cr, img);
         } catch (Exception ex) {
@@ -360,6 +363,7 @@ public class Query {
             rs=s.executeQuery("Select sus.name,sus.lastname1,sus.lastname2,sus.Record,sus.Facts,"
                             + "p.PhoneNumber, em.Email,ad.Address,cr.Registration_number"
                             + "from Suspect sus, PHONE p, E_Mail em,ADDRESS ad,CAR_REGISTRATION cr");
+            s.close();
             Connect.closeConnection();
         } catch (SQLException ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
@@ -380,6 +384,7 @@ public class Query {
             Statement s=c.createStatement();
             rs=s.executeQuery("SELECT Image, Description FROM IMAGES"
                     + "where CodeSuspect="+sus.getCodeSuspect());
+            s.close();
             Connect.closeConnection();
         } catch (SQLException ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
@@ -395,7 +400,8 @@ public class Query {
     *@param value: Es el valor por el que se realiza la busqueda
     *@return rs: Es el resultset que guarda el resultado de la consulta
     */
-    public static ResultSet searchBy(String key,String value){
+    public static ArrayList<Suspect> searchBy(String key,String value){
+        ArrayList<Suspect> sus=null;
         try {
             Connect.startConnection();
             c=Connect.getMyConnection();
@@ -405,43 +411,56 @@ public class Query {
                 case "name":
                 case "lastname1":
                 case "lastname2":
-                    rs =s.executeQuery("select sus.name,sus.lastname1,sus.lastname2,sus.Record,sus.Facts,"
-                            + "p.PhoneNumber, em.Email,ad.Address,cr.Registration_number"
-                            + "from Suspect sus, PHONE p, E_Mail em,ADDRESS ad,CAR_REGISTRATION cr"
-                            + "where sus."+key+"="+value);
+                    rs =s.executeQuery("Select CodeSuspect from Suspect"
+                            + "where "+key+"='"+value+"'");
+                    while(rs.next()){
+                        sus.add(Query.find(rs.getString(1)));
+                    }
                     break;
                 case "PhoneNumber":
                     
-                    rs =s.executeQuery("select sus.name,sus.lastname1,sus.lastname2,sus.Record,sus.Facts,"
-                            + "p.PhoneNumber, em.Email,ad.Address,cr.Registration_number"
-                            + "from Suspect sus, PHONE p, E_Mail em,ADDRESS ad,CAR_REGISTRATION cr"
-                            + "where sus.CodeSuspect=(select CodeSuspect from PHONE where "+key+"="+value+")");
+                    rs =s.executeQuery("Select CodeSuspect from PHONE"
+                            + "where "+key+"='"+value+"'");
+                    while(rs.next()){
+                        sus.add(Query.find(rs.getString(1)));
+                    }
                     break;
                 case "Email":
-                    rs=s.executeQuery("select sus.name,sus.lastname1,sus.lastname2,sus.Record,sus.Facts,"
-                            + "p.PhoneNumber, em.Email,ad.Address,cr.Registration_number"
-                            + "from Suspect sus, PHONE p, E_Mail em,ADDRESS ad,CAR_REGISTRATION cr"
-                            + "where sus.CodeSuspect=(select CodeSuspect from EXISTS_ADDRESS where "+key+"="+value+")");
+                    rs=s.executeQuery("Select CodeSuspect from E_MAIL"
+                            + "where "+key+"='"+value+"'");
+                    while(rs.next()){
+                        sus.add(Query.find(rs.getString(1)));
+                    }
                     break;
                 case "Registration_number":
-                    rs=s.executeQuery("select sus.name,sus.lastname1,sus.lastname2,sus.Record,sus.Facts,"
-                            + "p.PhoneNumber, em.Email,ad.Address,cr.Registration_number"
-                            + "from Suspect sus, PHONE p, E_Mail em,ADDRESS ad,CAR_REGISTRATION cr"
-                            + "where sus.CodeSuspect=(select CodeSuspect from CAR_REGISTRATION where "+key+"="+value+")");
+                    rs=s.executeQuery("Select CodeSuspect from CAR_REGISTRATION"
+                            + "where "+key+"='"+value+"'");
+                    while(rs.next()){
+                        sus.add(Query.find(rs.getString(1)));
+                    }
                     break;
-                case "CodeSuspect":
-                    rs=s.executeQuery("select sus.name,sus.lastname1,sus.lastname2,sus.Record,sus.Facts,"
-                            + "p.PhoneNumber, em.Email,ad.Address,cr.Registration_number"
-                            + "from Suspect sus, PHONE p, E_Mail em,ADDRESS ad,CAR_REGISTRATION cr"
-                            + "where sus.CodeSuspect="+value);
+                case "Address":
+                    rs=s.executeQuery("Select CodeSuspect from ADDRESS"
+                            + "where "+key+"='"+value+"'");
+                    while(rs.next()){
+                        sus.add(Query.find(rs.getString(1)));
+                    }
+                    break;
+                case "CodeSuspect2":
+                    rs=s.executeQuery("Select CodeSuspect from COMPANIONS"
+                            + "where "+key+"='"+value+"'");
+                    while(rs.next()){
+                        sus.add(Query.find(rs.getString(1)));
+                    }
                     break;
             }
+            s.close();
             Connect.closeConnection();
         } catch (SQLException ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return rs;
+        return sus;
     }
 }
