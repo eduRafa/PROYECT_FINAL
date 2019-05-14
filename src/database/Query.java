@@ -273,11 +273,11 @@ public class Query {
     public static Suspect find(String code){
        Suspect sus=null;
         try {
-            String name;
-            String lastname1;
-            String lastname2;
-            Blob Record;
-            Blob Facts;
+            String name=null;
+            String lastname1=null;
+            String lastname2=null;
+            Blob Record=null;
+            Blob Facts=null;
             ArrayList<Phone> ph=null;
             Phone p;
             ArrayList<Suspect> as=null;
@@ -286,6 +286,10 @@ public class Query {
             Email email;
             ArrayList<Address> ad=null;
             Address address;
+            ArrayList<Car_Registration> cr=null;
+            Car_Registration cregistration;
+            ArrayList<Images> img=null;
+            Images images;
             Connect.startConnection();
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
@@ -321,8 +325,22 @@ public class Query {
                     + "where CodeSuspect='"+code+"'");
             while(rs.next()){
                 address=new Address(rs.getInt(1),Integer.valueOf(code),rs.getString(2));
+                ad.add(address);
+            }
+            rs=s.executeQuery("Select Resgistration_number"
+                    + "where CodeSuspect='"+code+"'");
+            while(rs.next()){
+                cregistration=new Car_Registration(rs.getString(1));
+                cr.add(cregistration);
+            }
+            rs=s.executeQuery("Select Image,CodeImage,Description"
+                    + "where CodeSuspect='"+code+"'");
+            while(rs.next()){
+                images=new Images(rs.getBlob(1),rs.getInt(2), rs.getString(3),Integer.valueOf(code));
+                img.add(images);
             }
             Connect.closeConnection();
+            sus=new Suspect(Integer.valueOf(code), name, lastname1, lastname2, as, Record, Facts, ph, em, ad, cr, img);
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
