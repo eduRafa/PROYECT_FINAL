@@ -374,7 +374,7 @@ public class Query {
         
     }
     /*
-    *@param code: El codigo de sospechoso del que se desean las fotos
+    *@param sus: El sospechoso del que se desean las fotos
     *@return rs: es el resulset el cual contiene las fotografias del sospechosos junto a su descripcion
     */
     public static ResultSet showImg(Suspect sus){
@@ -398,7 +398,7 @@ public class Query {
     *Este metode permite realizar una consulta en la base de datos buscando con por un valor dado de un paramatro concreto
     *@param key: Es tipo de campo por el cual se esta buscando 
     *@param value: Es el valor por el que se realiza la busqueda
-    *@return rs: Es el resultset que guarda el resultado de la consulta
+    *@return rs: Es el arraylist  que guarda el resultado de la consulta
     */
     public static ArrayList<Suspect> searchBy(String key,String value){
         ArrayList<Suspect> sus=null;
