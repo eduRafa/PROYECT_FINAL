@@ -5,6 +5,7 @@
  */
 package database;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.sql.Statement;
 import java.sql.Connection;
@@ -269,6 +270,66 @@ public class Query {
         return correct;
     }
    
+    public static Suspect find(String code){
+       Suspect sus=null;
+        try {
+            String name;
+            String lastname1;
+            String lastname2;
+            Blob Record;
+            Blob Facts;
+            ArrayList<Phone> ph=null;
+            Phone p;
+            ArrayList<Suspect> as=null;
+            Suspect suspect;
+            ArrayList<Email> em=null;
+            Email email;
+            ArrayList<Address> ad=null;
+            Address address;
+            Connect.startConnection();
+            c=Connect.getMyConnection();
+            Statement s=c.createStatement();
+            rs=s.executeQuery("Select name,lastname1,lastname2,Record,Facts"
+                    + "from Suspect where CodeSuspect='"+code+"'");
+            String codeSuspect=code;
+            if(rs.last()){
+                name=rs.getString(1);
+                lastname1=rs.getString(2);
+                lastname2=rs.getString(3);
+                Record=rs.getBlob(4);
+                Facts=rs.getBlob(5);
+            }
+            rs=s.executeQuery("Select CodePhone,PhoneNumber from PHONE"
+                    + "where CodeSuspect='"+code+"'");
+            while(rs.next()){
+                p=new Phone(Integer.valueOf(code),rs.getInt(1),rs.getInt(2));
+                ph.add(p);
+            }
+            rs=s.executeQuery("Select CodeSuspect2 from COMPANIONS"
+                    + "where CodeSuspect='"+code+"'");
+            while(rs.next()){
+                suspect=new Suspect(rs.getInt(1), null, null, null, null, null, null, null, null, null, null, null);
+                as.add(suspect);
+            }
+            rs=s.executeQuery("Select CodeE_mail,Email from E_MAIL"
+                    + "where CodeSuspect='"+code+"'");
+            while(rs.next()){
+                email=new Email(rs.getInt(1),Integer.valueOf(code),rs.getString(2));
+                em.add(email);
+            }
+            rs=s.executeQuery("Select CodeAddress,Address from ADDRESS "
+                    + "where CodeSuspect='"+code+"'");
+            while(rs.next()){
+                address=new Address(rs.getInt(1),Integer.valueOf(code),rs.getString(2));
+            }
+            Connect.closeConnection();
+        } catch (Exception ex) {
+            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+       return sus;
+    }
+    
     /*
     * Este metodo realiza una consulta a la base de datos para mostrar todos los sospechosos guardados
     *@return rs: Es el resultset con la resuesta de la consulta al servidor, el cual contiene el registro co todos los sospechosos
