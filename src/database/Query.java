@@ -97,8 +97,6 @@ public class Query {
     public static boolean Update(Suspect sus){
         boolean updated=false;
         Suspect preUpdate=Query.find(sus.getCodeSuspect().toString());
-        try {
-            if(rs.last()){
                 if(sus!=null){
                     if(!sus.getName().equals(preUpdate.getName())){
                         updated=updateAttribute("Name",sus.getCodeSuspect().toString(),sus.getName(),"Suspect","CodeSuspect");
@@ -149,11 +147,8 @@ public class Query {
                     if(sus.getCar_Resgistration()!=null){
                         
                     }
+                
                 }
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
         return updated;
     }
