@@ -118,6 +118,7 @@ public class UI extends javax.swing.JFrame {
         for (int i = 0; i < addSuspectFields.length; i++) {
 
             if (addSuspectFields[i] != null) {
+                //System.out.println("no es null");
                 values[i] = addSuspectFields[i].getText();
             } else {
                 values[i] = null;

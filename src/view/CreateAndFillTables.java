@@ -137,9 +137,9 @@ public class CreateAndFillTables {
                  * columna
                  */
                 if (tblMain.getModel().getColumnClass(columna).equals(TrashJButton.class)) {
-                    System.out.println(tblMain.getSelectedRow());
+                    System.out.println(tblMain.getSelectedRow() + 1);
 
-                    Controller.deleteSuspect(tblMain.getSelectedRow());
+                    Controller.deleteSuspect(tblMain.getSelectedRow() + 1);
 
                     /**
                      * Aquí pueden poner lo que quieran, para efectos de este
@@ -153,6 +153,7 @@ public class CreateAndFillTables {
     }
 
     public static void fillMainTable() {
+        removeMainDataTable();
         JTable tblMain = UI.getMainTable();
         Suspect[] s = Controller.getSuspects();
 
@@ -193,7 +194,7 @@ public class CreateAndFillTables {
                             if (s[i].getPhone() != null) {
                                 if (!s[i].getPhone().isEmpty()) {
 
-                                    myModel.setValueAt(s[i].getPhone().get(0), i, j);
+                                    myModel.setValueAt(s[i].getPhone().get(0), i, j);//aqui
 
                                 }
                             }
@@ -216,6 +217,21 @@ public class CreateAndFillTables {
                 k++;
             }
             k = 0;
+        }
+    }
+
+    public static void removeMainDataTable() {
+        JTable tblMain = UI.getMainTable();
+        Suspect[] s = Controller.getSuspects();
+
+        DefaultTableModel myModel = (DefaultTableModel) tblMain.getModel();
+        int col = myModel.getColumnCount();
+        int row = myModel.getRowCount();
+
+        for (int i = 0; i < col - 3; i++) {
+            for (int j = 0; j < row; j++) {
+                myModel.setValueAt(" ", i, j);
+            }
         }
     }
 

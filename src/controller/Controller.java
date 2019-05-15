@@ -88,7 +88,7 @@ public class Controller implements ActionListener {
     
     public static void deleteSuspect(Integer id){
         Query.deleteSuspect(id);
-        CreateAndFillTables.setMainTable(myUI.getMainTable());
+        CreateAndFillTables.fillMainTable();
     }
 
 }

@@ -32,7 +32,6 @@ public class UiUtils {
     public static ArrayList<?> transformStringToArrayList(String allTheValues) {
         String[] eachValue = allTheValues.split("\\n");
         
-        
         for (String string : eachValue) {
             string=string.trim();
         }
