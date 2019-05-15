@@ -177,21 +177,12 @@ public class Query {
     *@param code: Es el codigo del sospechosos al que se le desean añadir los atributos
     *@param al:Es el arraylist con los valores que se desean añadir
     */
-    public static boolean addAtrivute(String code,ArrayList<Object> al){
+    public static boolean addAtrivute(String code,ArrayList<Object> al,String type){
         boolean added=false;
         if(al!=null){
             try {
                 Connect.startConnection();
                 c=Connect.getMyConnection();   
-                boolean find=false;
-                String type=null;
-                for(int j=0;j<al.size()&&!find;j++){
-                    if(al.get(j)!=null){
-                        type=al.get(j).getClass().getSimpleName();
-                        find=true;
-                    }
-                }
-                
                 Statement s=c.createStatement();
                 if(type!=null){
                     switch(type){
@@ -260,9 +251,7 @@ public class Query {
     */
     public static boolean addSuspect(Suspect suspect){
         boolean correct=false;
-        
-        
-        try {
+            try {
             Connect.startConnection();
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
@@ -270,12 +259,12 @@ public class Query {
             + "values ('"+suspect.getName()+"','"+suspect.getLastname1()+"','"+suspect.getLastname2()+"','"+suspect.getRecord()+"','"+suspect.getFacts()+"')");
 
             String last=findLast();
-            correct=addAtrivute(last,suspect.getPhone());
-            correct=addAtrivute(last,suspect.getEmail());
-            correct=addAtrivute(last,suspect.getAddress());
-            correct=addAtrivute(last,suspect.getSuspect());
-            correct=addAtrivute(last,suspect.getCar_Resgistration());
-            correct=addAtrivute(last, (ArrayList<Object>) suspect.getImages());
+            correct=addAtrivute(last,suspect.getPhone(),"Phone");
+            correct=addAtrivute(last,suspect.getEmail(),"Email");
+            correct=addAtrivute(last,suspect.getAddress(),"Address");
+            correct=addAtrivute(last,suspect.getSuspect(),"Suspect");
+            correct=addAtrivute(last,suspect.getCar_Resgistration(),"Car_Registration");
+            correct=addAtrivute(last, (ArrayList<Object>) suspect.getImages(),"Images");
             s.close();
             rs.close();
             Connect.closeConnection();
@@ -311,7 +300,6 @@ public class Query {
             ArrayList<Images> img=new ArrayList<>();
             Images images;
             
-            System.out.println(code);
             Connect.startConnection();
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
@@ -454,7 +442,7 @@ public class Query {
     *@return sus: Es el arraylist de los sospechosos  resultado de la consulta
     */
     public static ArrayList<Suspect> searchBy(String key,String value){
-        ArrayList<Suspect> sus=null;
+        ArrayList<Suspect> sus=new ArrayList<>();
         try {
             Connect.startConnection();
             c=Connect.getMyConnection();
@@ -522,7 +510,7 @@ public class Query {
         HashMap<Suspect,HashMap<String,Boolean>> coincidences=null;
         Boolean[] matchs=new Boolean[8];
         String code=sus.getCodeSuspect().toString();
-        ArrayList<Suspect> als=null;
+        ArrayList<Suspect> als=new ArrayList<>();
         //name,lastname1,lastname2,phone,email,address,registration,suspect
         als=searchBy("name",sus.getName());
         
