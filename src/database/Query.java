@@ -315,7 +315,7 @@ public class Query {
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
             rs=s.executeQuery("Select name,lastname1,lastname2,Record,Facts"
-                    + "from Suspect where CodeSuspect='"+code+"'");
+                    + "from Suspect where CodeSuspect="+code);
             String codeSuspect=code;
             if(rs.last()){
                 name=rs.getString(1);
@@ -325,37 +325,37 @@ public class Query {
                 Facts=rs.getBlob(5);
             }
             rs=s.executeQuery("Select CodePhone,PhoneNumber from PHONE"
-                    + "where CodeSuspect='"+code+"'");
+                    + "where CodeSuspect="+code);
             while(rs.next()){
                 p=new Phone(Integer.valueOf(code),rs.getInt(1),rs.getInt(2));
                 ph.add(p);
             }
             rs=s.executeQuery("Select CodeSuspect2 from COMPANIONS"
-                    + "where CodeSuspect='"+code+"'");
+                    + "where CodeSuspect="+code);
             while(rs.next()){
                 suspect=new Suspect(rs.getInt(1), null, null, null, null, null, null, null, null, null, null, null);
                 as.add(suspect);
             }
             rs=s.executeQuery("Select CodeE_mail,Email from E_MAIL"
-                    + "where CodeSuspect='"+code+"'");
+                    + "where CodeSuspect="+code);
             while(rs.next()){
                 email=new Email(rs.getInt(1),Integer.valueOf(code),rs.getString(2));
                 em.add(email);
             }
             rs=s.executeQuery("Select CodeAddress,Address from ADDRESS "
-                    + "where CodeSuspect='"+code+"'");
+                    + "where CodeSuspect="+code);
             while(rs.next()){
                 address=new Address(rs.getInt(1),Integer.valueOf(code),rs.getString(2));
                 ad.add(address);
             }
             rs=s.executeQuery("Select Resgistration_number, CodeRegistration from CAR_REGISTRATION"
-                    + "where CodeSuspect='"+code+"'");
+                    + "where CodeSuspect="+code);
             while(rs.next()){
                 cregistration=new Car_Registration(rs.getString(1),rs.getInt(2));
                 cr.add(cregistration);
             }
             rs=s.executeQuery("Select Image,CodeImage,Description"
-                    + "where CodeSuspect='"+code+"'");
+                    + "where CodeSuspect="+code);
             while(rs.next()){
                 images=new Images(rs.getBlob(1),rs.getInt(2), rs.getString(3),Integer.valueOf(code));
                 img.add(images);
