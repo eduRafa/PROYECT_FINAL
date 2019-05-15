@@ -117,9 +117,9 @@ public class Connect {
                 try{
                     lineSQL="CREATE TABLE IF NOT EXISTS SUSPECT"
                     +"(CodeSuspect         int unsigned zerofill PRIMARY KEY auto_increment,"
-                    +"name                 varchar(20) DEFAULT 'desconocido',"
-                    +"lastname1            varchar(20) DEFAULT 'desconocido',"
-                    +"lastname2            varchar(20) DEFAULT 'desconocido',"
+                    +"name                 varchar(30) DEFAULT 'desconocido',"
+                    +"lastname1            varchar(30) DEFAULT 'desconocido',"
+                    +"lastname2            varchar(30) DEFAULT 'desconocido',"
                     +"Record               blob ,"
                     +"Facts                blob"
                     + ")ENGINE=INNODB";

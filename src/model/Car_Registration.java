@@ -14,15 +14,22 @@ import java.util.regex.Pattern;
  */
 public class Car_Registration {  
     private String registration;
+    private Integer codeRegistration;
     
-    
-public Car_Registration(String registration) {
-    this.registration=registration;
-    
+    public Car_Registration(String registration,int codeRegistration) {
+        this.registration=registration;
+        this.codeRegistration=codeRegistration;
 }
 
+    public void setCodeRegistration(Integer codeRegistration) {
+        this.codeRegistration = codeRegistration;
+    }
 
-public boolean validate (String registration){
+    public Integer getCodeRegistration() {
+        return codeRegistration;
+    }
+
+    public boolean validate (String registration){
     boolean validate=false;    
     Pattern p = Pattern.compile("^[0-9]{4}[a-zA-Z]{3}$");
     Matcher m = p.matcher(this.registration);
@@ -32,7 +39,7 @@ public boolean validate (String registration){
 }
 
 
-public String getRegistration(){
+    public String getRegistration(){
         return registration;
     }
     

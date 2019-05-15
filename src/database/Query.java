@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.*;
@@ -24,6 +25,9 @@ public class Query {
     
     static Connection c=Connect.getMyConnection();
     static  ResultSet rs;
+    static int maxPosition=10;
+    static int currentPosition=0;
+    static int numberOfSuspects=10;
     
     /*
     *@return last: es un String que contiene el codigo de sospechoso del ultimo 
@@ -84,6 +88,7 @@ public class Query {
             Statement s=c.createStatement();
             s.executeQuery("Update "+table+" set "+type+"='"+value+"' where "+key+"='"+code+"'");
             updated=true;
+            s.close();
             Connect.closeConnection();
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
@@ -97,24 +102,21 @@ public class Query {
     */
     public static boolean Update(Suspect sus){
         boolean updated=false;
-        ResultSet preUpdate=Query.searchBy("CodeSuspect",sus.getCodeSuspect().toString());
-        try {
-            if(rs.last()){
+        Suspect preUpdate=Query.find(sus.getCodeSuspect().toString());
                 if(sus!=null){
-                    
-                    if(sus.getName()!=rs.getString(1)){
+                    if(!sus.getName().equals(preUpdate.getName())){
                         updated=updateAttribute("Name",sus.getCodeSuspect().toString(),sus.getName(),"Suspect","CodeSuspect");
                     }
-                    if(sus.getLastname1()!=rs.getString(2)){
+                    if(!sus.equals(preUpdate.getLastname1())){
                         updated=updateAttribute("Lastname1",sus.getCodeSuspect().toString(),sus.getLastname1(),"Suspect","CodeSuspect");
                     }
-                    if(sus.getLastname2()!=rs.getString(3)){
+                    if(!sus.equals(preUpdate.getLastname2())){
                         updated=updateAttribute("Lastname2",sus.getCodeSuspect().toString(),sus.getLastname2(),"Suspect","CodeSuspect");
                     }
-                    if(sus.getRecord()!=rs.getBlob(4)){
+                    if(!sus.getRecord().equals(preUpdate.getRecord())){
                         updated=updateAttribute("Record",sus.getCodeSuspect().toString(),sus.getRecord().toString(),"Suspect","CodeSuspect");
                     }
-                    if(sus.getFacts()!=rs.getBlob(5)){
+                    if(!sus.getFacts().equals(preUpdate.getFacts())){
                         updated=updateAttribute("Facts",sus.getCodeSuspect().toString(),sus.getFacts().toString(),"Suspect","CodeSuspect");
                     }
                     if(sus.getSuspect()!=null){
@@ -149,13 +151,24 @@ public class Query {
                         }
                     }
                     if(sus.getCar_Resgistration()!=null){
-                        
+                        for(int i=0;i<sus.getCar_Resgistration().size();i++){
+                            if(sus.getCar_Resgistration().get(i)!=null){
+                                Car_Registration cRegistration=(Car_Registration) sus.getCar_Resgistration().get(i);
+                                updated=updateAttribute("Resgistration_number", cRegistration.getCodeRegistration().toString(), cRegistration.getRegistration(), "CAR_REGISTRATION", "CodeRegistration");
+                            }
+                        }
                     }
+                    if(sus.getImages()!=null){
+                        for(int i=0;i<sus.getImages().size();i++){
+                            if(sus.getImages().get(i)!=null){
+                                Images img=(Images) sus.getImages().get(i);
+                                updated=updateAttribute("Image", img.getCodeImage().toString(), img.getImageEncoded().toString(), "IMAGES", "CodeImage");
+                                updated=updateAttribute("Description", img.getCodeImage().toString(), img.getDescription(), "IMAGES", "CodeImage");
+                            }
+                        }
+                    }
+                
                 }
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
         return updated;
     }
@@ -228,6 +241,8 @@ public class Query {
                 }
                                 
                 added=true;
+                s.close();
+                rs.close();
                 Connect.closeConnection();
             } catch (SQLException ex) {
                 Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
@@ -262,6 +277,8 @@ public class Query {
             correct=addAtrivute(last,suspect.getSuspect());
             correct=addAtrivute(last,suspect.getCar_Resgistration());
             correct=addAtrivute(last, (ArrayList<Object>) suspect.getImages());
+            s.close();
+            rs.close();
             Connect.closeConnection();
         } catch (SQLException ex) {
             Logger.getLogger(Query.class.getName()+"--").log(Level.SEVERE, null, ex);
@@ -270,15 +287,18 @@ public class Query {
         }
         return correct;
     }
-   
+   /*
+    *Este metodo busca un sospechoso en la base de datos a partir de su codigo y 
+    devuleve el resultado en forma de Sospechoso 
+    */
     public static Suspect find(String code){
        Suspect sus=null;
         try {
-            String name;
-            String lastname1;
-            String lastname2;
-            Blob Record;
-            Blob Facts;
+            String name=null;
+            String lastname1=null;
+            String lastname2=null;
+            Blob Record=null;
+            Blob Facts=null;
             ArrayList<Phone> ph=null;
             Phone p;
             ArrayList<Suspect> as=null;
@@ -287,6 +307,11 @@ public class Query {
             Email email;
             ArrayList<Address> ad=null;
             Address address;
+            ArrayList<Car_Registration> cr=null;
+            Car_Registration cregistration;
+            ArrayList<Images> img=null;
+            Images images;
+            
             Connect.startConnection();
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
@@ -322,8 +347,24 @@ public class Query {
                     + "where CodeSuspect='"+code+"'");
             while(rs.next()){
                 address=new Address(rs.getInt(1),Integer.valueOf(code),rs.getString(2));
+                ad.add(address);
             }
+            rs=s.executeQuery("Select Resgistration_number, CodeRegistration from CAR_REGISTRATION"
+                    + "where CodeSuspect='"+code+"'");
+            while(rs.next()){
+                cregistration=new Car_Registration(rs.getString(1),rs.getInt(2));
+                cr.add(cregistration);
+            }
+            rs=s.executeQuery("Select Image,CodeImage,Description"
+                    + "where CodeSuspect='"+code+"'");
+            while(rs.next()){
+                images=new Images(rs.getBlob(1),rs.getInt(2), rs.getString(3),Integer.valueOf(code));
+                img.add(images);
+            }
+            s.close();
+            rs.close();
             Connect.closeConnection();
+            sus=new Suspect(Integer.valueOf(code), name, lastname1, lastname2, as, Record, Facts, ph, em, ad, cr, img);
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -332,28 +373,57 @@ public class Query {
     }
     
     /*
-    * Este metodo realiza una consulta a la base de datos para mostrar todos los sospechosos guardados
-    *@return rs: Es el resultset con la resuesta de la consulta al servidor, el cual contiene el registro co todos los sospechosos
+    *Este metodo muestra 10 sospechos de la base de datos
+    *@return show: Son los 10 sospechosos mostrados, en caso de que no haya doce en el grupo que se esta
+    mirando habra valores nulos
     */
-    public static ResultSet showAll(){
+    public static Suspect[] showTen(){
+        Suspect[] show=new Suspect[numberOfSuspects];
         try {
             Connect.startConnection();
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
-            rs=s.executeQuery("Select sus.name,sus.lastname1,sus.lastname2,sus.Record,sus.Facts,"
-                            + "p.PhoneNumber, em.Email,ad.Address,cr.Registration_number"
-                            + "from Suspect sus, PHONE p, E_Mail em,ADDRESS ad,CAR_REGISTRATION cr");
-            Connect.closeConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
+            rs=s.executeQuery("Select CodeSuspect from SUSPECT");
+            int j=0;
+            for(int i=currentPosition;i<maxPosition&&rs.next();i++,j++){
+                show[j]=find(rs.getString(i));
+            }
+            s.close();
+            rs.close();
+            c.close();
+           
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return rs;
-        
+        return show;
     }
     /*
-    *@param code: El codigo de sospechoso del que se desean las fotos
+    *Este metodo se usa para, una vez mostrando 10 sospechos pasar a los 10 siguientes de la base de datos
+    *@return show:Son los 10 sospechosos mostrados, en caso de que no haya doce en el grupo que se esta
+    mirando habra valores nulos
+    */
+    public static Suspect[] showNext(){
+        Suspect[] show=new Suspect[numberOfSuspects];
+        currentPosition+=numberOfSuspects;
+        maxPosition+=numberOfSuspects;
+        show=showTen();
+        return show;
+    }
+    
+    /*
+    *Este metodo se usa para, una vez mostrando 10 sospechos pasar a los 10 anteriores de la base de datos
+    *@return show:Son los 10 sospechosos mostrados, en caso de que no haya doce en el grupo que se esta
+    mirando habra valores nulos
+    */
+    public static Suspect[] showPrevious(){
+        Suspect[] show=new Suspect[numberOfSuspects];
+        currentPosition-=numberOfSuspects;
+        maxPosition-=numberOfSuspects;
+        show=showTen();
+        return show;
+    }
+    /*
+    *@param sus: El sospechoso del que se desean las fotos
     *@return rs: es el resulset el cual contiene las fotografias del sospechosos junto a su descripcion
     */
     public static ResultSet showImg(Suspect sus){
@@ -363,6 +433,8 @@ public class Query {
             Statement s=c.createStatement();
             rs=s.executeQuery("SELECT Image, Description FROM IMAGES"
                     + "where CodeSuspect="+sus.getCodeSuspect());
+            s.close();
+            rs.close();
             Connect.closeConnection();
         } catch (SQLException ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
@@ -376,9 +448,10 @@ public class Query {
     *Este metode permite realizar una consulta en la base de datos buscando con por un valor dado de un paramatro concreto
     *@param key: Es tipo de campo por el cual se esta buscando 
     *@param value: Es el valor por el que se realiza la busqueda
-    *@return rs: Es el resultset que guarda el resultado de la consulta
+    *@return sus: Es el arraylist de los sospechosos  resultado de la consulta
     */
-    public static ResultSet searchBy(String key,String value){
+    public static ArrayList<Suspect> searchBy(String key,String value){
+        ArrayList<Suspect> sus=null;
         try {
             Connect.startConnection();
             c=Connect.getMyConnection();
@@ -388,43 +461,64 @@ public class Query {
                 case "name":
                 case "lastname1":
                 case "lastname2":
-                    rs =s.executeQuery("select sus.name,sus.lastname1,sus.lastname2,sus.Record,sus.Facts,"
-                            + "p.PhoneNumber, em.Email,ad.Address,cr.Registration_number"
-                            + "from Suspect sus, PHONE p, E_Mail em,ADDRESS ad,CAR_REGISTRATION cr"
-                            + "where sus."+key+"="+value);
+                    rs =s.executeQuery("Select CodeSuspect from Suspect"
+                            + "where "+key+"='"+value+"'");
+                    while(rs.next()){
+                        sus.add(Query.find(rs.getString(1)));
+                    }
                     break;
                 case "PhoneNumber":
                     
-                    rs =s.executeQuery("select sus.name,sus.lastname1,sus.lastname2,sus.Record,sus.Facts,"
-                            + "p.PhoneNumber, em.Email,ad.Address,cr.Registration_number"
-                            + "from Suspect sus, PHONE p, E_Mail em,ADDRESS ad,CAR_REGISTRATION cr"
-                            + "where sus.CodeSuspect=(select CodeSuspect from PHONE where "+key+"="+value+")");
+                    rs =s.executeQuery("Select CodeSuspect from PHONE"
+                            + "where "+key+"='"+value+"'");
+                    while(rs.next()){
+                        sus.add(Query.find(rs.getString(1)));
+                    }
                     break;
                 case "Email":
-                    rs=s.executeQuery("select sus.name,sus.lastname1,sus.lastname2,sus.Record,sus.Facts,"
-                            + "p.PhoneNumber, em.Email,ad.Address,cr.Registration_number"
-                            + "from Suspect sus, PHONE p, E_Mail em,ADDRESS ad,CAR_REGISTRATION cr"
-                            + "where sus.CodeSuspect=(select CodeSuspect from EXISTS_ADDRESS where "+key+"="+value+")");
+                    rs=s.executeQuery("Select CodeSuspect from E_MAIL"
+                            + "where "+key+"='"+value+"'");
+                    while(rs.next()){
+                        sus.add(Query.find(rs.getString(1)));
+                    }
                     break;
                 case "Registration_number":
-                    rs=s.executeQuery("select sus.name,sus.lastname1,sus.lastname2,sus.Record,sus.Facts,"
-                            + "p.PhoneNumber, em.Email,ad.Address,cr.Registration_number"
-                            + "from Suspect sus, PHONE p, E_Mail em,ADDRESS ad,CAR_REGISTRATION cr"
-                            + "where sus.CodeSuspect=(select CodeSuspect from CAR_REGISTRATION where "+key+"="+value+")");
+                    rs=s.executeQuery("Select CodeSuspect from CAR_REGISTRATION"
+                            + "where "+key+"='"+value+"'");
+                    while(rs.next()){
+                        sus.add(Query.find(rs.getString(1)));
+                    }
                     break;
-                case "CodeSuspect":
-                    rs=s.executeQuery("select sus.name,sus.lastname1,sus.lastname2,sus.Record,sus.Facts,"
-                            + "p.PhoneNumber, em.Email,ad.Address,cr.Registration_number"
-                            + "from Suspect sus, PHONE p, E_Mail em,ADDRESS ad,CAR_REGISTRATION cr"
-                            + "where sus.CodeSuspect="+value);
+                case "Address":
+                    rs=s.executeQuery("Select CodeSuspect from ADDRESS"
+                            + "where "+key+"='"+value+"'");
+                    while(rs.next()){
+                        sus.add(Query.find(rs.getString(1)));
+                    }
+                    break;
+                case "CodeSuspect2":
+                    rs=s.executeQuery("Select CodeSuspect from COMPANIONS"
+                            + "where "+key+"='"+value+"'");
+                    while(rs.next()){
+                        sus.add(Query.find(rs.getString(1)));
+                    }
                     break;
             }
+            s.close();
+            rs.close();
             Connect.closeConnection();
         } catch (SQLException ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return rs;
+        return sus;
+    }
+    
+    public HashMap<Suspect,Boolean[]> findCoincidences(Suspect sus){
+    HashMap<Suspect,Boolean[]> coincidences=null;
+    Boolean[] matchs=new Boolean[11];
+    
+    return coincidences;
     }
 }
