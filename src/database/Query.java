@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.*;
@@ -23,8 +24,9 @@ public class Query {
     
     static Connection c=Connect.getMyConnection();
     static  ResultSet rs;
-    static int maxPosition=12;
+    static int maxPosition=10;
     static int currentPosition=0;
+    static int numberOfSuspects=10;
     
     /*
     *@return last: es un String que contiene el codigo de sospechoso del ultimo 
@@ -370,12 +372,12 @@ public class Query {
     }
     
     /*
-    *Este metodo muestra 12 sospechos de la base de datos
-    *@return show: Son los 12 sospechosos mostrados, en caso de que no haya doce en el grupo que se esta
+    *Este metodo muestra 10 sospechos de la base de datos
+    *@return show: Son los 10 sospechosos mostrados, en caso de que no haya doce en el grupo que se esta
     mirando habra valores nulos
     */
-    public static Suspect[] showTwelve(){
-        Suspect[] show=new Suspect[12];
+    public static Suspect[] showTen(){
+        Suspect[] show=new Suspect[numberOfSuspects];
         try {
             Connect.startConnection();
             c=Connect.getMyConnection();
@@ -395,28 +397,28 @@ public class Query {
         return show;
     }
     /*
-    *Este metodo se usa para, una vez mostrando 12 sospechos pasar a los 12 siguientes de la base de datos
-    *@return show:Son los 12 sospechosos mostrados, en caso de que no haya doce en el grupo que se esta
+    *Este metodo se usa para, una vez mostrando 10 sospechos pasar a los 10 siguientes de la base de datos
+    *@return show:Son los 10 sospechosos mostrados, en caso de que no haya doce en el grupo que se esta
     mirando habra valores nulos
     */
     public static Suspect[] showNext(){
-        Suspect[] show=new Suspect[12];
-        currentPosition+=12;
-        maxPosition+=12;
-        show=showTwelve();
+        Suspect[] show=new Suspect[numberOfSuspects];
+        currentPosition+=numberOfSuspects;
+        maxPosition+=numberOfSuspects;
+        show=showTen();
         return show;
     }
     
     /*
-    *Este metodo se usa para, una vez mostrando 12 sospechos pasar a los 12 anteriores de la base de datos
-    *@return show:Son los 12 sospechosos mostrados, en caso de que no haya doce en el grupo que se esta
+    *Este metodo se usa para, una vez mostrando 10 sospechos pasar a los 10 anteriores de la base de datos
+    *@return show:Son los 10 sospechosos mostrados, en caso de que no haya doce en el grupo que se esta
     mirando habra valores nulos
     */
     public static Suspect[] showPrevious(){
-        Suspect[] show=new Suspect[12];
-        currentPosition-=12;
-        maxPosition-=12;
-        show=showTwelve();
+        Suspect[] show=new Suspect[numberOfSuspects];
+        currentPosition-=numberOfSuspects;
+        maxPosition-=numberOfSuspects;
+        show=showTen();
         return show;
     }
     /*
@@ -445,7 +447,7 @@ public class Query {
     *Este metode permite realizar una consulta en la base de datos buscando con por un valor dado de un paramatro concreto
     *@param key: Es tipo de campo por el cual se esta buscando 
     *@param value: Es el valor por el que se realiza la busqueda
-    *@return rs: Es el arraylist  que guarda el resultado de la consulta
+    *@return sus: Es el arraylist de los sospechosos  resultado de la consulta
     */
     public static ArrayList<Suspect> searchBy(String key,String value){
         ArrayList<Suspect> sus=null;
@@ -510,5 +512,12 @@ public class Query {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
         return sus;
+    }
+    
+    public HashMap<Suspect,Boolean[]> findCoincidences(Suspect sus){
+    HashMap<Suspect,Boolean[]> coincidences=null;
+    Boolean[] matchs=new Boolean[11];
+    
+    return coincidences;
     }
 }
