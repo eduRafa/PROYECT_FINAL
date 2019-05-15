@@ -12,6 +12,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Hashtable;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -22,6 +23,9 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import model.Communication;
 import model.Suspect;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 /**
  *
@@ -32,6 +36,7 @@ public class CreateAndFillTables {
     private static TrashJButton myButton1;
     private static JButton myButton2;
     private static JButton myButton3;
+    private static HashMap<Integer, Integer> mySuspects = new HashMap<>();
 
     private static void setButtons() {
         Image trash = Toolkit.getDefaultToolkit().getImage(ClassLoader.
@@ -139,7 +144,7 @@ public class CreateAndFillTables {
                 if (tblMain.getModel().getColumnClass(columna).equals(TrashJButton.class)) {
                     System.out.println(tblMain.getSelectedRow() + 1);
 
-                    Controller.deleteSuspect(tblMain.getSelectedRow() + 1);
+                    Controller.deleteSuspect(getValue(tblMain.getSelectedRow() + 1));
 
                     /**
                      * Aquí pueden poner lo que quieran, para efectos de este
@@ -156,6 +161,7 @@ public class CreateAndFillTables {
         removeMainDataTable();
         JTable tblMain = UI.getMainTable();
         Suspect[] s = Controller.getSuspects();
+        setHashMap(s);
 
         DefaultTableModel myModel = (DefaultTableModel) tblMain.getModel();
         int col = myModel.getColumnCount();
@@ -233,6 +239,27 @@ public class CreateAndFillTables {
                 myModel.setValueAt(" ", i, j);
             }
         }
+    }
+
+    private static void setHashMap(Suspect[] mySuspects) {
+        for (int i = 0; i < mySuspects.length; i++) {
+            if (mySuspects[i] != null) {
+                CreateAndFillTables.mySuspects.put(i + 1, mySuspects[i].getCodeSuspect());
+            }
+        }
+    }
+
+    private static Integer getValue(Integer key) {
+        Iterator<Entry<Integer, Integer>> it = mySuspects.entrySet().iterator();
+        Integer value = null;
+
+        while (it.hasNext()) {
+            Entry<Integer, Integer> e = it.next();
+            if (e.getKey() == key) {
+                value = e.getValue();
+            }
+        }
+        return value;
     }
 
 }
