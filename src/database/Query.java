@@ -355,7 +355,7 @@ public class Query {
                 cregistration=new Car_Registration(rs.getString(1),rs.getInt(2));
                 cr.add(cregistration);
             }
-            rs=s.executeQuery("Select Image,CodeImage,Description "
+            rs=s.executeQuery("Select Image,CodeImage,Description from IMAGES"
                     + "where CodeSuspect="+code);
             while(rs.next()){
                 images=new Images(rs.getBlob(1),rs.getInt(2), rs.getString(3),Integer.valueOf(code));
