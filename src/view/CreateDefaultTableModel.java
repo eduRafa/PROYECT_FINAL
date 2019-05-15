@@ -30,9 +30,13 @@ public class CreateDefaultTableModel {
     private static void setButtons() {
         Image trash = Toolkit.getDefaultToolkit().getImage(ClassLoader.
                 getSystemResource("view/images/icons8-papelera-vacia-20.png"));
+        Image images = Toolkit.getDefaultToolkit().getImage(ClassLoader.
+                getSystemResource("view/images/icons8-galeria-20.png"));
+        Image suspect = Toolkit.getDefaultToolkit().getImage(ClassLoader.
+                getSystemResource("view/images/icons8-usuario-de-genero-neutro-20.png"));
         myButton1 = new JButton(new ImageIcon(trash));
-        myButton2 = new JButton(new ImageIcon(trash));
-        myButton3 = new JButton(new ImageIcon(trash));
+        myButton2 = new JButton(new ImageIcon(suspect));
+        myButton3 = new JButton(new ImageIcon(images));
         
         myButton1.setContentAreaFilled(false);
         myButton2.setContentAreaFilled(false);

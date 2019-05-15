@@ -53,11 +53,7 @@ public class UI extends javax.swing.JFrame {
         oldColor = primaryColor;
         setThemeColors();
         initComponents();
-        CreateDefaultTableModel.setMainTable(tblMain);
-        myImageManager = new ImageManager(me, true);
-        setLocationRelativeTo(null);
-        hideLayouts();
-        pnlMain.setVisible(true);
+        myInitComponents();
     }
 
     public static UI getInstance() throws Exception {
@@ -147,6 +143,18 @@ public class UI extends javax.swing.JFrame {
 
     public void compCallingMouseClicked(java.awt.event.ActionEvent evt, JTextComponent x) {
         TextDialog miTextDialog = new TextDialog(this, true, x);
+    }
+    
+    public void setTblMain(Suspect[] s){
+        DefaultTableModel myModel=(DefaultTableModel)tblMain.getModel();
+        int col=myModel.getColumnCount();
+        int row=myModel.getRowCount();
+        
+        for (int i = 0; i < col; i++) {
+            for (int j = 0; j < row; j++) {
+                myModel.setValueAt(s[i].getName(), i, j);
+            }
+        }
     }
 
     
@@ -2332,6 +2340,18 @@ public class UI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    private void myInitComponents(){
+        CreateDefaultTableModel.setMainTable(tblMain);
+        //setTblMain(Query.showTen());
+        myImageManager = new ImageManager(me, true);
+        setLocationRelativeTo(null);
+        hideLayouts();
+        pnlMain.setVisible(true);
+    }
+    
+    
+    
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
         xMousePosition = evt.getX();
         yMousePosition = evt.getY();
