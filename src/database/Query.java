@@ -64,7 +64,7 @@ public class Query {
             Connect.startConnection();
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
-            s.executeQuery("Delete from Suspect where CodeSuspect="+sus.getCodeSuspect());      
+            s.executeQuery("Delete from Suspect where CodeSuspect = "+sus.getCodeSuspect());      
             Connect.closeConnection();
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
@@ -198,42 +198,42 @@ public class Query {
                     case "Phone":
                         for(int i=0;i<al.size();i++){
                             Phone ph=(Phone) al.get(i);
-                            s.executeUpdate("INSERT into PHONE (CodeSuspect,PhoneNumber)"
+                            s.executeUpdate("INSERT into PHONE (CodeSuspect,PhoneNumber) "
                             + "values ('"+code+"','"+ph.getPhoneNumber()+"')");
                         }
                         break;
                     case "Email":
                         for(int i=0;i<al.size();i++){
                             Email em=(Email) al.get(i);
-                            s.executeUpdate("INSERT into E-MAIL (CodeSuspect,Email)"
+                            s.executeUpdate("INSERT into E-MAIL (CodeSuspect,Email) "
                             + "values ('"+code+"','"+em.getEmail()+"')");
                         }
                         break;
                     case "Address":
                         for(int i=0;i<al.size();i++){
                             Address ad=(Address) al.get(i);
-                            s.executeUpdate("INSERT into ADDRESS (CodeSuspect,Address)"
+                            s.executeUpdate("INSERT into ADDRESS (CodeSuspect,Address) "
                             + "values ('"+code+"','"+ad.getAddress()+"')");
                         }
                         break;
                     case "Suspect":
                         for(int i=0;i<al.size();i++){
                             Suspect su=(Suspect) al.get(i);
-                            s.executeUpdate("INSERT into COMPANIONS (CodeSuspect,CodeSuspect2)"
+                            s.executeUpdate("INSERT into COMPANIONS (CodeSuspect,CodeSuspect2) "
                             + "values ('"+code+"','"+su.getCodeSuspect()+"')");
                         }
                         break;
                     case "Car_Registration":
                         for(int i=0;i<al.size();i++){
                             Car_Registration cr=(Car_Registration) al.get(i);
-                            s.executeUpdate("INSERT into CAR_REGISTRATION (CodeSuspect,Registration_number)"
+                            s.executeUpdate("INSERT into CAR_REGISTRATION (CodeSuspect,Registration_number) "
                             + "values ('"+code+"','"+cr.getRegistration()+"')");
                         }
                         break;
                     case "Images":
                         for(int i=0;i<al.size();i++){
                             Images img=(Images) al.get(i);
-                            s.executeUpdate("INSERT into Images (CodeSuspect,image,description)"
+                            s.executeUpdate("INSERT into Images (CodeSuspect,image,description) "
                             + "values ('"+code+"','"+img.getImageEncoded()+"','"+img.getDescription()+"')");
                         }
                     }
@@ -266,7 +266,7 @@ public class Query {
             Connect.startConnection();
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
-            s.executeUpdate("INSERT INTO SUSPECT (name,lastname1, lastname2, Record,Facts)"
+            s.executeUpdate("INSERT INTO SUSPECT (name,lastname1, lastname2, Record,Facts) "
             + "values ('"+suspect.getName()+"','"+suspect.getLastname1()+"','"+suspect.getLastname2()+"','"+suspect.getRecord()+"','"+suspect.getFacts()+"')");
 
             String last=findLast();
@@ -315,7 +315,7 @@ public class Query {
             Connect.startConnection();
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
-            rs=s.executeQuery("Select name,lastname1,lastname2,Record,Facts"
+            rs=s.executeQuery("Select name,lastname1,lastname2,Record,Facts "
                     + "from Suspect where CodeSuspect="+code);
             String codeSuspect=code;
             if(rs.last()){
@@ -325,19 +325,19 @@ public class Query {
                 Record=rs.getBlob(4);
                 Facts=rs.getBlob(5);
             }
-            rs=s.executeQuery("Select CodePhone,PhoneNumber from PHONE"
+            rs=s.executeQuery("Select CodePhone,PhoneNumber from PHONE "
                     + "where CodeSuspect="+code);
             while(rs.next()){
                 p=new Phone(Integer.valueOf(code),rs.getInt(1),rs.getInt(2));
                 ph.add(p);
             }
-            rs=s.executeQuery("Select CodeSuspect2 from COMPANIONS"
+            rs=s.executeQuery("Select CodeSuspect2 from COMPANIONS "
                     + "where CodeSuspect="+code);
             while(rs.next()){
                 suspect=new Suspect(rs.getInt(1), null, null, null, null, null, null, null, null, null, null, null);
                 as.add(suspect);
             }
-            rs=s.executeQuery("Select CodeE_mail,Email from E_MAIL"
+            rs=s.executeQuery("Select CodeE_mail,Email from E_MAIL "
                     + "where CodeSuspect="+code);
             while(rs.next()){
                 email=new Email(rs.getInt(1),Integer.valueOf(code),rs.getString(2));
@@ -349,13 +349,13 @@ public class Query {
                 address=new Address(rs.getInt(1),Integer.valueOf(code),rs.getString(2));
                 ad.add(address);
             }
-            rs=s.executeQuery("Select Resgistration_number, CodeRegistration from CAR_REGISTRATION"
+            rs=s.executeQuery("Select Resgistration_number, CodeRegistration from CAR_REGISTRATION "
                     + "where CodeSuspect="+code);
             while(rs.next()){
                 cregistration=new Car_Registration(rs.getString(1),rs.getInt(2));
                 cr.add(cregistration);
             }
-            rs=s.executeQuery("Select Image,CodeImage,Description"
+            rs=s.executeQuery("Select Image,CodeImage,Description "
                     + "where CodeSuspect="+code);
             while(rs.next()){
                 images=new Images(rs.getBlob(1),rs.getInt(2), rs.getString(3),Integer.valueOf(code));
@@ -432,7 +432,7 @@ public class Query {
             Connect.startConnection();
             c=Connect.getMyConnection();   
             Statement s=c.createStatement();
-            rs=s.executeQuery("SELECT Image, Description FROM IMAGES"
+            rs=s.executeQuery("SELECT Image, Description FROM IMAGES "
                     + "where CodeSuspect="+sus.getCodeSuspect());
             s.close();
             rs.close();
@@ -463,7 +463,7 @@ public class Query {
                 case "name":
                 case "lastname1":
                 case "lastname2":
-                    rs =s.executeQuery("Select CodeSuspect from Suspect"
+                    rs =s.executeQuery("Select CodeSuspect from Suspect "
                             + "where "+key+"='"+value+"'");
                     while(rs.next()){
                         sus.add(Query.find(rs.getString(1)));
@@ -471,35 +471,35 @@ public class Query {
                     break;
                 case "PhoneNumber":
                     
-                    rs =s.executeQuery("Select CodeSuspect from PHONE"
+                    rs =s.executeQuery("Select CodeSuspect from PHONE "
                             + "where "+key+"='"+value+"'");
                     while(rs.next()){
                         sus.add(Query.find(rs.getString(1)));
                     }
                     break;
                 case "Email":
-                    rs=s.executeQuery("Select CodeSuspect from E_MAIL"
+                    rs=s.executeQuery("Select CodeSuspect from E_MAIL "
                             + "where "+key+"='"+value+"'");
                     while(rs.next()){
                         sus.add(Query.find(rs.getString(1)));
                     }
                     break;
                 case "Registration_number":
-                    rs=s.executeQuery("Select CodeSuspect from CAR_REGISTRATION"
+                    rs=s.executeQuery("Select CodeSuspect from CAR_REGISTRATION "
                             + "where "+key+"='"+value+"'");
                     while(rs.next()){
                         sus.add(Query.find(rs.getString(1)));
                     }
                     break;
                 case "Address":
-                    rs=s.executeQuery("Select CodeSuspect from ADDRESS"
+                    rs=s.executeQuery("Select CodeSuspect from ADDRESS "
                             + "where "+key+"='"+value+"'");
                     while(rs.next()){
                         sus.add(Query.find(rs.getString(1)));
                     }
                     break;
                 case "CodeSuspect2":
-                    rs=s.executeQuery("Select CodeSuspect from COMPANIONS"
+                    rs=s.executeQuery("Select CodeSuspect from COMPANIONS "
                             + "where "+key+"='"+value+"'");
                     while(rs.next()){
                         sus.add(Query.find(rs.getString(1)));
