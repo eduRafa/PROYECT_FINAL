@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Communication;
+import model.Suspect;
+import view.CreateAndFillTables;
 import view.PrintComponents;
 import view.UI;
 import view.UiUtils;
@@ -62,6 +64,7 @@ public class Controller implements ActionListener {
         {
             try {
                 Query.addSuspect(myUI.getAddSuspect());
+                CreateAndFillTables.fillMainTable();
             } catch (SQLException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -74,6 +77,10 @@ public class Controller implements ActionListener {
         }
     }
 
+    public static Suspect[] getSuspects() {
+        return Query.showTen();
+    }
+    
     public static /*String[]*/ void getPhotos(String idSuspect) {
         //Query.getPhotos(idSuspect);
     }

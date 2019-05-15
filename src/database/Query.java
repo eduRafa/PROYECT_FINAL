@@ -385,10 +385,10 @@ public class Query {
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
             rs2=s.executeQuery("Select CodeSuspect from SUSPECT");
-            if(rs!=null){
+            if(rs2!=null){
                 int j=0;
-                for(int i=currentPosition;i<maxPosition&&rs.next();i++,j++){
-                    show[j]=find(rs.getString(1));
+                for(int i=currentPosition;i<maxPosition&&rs2.next();i++,j++){
+                    show[j]=find(rs2.getString(1));
                 }
             }
                 s.close();

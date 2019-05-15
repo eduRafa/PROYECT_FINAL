@@ -107,6 +107,10 @@ public class UI extends javax.swing.JFrame {
     public static Color getSecundaryColor() {
         return secundaryColor;
     }
+    
+    public static JTable getMainTable(){
+        return tblMain;
+    }
 
     public Suspect getAddSuspect() throws SQLException {
         String values[] = new String[10];
@@ -144,20 +148,6 @@ public class UI extends javax.swing.JFrame {
     public void compCallingMouseClicked(java.awt.event.ActionEvent evt, JTextComponent x) {
         TextDialog miTextDialog = new TextDialog(this, true, x);
     }
-    
-    public void setTblMain(Suspect[] s){
-        DefaultTableModel myModel=(DefaultTableModel)tblMain.getModel();
-        int col=myModel.getColumnCount();
-        int row=myModel.getRowCount();
-        
-        for (int i = 0; i < col; i++) {
-            for (int j = 0; j < row; j++) {
-                myModel.setValueAt(s[i].getName(), i, j);
-            }
-        }
-    }
-
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -197,17 +187,44 @@ public class UI extends javax.swing.JFrame {
         jScrollPane11 = new javax.swing.JScrollPane();
         tblMain = new javax.swing.JTable();
         pnlSearch = new javax.swing.JPanel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        scrollTblSearchSearch = new javax.swing.JScrollPane();
-        tblSearchSearch = new javax.swing.JTable();
-        jButton6 = new javax.swing.JButton();
-        scrollTblSearchAnswer = new javax.swing.JScrollPane();
-        tblSearchAnswer = new javax.swing.JTable();
-        jLabel25 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        jTextArea11 = new javax.swing.JTextArea();
+        jLabel33 = new javax.swing.JLabel();
+        jScrollPane13 = new javax.swing.JScrollPane();
+        jTextArea12 = new javax.swing.JTextArea();
+        jButton17 = new javax.swing.JButton();
+        jButton18 = new javax.swing.JButton();
+        jScrollPane14 = new javax.swing.JScrollPane();
+        jTextArea13 = new javax.swing.JTextArea();
+        jButton19 = new javax.swing.JButton();
+        jScrollPane15 = new javax.swing.JScrollPane();
+        jTextArea14 = new javax.swing.JTextArea();
+        jButton20 = new javax.swing.JButton();
+        jScrollPane16 = new javax.swing.JScrollPane();
+        jTextArea15 = new javax.swing.JTextArea();
+        jLabel34 = new javax.swing.JLabel();
+        jLabel35 = new javax.swing.JLabel();
+        jLabel36 = new javax.swing.JLabel();
+        jScrollPane17 = new javax.swing.JScrollPane();
+        jTextArea16 = new javax.swing.JTextArea();
+        jLabel38 = new javax.swing.JLabel();
+        jLabel39 = new javax.swing.JLabel();
+        jScrollPane18 = new javax.swing.JScrollPane();
+        jTextArea17 = new javax.swing.JTextArea();
+        jLabel40 = new javax.swing.JLabel();
+        jScrollPane19 = new javax.swing.JScrollPane();
+        jTextArea18 = new javax.swing.JTextArea();
+        jButton21 = new javax.swing.JButton();
+        jButton22 = new javax.swing.JButton();
+        jScrollPane20 = new javax.swing.JScrollPane();
+        jTextArea19 = new javax.swing.JTextArea();
+        jLabel41 = new javax.swing.JLabel();
+        jLabel42 = new javax.swing.JLabel();
+        jScrollPane21 = new javax.swing.JScrollPane();
+        jTextArea20 = new javax.swing.JTextArea();
+        jButton23 = new javax.swing.JButton();
+        jButton24 = new javax.swing.JButton();
         pnlConf = new javax.swing.JPanel();
         btnConfTheme = new javax.swing.JButton();
         btnConfStadistics = new javax.swing.JButton();
@@ -666,9 +683,6 @@ public class UI extends javax.swing.JFrame {
         tblMain.getTableHeader().setResizingAllowed(false);
         tblMain.getTableHeader().setReorderingAllowed(false);
         jScrollPane11.setViewportView(tblMain);
-        if (tblMain.getColumnModel().getColumnCount() > 0) {
-            tblMain.getColumnModel().getColumn(11).setCellEditor(null);
-        }
         tblMain.getTableHeader().setBackground(primaryColor);
         tblMain.getTableHeader().setForeground(secundaryColor);
         tblMain.getTableHeader().setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
@@ -677,7 +691,7 @@ public class UI extends javax.swing.JFrame {
         for (int i = 0; i < tblMainColumnModel.getColumnCount(); i++) {
             tblMainColumnModel.getColumn(i).setMinWidth(200);
         }
-        tblMain.getAccessibleContext().setAccessibleName("");
+        tblMain.getAccessibleContext().setAccessibleName("1$0$0");
 
         javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
         pnlMain.setLayout(pnlMainLayout);
@@ -700,7 +714,7 @@ public class UI extends javax.swing.JFrame {
                 .addComponent(jButton10)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
-                .addContainerGap(60, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(51, 51, 51))
         );
@@ -737,176 +751,416 @@ public class UI extends javax.swing.JFrame {
 
         pnlSearch.setBackground(new java.awt.Color(255, 255, 255));
 
-        jCheckBox1.setBackground(secundaryColor);
-        jCheckBox1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jCheckBox1.setText("Orden ascendente");
+        jLabel7.setText("Nombre");
 
-        jCheckBox2.setBackground(secundaryColor);
-        jCheckBox2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jCheckBox2.setText("Orden ascendente");
+        jScrollPane12.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
+        jScrollPane12.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane12.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
-        jCheckBox3.setBackground(secundaryColor);
-        jCheckBox3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jCheckBox3.setText("Totalmente rellenado");
+        jTextArea11.setColumns(20);
+        jTextArea11.setRows(5);
+        jTextArea11.setBorder(null);
+        jScrollPane12.setViewportView(jTextArea11);
 
-        jComboBox1.setBackground(secundaryColor);
-        jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setBorder(null);
-        jComboBox1.setFocusable(false);
+        jLabel33.setText("Telefonos (varios)");
 
-        scrollTblSearchSearch.setBackground(new java.awt.Color(255, 255, 255));
-        scrollTblSearchSearch.setBorder(null);
-        scrollTblSearchSearch.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        scrollTblSearchSearch.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPane13.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
+        jScrollPane13.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane13.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
-        tblSearchSearch.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Nombre", "Apellido 1", "Apellido 2", "Acompañantes", "Teléfono", "E-mail", "Direcciones", "Matrículas", "Foto"
-            }
-        ));
-        tblSearchSearch.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        tblSearchSearch.setAutoscrolls(false);
-        tblSearchSearch.setSelectionBackground(primaryColor);
-        tblSearchSearch.getTableHeader().setResizingAllowed(false);
-        tblSearchSearch.getTableHeader().setReorderingAllowed(false);
-        scrollTblSearchSearch.setViewportView(tblSearchSearch);
-        tblSearchSearch.getTableHeader().setBackground(primaryColor);
-        tblSearchSearch.getTableHeader().setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
-        tblSearchSearch.getTableHeader().setForeground(secundaryColor);
-        tblSearchSearch.getAccessibleContext().setAccessibleName("1$1$1");
-        TableColumnModel tblSearchColumnModel = tblSearchSearch.getColumnModel();
+        jTextArea12.setColumns(20);
+        jTextArea12.setRows(5);
+        jTextArea12.setBorder(null);
+        jScrollPane13.setViewportView(jTextArea12);
 
-        for (int i = 0; i < tblSearchSearch.getColumnCount(); i++) {
-            tblSearchColumnModel.getColumn(i).setMinWidth(200);
-        }
+        jButton17.setBackground(primaryColor
+        );
+        jButton17.setForeground(secundaryColor);
+        jButton17.setText("...");
+        jButton17.setBorder(javax.swing.BorderFactory.createLineBorder(secundaryColor));
+        jButton17.setFocusable(false);
 
-        jButton6.setBackground(primaryColor);
-        jButton6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jButton6.setForeground(secundaryColor);
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-búsqueda-15.png"))); // NOI18N
-        jButton6.setText("Buscar");
-        jButton6.setBorder(javax.swing.BorderFactory.createLineBorder(secundaryColor));
-        jButton6.setFocusable(false);
-        jButton6.setPreferredSize(new java.awt.Dimension(35, 35));
+        jButton18.setBackground(primaryColor);
+        jButton18.setForeground(secundaryColor);
+        jButton18.setText("...");
+        jButton18.setBorder(javax.swing.BorderFactory.createLineBorder(secundaryColor));
+        jButton18.setFocusable(false);
 
-        scrollTblSearchAnswer.setToolTipText("");
+        jScrollPane14.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
+        jScrollPane14.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane14.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
-        tblSearchAnswer.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Nombre", "Apellido 1", "Apellido 2", "Telefono", "Correo", "Direcciones", "Acompañantes", "Matrículas"
-            }
-        ));
-        tblSearchAnswer.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        tblSearchAnswer.setAutoscrolls(false);
-        tblSearchAnswer.setSelectionBackground(primaryColor);
-        tblSearchAnswer.getTableHeader().setReorderingAllowed(false);
-        scrollTblSearchAnswer.setViewportView(tblSearchAnswer);
-        tblSearchAnswer.getTableHeader().setBackground(primaryColor);
-        tblSearchAnswer.getTableHeader().setForeground(secundaryColor);
-        tblSearchAnswer.getTableHeader().setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
-        tblSearchAnswer.getAccessibleContext().setAccessibleName("1$1$1");
-        TableColumnModel columnModel = tblSearchAnswer.getColumnModel();
+        jTextArea13.setColumns(20);
+        jTextArea13.setRows(5);
+        jTextArea13.setBorder(null);
+        jScrollPane14.setViewportView(jTextArea13);
 
-        for (int i = 0; i < columnModel.getColumnCount(); i++) {
-            columnModel.getColumn(i).setMinWidth(200);
-        }
+        jButton19.setBackground(primaryColor);
+        jButton19.setForeground(secundaryColor);
+        jButton19.setText("...");
+        jButton19.setBorder(javax.swing.BorderFactory.createLineBorder(secundaryColor));
+        jButton19.setFocusable(false);
 
-        jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-filtro-relleno-18.png"))); // NOI18N
+        jScrollPane15.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
+        jScrollPane15.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane15.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
-        jLabel2.setBackground(secundaryColor);
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel2.setText("Filtrar por:");
-        jLabel2.setFocusable(false);
+        jTextArea14.setColumns(20);
+        jTextArea14.setRows(5);
+        jTextArea14.setBorder(null);
+        jScrollPane15.setViewportView(jTextArea14);
+
+        jButton20.setBackground(primaryColor);
+        jButton20.setForeground(secundaryColor);
+        jButton20.setText("...");
+        jButton20.setBorder(javax.swing.BorderFactory.createLineBorder(secundaryColor));
+        jButton20.setFocusable(false);
+
+        jScrollPane16.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
+        jScrollPane16.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane16.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        jTextArea15.setColumns(20);
+        jTextArea15.setRows(5);
+        jTextArea15.setBorder(null);
+        jScrollPane16.setViewportView(jTextArea15);
+
+        jLabel34.setText("Direcciones (Varios)");
+
+        jLabel35.setText("Email (varios)");
+
+        jLabel36.setText("Matriculas (Varios)");
+
+        jScrollPane17.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
+        jScrollPane17.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane17.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        jTextArea16.setColumns(20);
+        jTextArea16.setRows(5);
+        jTextArea16.setBorder(null);
+        jScrollPane17.setViewportView(jTextArea16);
+
+        jLabel38.setText("Apellido 1");
+
+        jLabel39.setText("Apellido 2");
+
+        jScrollPane18.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
+        jScrollPane18.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane18.setToolTipText("");
+        jScrollPane18.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        jTextArea17.setColumns(20);
+        jTextArea17.setRows(5);
+        jTextArea17.setBorder(null);
+        jScrollPane18.setViewportView(jTextArea17);
+
+        jLabel40.setText("Acompañantes (Varios)");
+
+        jScrollPane19.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
+        jScrollPane19.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane19.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        jTextArea18.setColumns(20);
+        jTextArea18.setRows(5);
+        jTextArea18.setBorder(null);
+        jScrollPane19.setViewportView(jTextArea18);
+
+        jButton21.setBackground(primaryColor);
+        jButton21.setForeground(secundaryColor
+        );
+        jButton21.setText("...");
+        jButton21.setBorder(javax.swing.BorderFactory.createLineBorder(secundaryColor));
+        jButton21.setFocusable(false);
+
+        jButton22.setBackground(primaryColor);
+        jButton22.setForeground(secundaryColor);
+        jButton22.setText("...");
+        jButton22.setActionCommand("");
+        jButton22.setBorder(javax.swing.BorderFactory.createLineBorder(secundaryColor));
+        jButton22.setFocusable(false);
+
+        jScrollPane20.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
+        jScrollPane20.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane20.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        jTextArea19.setColumns(20);
+        jTextArea19.setRows(5);
+        jTextArea19.setBorder(null);
+        jScrollPane20.setViewportView(jTextArea19);
+
+        jLabel41.setText("Antecedentes (Varios)");
+
+        jLabel42.setText("Hechos (varios)");
+
+        jScrollPane21.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
+        jScrollPane21.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane21.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        jTextArea20.setColumns(20);
+        jTextArea20.setRows(5);
+        jTextArea20.setBorder(null);
+        jScrollPane21.setViewportView(jTextArea20);
+
+        jButton23.setBackground(primaryColor);
+        jButton23.setForeground(secundaryColor);
+        jButton23.setText("...");
+        jButton23.setBorder(javax.swing.BorderFactory.createLineBorder(secundaryColor));
+        jButton23.setFocusable(false);
+
+        jButton24.setBackground(primaryColor);
+        jButton24.setForeground(secundaryColor);
+        jButton24.setText("Buscar sospechoso");
+        jButton24.setActionCommand("search");
+        jButton24.setBorder(javax.swing.BorderFactory.createLineBorder(secundaryColor));
+        jButton24.setFocusable(false);
 
         javax.swing.GroupLayout pnlSearchLayout = new javax.swing.GroupLayout(pnlSearch);
         pnlSearch.setLayout(pnlSearchLayout);
         pnlSearchLayout.setHorizontalGroup(
             pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlSearchLayout.createSequentialGroup()
-                .addGap(56, 56, 56)
+                .addGap(103, 103, 103)
                 .addGroup(pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlSearchLayout.createSequentialGroup()
-                        .addComponent(scrollTblSearchSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(55, 55, 55))
+                        .addComponent(jLabel42)
+                        .addGap(132, 132, 132))
                     .addGroup(pnlSearchLayout.createSequentialGroup()
-                        .addGroup(pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(scrollTblSearchAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pnlSearchLayout.createSequentialGroup()
-                                .addComponent(jCheckBox2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jCheckBox1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jCheckBox3)
-                                .addGap(14, 14, 14)
-                                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(2, 2, 2)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(90, 90, 90))))
+                        .addGroup(pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel40)
+                            .addComponent(jLabel41)
+                            .addComponent(jLabel39)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel38, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane12)
+                            .addComponent(jScrollPane17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                            .addComponent(jScrollPane19, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane20, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane21, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane18, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton23, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                            .addComponent(jButton22, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)))
+                .addGroup(pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane15, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                    .addComponent(jScrollPane13)
+                    .addComponent(jScrollPane14)
+                    .addComponent(jScrollPane16)
+                    .addGroup(pnlSearchLayout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addGroup(pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel33)
+                            .addComponent(jLabel34)
+                            .addComponent(jLabel36)
+                            .addComponent(jLabel35))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButton19, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton18, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(72, 72, 72))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlSearchLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton24, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(277, 277, 277))
         );
         pnlSearchLayout.setVerticalGroup(
             pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlSearchLayout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
+                .addGap(52, 52, 52)
+                .addGroup(pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel33))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlSearchLayout.createSequentialGroup()
+                        .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlSearchLayout.createSequentialGroup()
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlSearchLayout.createSequentialGroup()
-                        .addComponent(scrollTblSearchSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jCheckBox2)
-                        .addComponent(jCheckBox1)
-                        .addComponent(jCheckBox3))
-                    .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(44, 44, 44)
-                .addComponent(scrollTblSearchAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(99, 99, 99))
+                    .addGroup(pnlSearchLayout.createSequentialGroup()
+                        .addComponent(jLabel38)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel39)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel40)
+                        .addGap(10, 10, 10)
+                        .addGroup(pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton21, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlSearchLayout.createSequentialGroup()
+                                .addComponent(jLabel41)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton22, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane20, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addComponent(jLabel42))
+                    .addGroup(pnlSearchLayout.createSequentialGroup()
+                        .addComponent(jLabel35)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel34)
+                        .addGap(8, 8, 8)
+                        .addGroup(pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton19, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel36)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton20, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(9, 9, 9)
+                .addGroup(pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton23, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane21, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(58, 58, 58)
+                .addComponent(jButton24, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
-        jCheckBox1.setFocusable(false);
-        jCheckBox2.setFocusable(false);
-        jCheckBox3.setFocusable(false);
-        jButton6.getAccessibleContext().setAccessibleName("1$-$-");
-        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                view.EnteredExited.mouseComponentEffect(evt);
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compCallingMouseClicked(evt, jTextArea12);
             }
         });
 
-        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+        jButton17.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
+
+        jButton17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jButton17.getAccessibleContext().setAccessibleName("1$0$0");
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compCallingMouseClicked(evt, jTextArea13);
+            }
+        });
+
+        jButton18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jButton18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jButton18.getAccessibleContext().setAccessibleName("1$0$0");
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compCallingMouseClicked(evt, jTextArea19);
+            }
+        });
+
+        jButton18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jButton18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jButton19.getAccessibleContext().setAccessibleName("1$0$0");
+        jButton20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compCallingMouseClicked(evt, jTextArea20);
+            }
+        });
+
+        jButton20.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jButton20.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jButton20.getAccessibleContext().setAccessibleName("1$0$0");
+        jButton21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compCallingMouseClicked(evt, jTextArea18);
+            }
+        });
+        jButton21.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jButton21.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jButton21.getAccessibleContext().setAccessibleName("1$0$0");
+        jButton22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compCallingMouseClicked(evt, jTextArea19);
+            }
+        });
+        jButton22.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jButton22.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jButton22.getAccessibleContext().setAccessibleName("1$0$0");
+        jButton23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compCallingMouseClicked(evt, jTextArea20);
+            }
+        });
+
+        jButton23.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jButton23.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jButton23.getAccessibleContext().setAccessibleName("1$0$0");
 
         pnlConf.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -2340,18 +2594,16 @@ public class UI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    private void myInitComponents(){
-        CreateDefaultTableModel.setMainTable(tblMain);
-        setTblMain(Query.showTen());
+    private void myInitComponents() {
+        CreateAndFillTables.setMainTable(tblMain);
+        CreateAndFillTables.fillMainTable();
         myImageManager = new ImageManager(me, true);
         setLocationRelativeTo(null);
         hideLayouts();
         pnlMain.setVisible(true);
     }
-    
-    
-    
+
+
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
         xMousePosition = evt.getX();
         yMousePosition = evt.getY();
@@ -2523,16 +2775,24 @@ public class UI extends javax.swing.JFrame {
                 if ("Windows Classic".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -2541,8 +2801,10 @@ public class UI extends javax.swing.JFrame {
             public void run() {
                 try {
                     UI.getInstance().setVisible(true);
+
                 } catch (Exception ex) {
-                    Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(UI.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -2560,17 +2822,20 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
+    private javax.swing.JButton jButton18;
+    private javax.swing.JButton jButton19;
+    private javax.swing.JButton jButton20;
+    private javax.swing.JButton jButton21;
+    private javax.swing.JButton jButton22;
+    private javax.swing.JButton jButton23;
+    private javax.swing.JButton jButton24;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JCheckBox jCheckBox5;
     private javax.swing.JCheckBox jCheckBox6;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -2583,13 +2848,11 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
@@ -2598,9 +2861,19 @@ public class UI extends javax.swing.JFrame {
     public javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -2618,7 +2891,17 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane12;
+    private javax.swing.JScrollPane jScrollPane13;
+    private javax.swing.JScrollPane jScrollPane14;
+    private javax.swing.JScrollPane jScrollPane15;
+    private javax.swing.JScrollPane jScrollPane16;
+    private javax.swing.JScrollPane jScrollPane17;
+    private javax.swing.JScrollPane jScrollPane18;
+    private javax.swing.JScrollPane jScrollPane19;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane20;
+    private javax.swing.JScrollPane jScrollPane21;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
@@ -2630,7 +2913,17 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea10;
+    private javax.swing.JTextArea jTextArea11;
+    private javax.swing.JTextArea jTextArea12;
+    private javax.swing.JTextArea jTextArea13;
+    private javax.swing.JTextArea jTextArea14;
+    private javax.swing.JTextArea jTextArea15;
+    private javax.swing.JTextArea jTextArea16;
+    private javax.swing.JTextArea jTextArea17;
+    private javax.swing.JTextArea jTextArea18;
+    private javax.swing.JTextArea jTextArea19;
     private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextArea jTextArea20;
     private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextArea jTextArea4;
     private javax.swing.JTextArea jTextArea5;
@@ -2684,12 +2977,8 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JPanel pnlMenu4;
     private javax.swing.JPanel pnlSearch;
     private javax.swing.JScrollPane scrollTblConfSuspectView;
-    private javax.swing.JScrollPane scrollTblSearchAnswer;
-    private javax.swing.JScrollPane scrollTblSearchSearch;
     private javax.swing.JTable tblConfSuspectView;
-    private javax.swing.JTable tblMain;
-    private javax.swing.JTable tblSearchAnswer;
-    private javax.swing.JTable tblSearchSearch;
+    private static javax.swing.JTable tblMain;
     // End of variables declaration//GEN-END:variables
     private int xMousePosition;
     private int yMousePosition;
