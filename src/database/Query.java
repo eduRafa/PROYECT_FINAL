@@ -380,10 +380,10 @@ public class Query {
     public static Suspect[] showTen(){
         Suspect[] show=new Suspect[numberOfSuspects];
         try {
+            ResultSet rs2;
             Connect.startConnection();
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
-            ResultSet rs2=null;
             rs2=s.executeQuery("Select CodeSuspect from SUSPECT");
             if(rs!=null){
                 int j=0;
