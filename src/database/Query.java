@@ -26,7 +26,7 @@ public class Query {
     static Connection c=Connect.getMyConnection();
     static  ResultSet rs;
     static int maxPosition=11;
-    static int currentPosition=0;
+    static int currentPosition=1;
     static int numberOfSuspects=10;
     
     /*
@@ -236,7 +236,6 @@ public class Query {
                             s.executeUpdate("INSERT into Images (CodeSuspect,image,description)"
                             + "values ('"+code+"','"+img.getImageEncoded()+"','"+img.getDescription()+"')");
                         }
-                        //getbinarystream
                     }
                 }
                                 
@@ -447,7 +446,8 @@ public class Query {
             
     /*
     *Este metode permite realizar una consulta en la base de datos buscando con por un valor dado de un paramatro concreto
-    *@param key: Es tipo de campo por el cual se esta buscando 
+    *@param key: Es tipo de campo por el cual se esta buscando (name,lastname1,lastname2,Phonenumber,Email,Registration_number,
+    Address,CodeSuspect2
     *@param value: Es el valor por el que se realiza la busqueda
     *@return sus: Es el arraylist de los sospechosos  resultado de la consulta
     */
@@ -516,11 +516,14 @@ public class Query {
         return sus;
     }
     
-   /* public HashMap<Suspect,HashMap<String,Boolean> findCoincidences(Suspect sus){
-    HashMap<Suspect,Boolean[]> coincidences=null;
-    Boolean[] matchs=new Boolean[8];
-    //name,lastname1,lastname2,phone,email,address,registration,suspect
-    
+   public HashMap<Suspect,HashMap<String,Boolean>> findCoincidences(Suspect sus){
+        HashMap<Suspect,HashMap<String,Boolean>> coincidences=null;
+        Boolean[] matchs=new Boolean[8];
+        String code=sus.getCodeSuspect().toString();
+        ArrayList<Suspect> als=null;
+        //name,lastname1,lastname2,phone,email,address,registration,suspect
+        als=searchBy("name",sus.getName());
+        
     return coincidences;
-    }*/
+    }
 }
