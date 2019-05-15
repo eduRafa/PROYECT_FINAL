@@ -25,7 +25,7 @@ public class Query {
     
     static Connection c=Connect.getMyConnection();
     static  ResultSet rs;
-    static int maxPosition=10;
+    static int maxPosition=11;
     static int currentPosition=0;
     static int numberOfSuspects=10;
     
