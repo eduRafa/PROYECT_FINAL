@@ -188,9 +188,13 @@ public class Query {
                     switch(type){
                     case "Phone":
                         for(int i=0;i<al.size();i++){
-                            System.out.println(al.get(i));
+                            if(al.get(i).equals("")){
+                                s.executeUpdate("INSERT into PHONE (CodeSuspect,PhoneNumber) "
+                                + "values ("+code+",null)");
+                            }else{
                                 s.executeUpdate("INSERT into PHONE (CodeSuspect,PhoneNumber) "
                                 + "values ("+code+","+al.get(i)+")");
+                            }
                         }
                         break;
                     case "Email":
