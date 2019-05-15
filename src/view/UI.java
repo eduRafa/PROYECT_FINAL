@@ -14,15 +14,21 @@ import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.rowset.serial.SerialBlob;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.text.JTextComponent;
@@ -44,9 +50,10 @@ public class UI extends javax.swing.JFrame {
         myController = Controller.getInstance();
         myController.setUi(me);
         primaryColor = myController.getPrimaryColor();
+        oldColor = primaryColor;
         setThemeColors();
         initComponents();
-        //setMainTable(Query.showAll());
+        CreateDefaultTableModel.setMainTable(tblMain);
         myImageManager = new ImageManager(me, true);
         setLocationRelativeTo(null);
         hideLayouts();
@@ -117,7 +124,7 @@ public class UI extends javax.swing.JFrame {
             }
         }
 
-        Suspect mySuspect = new Suspect(null, values[0], values[1], values[2], null/*companions*/,
+        Suspect mySuspect = new Suspect(null, values[0].trim(), values[1].trim(), values[2].trim(), null/*companions*/,
                 new SerialBlob(values[4].getBytes()), new SerialBlob(values[5].getBytes()),
                 UiUtils.transformTextToArrayList(values[6]), UiUtils.transformTextToArrayList(values[7]),
                 UiUtils.transformTextToArrayList(values[8]), UiUtils.transformTextToArrayList(values[9]),
@@ -142,21 +149,7 @@ public class UI extends javax.swing.JFrame {
         TextDialog miTextDialog = new TextDialog(this, true, x);
     }
 
-    private void setMainTable(ResultSet rs) {
-        DefaultTableModel modelo = (DefaultTableModel)tblMain.getModel();
-        try {
-            while (rs.next()) {
-                Object[] fila = new Object[9];
-                for (int i = 0; i < 3; i++) {
-                    fila[i] = rs.getObject(i + 1);
-                    modelo.addRow(fila);
-                }
-
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -186,8 +179,6 @@ public class UI extends javax.swing.JFrame {
         pnlFormDecoratedMinimizeWindow = new javax.swing.JButton();
         layeredConfMain = new javax.swing.JLayeredPane();
         pnlMain = new javax.swing.JPanel();
-        scrollTblMain = new javax.swing.JScrollPane();
-        tblMain = new javax.swing.JTable();
         jCheckBox4 = new javax.swing.JCheckBox();
         jCheckBox5 = new javax.swing.JCheckBox();
         jCheckBox6 = new javax.swing.JCheckBox();
@@ -195,6 +186,8 @@ public class UI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jButton10 = new javax.swing.JButton();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        tblMain = new javax.swing.JTable();
         pnlSearch = new javax.swing.JPanel();
         jCheckBox1 = new javax.swing.JCheckBox();
         jCheckBox2 = new javax.swing.JCheckBox();
@@ -281,9 +274,6 @@ public class UI extends javax.swing.JFrame {
         jLabel29 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
@@ -604,63 +594,6 @@ public class UI extends javax.swing.JFrame {
 
         pnlMain.setBackground(new java.awt.Color(255, 255, 255));
 
-        scrollTblMain.setBorder(null);
-        scrollTblMain.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-
-        tblMain.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Nombre", "Apellido 1", "Apellido 2", "Teléfonos", "Correos", "Direcciones", "Acompañantes", "Matrículas"
-            }
-        ));
-        tblMain.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        tblMain.setAutoscrolls(false);
-        tblMain.setGridColor(new java.awt.Color(198, 198, 198));
-        tblMain.setPreferredSize(new java.awt.Dimension(748, 480));
-        tblMain.setSelectionBackground(primaryColor);
-        tblMain.getTableHeader().setResizingAllowed(false);
-        tblMain.getTableHeader().setReorderingAllowed(false);
-        scrollTblMain.setViewportView(tblMain);
-        tblMain.getTableHeader().setBackground(primaryColor);
-        tblMain.getTableHeader().setForeground(secundaryColor);
-        tblMain.getTableHeader().setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
-        tblMain.getAccessibleContext().setAccessibleName("1$1$1");
-        TableColumnModel tblMainColumnModel = tblMain.getColumnModel();
-
-        for (int i = 0; i < tblMainColumnModel.getColumnCount(); i++) {
-            tblMainColumnModel.getColumn(i).setMinWidth(200);
-        }
-
         jCheckBox4.setBackground(secundaryColor);
         jCheckBox4.setText("Orden ascendente");
         jCheckBox4.addActionListener(new java.awt.event.ActionListener() {
@@ -693,46 +626,92 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
+        tblMain.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"", null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Nombre", "Apellido 1", "Apellido 2", "Sospechosos", "Antecedentes", "Hechos", "Telefono", "E-mail", "Direcciones", "Matriculas", "Fotos", "", ""
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, true, true, true, true, true, true, true, true, true, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblMain.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        tblMain.setAutoscrolls(false);
+        tblMain.setRowHeight(30);
+        tblMain.setSelectionBackground(primaryColor);
+        tblMain.getTableHeader().setResizingAllowed(false);
+        tblMain.getTableHeader().setReorderingAllowed(false);
+        jScrollPane11.setViewportView(tblMain);
+        if (tblMain.getColumnModel().getColumnCount() > 0) {
+            tblMain.getColumnModel().getColumn(11).setCellEditor(null);
+        }
+        tblMain.getTableHeader().setBackground(primaryColor);
+        tblMain.getTableHeader().setForeground(secundaryColor);
+        tblMain.getTableHeader().setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
+        TableColumnModel tblMainColumnModel = tblMain.getColumnModel();
+
+        for (int i = 0; i < tblMainColumnModel.getColumnCount(); i++) {
+            tblMainColumnModel.getColumn(i).setMinWidth(200);
+        }
+        tblMain.getAccessibleContext().setAccessibleName("");
+
         javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
         pnlMain.setLayout(pnlMainLayout);
         pnlMainLayout.setHorizontalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlMainLayout.createSequentialGroup()
+                .addGap(73, 73, 73)
+                .addComponent(jCheckBox4)
+                .addGap(12, 12, 12)
+                .addComponent(jCheckBox5)
+                .addGap(12, 12, 12)
+                .addComponent(jCheckBox6)
+                .addGap(12, 12, 12)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton10)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollTblMain, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnlMainLayout.createSequentialGroup()
-                        .addComponent(jCheckBox4)
-                        .addGap(12, 12, 12)
-                        .addComponent(jCheckBox5)
-                        .addGap(12, 12, 12)
-                        .addComponent(jCheckBox6)
-                        .addGap(12, 12, 12)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton10)))
-                .addGap(60, 60, 60))
+                .addContainerGap(60, Short.MAX_VALUE)
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51))
         );
         pnlMainLayout.setVerticalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMainLayout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(scrollTblMain, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addContainerGap(44, Short.MAX_VALUE)
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jCheckBox4)
                         .addComponent(jCheckBox5)
                         .addComponent(jCheckBox6)
                         .addComponent(jLabel3)
-                        .addComponent(jButton10)))
-                .addContainerGap(61, Short.MAX_VALUE))
+                        .addComponent(jButton10))
+                    .addComponent(jLabel1))
+                .addGap(35, 35, 35))
         );
 
         jButton10.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1001,8 +980,6 @@ public class UI extends javax.swing.JFrame {
         lblConfMainThemesDesc.setForeground(primaryColor);
         lblConfMainThemesDesc.setText("<html>\n\t<p>Echa un vistazo a nuestros temas y cambia la apariencia visual de la aplicación</p>\n<html>");
 
-        lblConfMainThemesIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-brocha-64.png"))); // NOI18N
-
         javax.swing.GroupLayout pnlConfMainThemesLayout = new javax.swing.GroupLayout(pnlConfMainThemes);
         pnlConfMainThemes.setLayout(pnlConfMainThemesLayout);
         pnlConfMainThemesLayout.setHorizontalGroup(
@@ -1033,7 +1010,9 @@ public class UI extends javax.swing.JFrame {
 
         lblConfMainThemesTitle.getAccessibleContext().setAccessibleName("-$-$1");
         lblConfMainThemesDesc.getAccessibleContext().setAccessibleName("-$-$1");
+        lblConfMainThemesIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-brocha-64-$"+UiUtils.rgbFormatted(primaryColor)+"$.png"))); // NOI18N
         lblConfMainThemesIcon.getAccessibleContext().setAccessibleName("-$-$-");
+        lblConfMainThemesIcon.getAccessibleContext().setAccessibleDescription("icons8-brocha-64-$"+UiUtils.rgbFormatted(primaryColor)+"$.png");
 
         pnlConfMainStadistics.setBackground(secundaryColor);
         pnlConfMainStadistics.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
@@ -1051,8 +1030,6 @@ public class UI extends javax.swing.JFrame {
         lbllConfMainStadisticsDesc.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lbllConfMainStadisticsDesc.setForeground(primaryColor);
         lbllConfMainStadisticsDesc.setText("<html>\n<p>Visita estadísticas relacionadas con los sospechosos(visibilidad de los sospechosos, peligrosidad... etc) y con tu frecuencia en la app</p>\n<html>");
-
-        lbllConfMainStadisticsIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-gráfico-de-barras-64.png"))); // NOI18N
 
         javax.swing.GroupLayout pnlConfMainStadisticsLayout = new javax.swing.GroupLayout(pnlConfMainStadistics);
         pnlConfMainStadistics.setLayout(pnlConfMainStadisticsLayout);
@@ -1086,7 +1063,9 @@ public class UI extends javax.swing.JFrame {
 
         lbllConfMainStadisticsTitle.getAccessibleContext().setAccessibleName("-$-$1");
         lbllConfMainStadisticsDesc.getAccessibleContext().setAccessibleName("-$-$1");
+        lbllConfMainStadisticsIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-gráfico-de-barras-64-$"+UiUtils.rgbFormatted(primaryColor)+"$.png"))); // NOI18N
         lbllConfMainStadisticsIcon.getAccessibleContext().setAccessibleName("-$-$-");
+        lbllConfMainStadisticsIcon.getAccessibleContext().setAccessibleDescription("icons8-gráfico-de-barras-64-$"+UiUtils.rgbFormatted(primaryColor)+"$.png");
 
         pnlConfMainSuspectView.setBackground(secundaryColor);
         pnlConfMainSuspectView.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
@@ -1103,8 +1082,6 @@ public class UI extends javax.swing.JFrame {
         lblConfMainSuspectViewDesc.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblConfMainSuspectViewDesc.setForeground(primaryColor);
         lblConfMainSuspectViewDesc.setText("<html> \t \t<p>Cambia la forma en la que ves los sospechosos, introduciendo o eliminando sus campos. \t</p> </html> ");
-
-        lblConfMainSuspectViewIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-visible-filled-64-$255,190,113$.png"))); // NOI18N
 
         javax.swing.GroupLayout pnlConfMainSuspectViewLayout = new javax.swing.GroupLayout(pnlConfMainSuspectView);
         pnlConfMainSuspectView.setLayout(pnlConfMainSuspectViewLayout);
@@ -1138,7 +1115,8 @@ public class UI extends javax.swing.JFrame {
         lblConfMainSuspectViewTitle.getAccessibleContext().setAccessibleName("-$-$1");
         lblConfMainSuspectViewDesc.getAccessibleContext().setAccessibleName("-$-$1");
         lblConfMainSuspectViewIcon.getAccessibleContext().setAccessibleName("-$-$-");
-        lblConfMainSuspectViewIcon.getAccessibleContext().setAccessibleDescription("icons8-visible-filled-64-$255,190,113$.png");
+        lblConfMainSuspectViewIcon.getAccessibleContext().setAccessibleDescription("icons8-visible-filled-64-$"+UiUtils.rgbFormatted(primaryColor)+"$.png");
+        lblConfMainSuspectViewIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-visible-filled-64-$"+UiUtils.rgbFormatted(primaryColor)+"$.png"))); // NOI18N
 
         javax.swing.GroupLayout pnlConfMainLayout = new javax.swing.GroupLayout(pnlConfMain);
         pnlConfMain.setLayout(pnlConfMainLayout);
@@ -1804,11 +1782,6 @@ public class UI extends javax.swing.JFrame {
         jButton9.setActionCommand("add");
         jButton9.setBorder(javax.swing.BorderFactory.createLineBorder(secundaryColor));
         jButton9.setFocusable(false);
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
-            }
-        });
 
         jLabel4.setText("Nombre");
 
@@ -1842,25 +1815,6 @@ public class UI extends javax.swing.JFrame {
         jLabel31.setText("Direcciones (Varios)");
 
         jLabel32.setText("Matriculas (Varios)");
-
-        jButton2.setBackground(primaryColor);
-        jButton2.setForeground(secundaryColor);
-        jButton2.setText("...");
-        jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(secundaryColor));
-        jButton2.setFocusable(false);
-
-        jButton5.setBackground(primaryColor);
-        jButton5.setForeground(secundaryColor);
-        jButton5.setText("...");
-        jButton5.setBorder(javax.swing.BorderFactory.createLineBorder(secundaryColor));
-        jButton5.setFocusable(false);
-
-        jButton7.setBackground(primaryColor);
-        jButton7.setForeground(secundaryColor
-        );
-        jButton7.setText("...");
-        jButton7.setBorder(javax.swing.BorderFactory.createLineBorder(secundaryColor));
-        jButton7.setFocusable(false);
 
         jButton8.setBackground(primaryColor);
         jButton8.setForeground(secundaryColor);
@@ -1900,83 +1854,104 @@ public class UI extends javax.swing.JFrame {
         jButton15.setBorder(javax.swing.BorderFactory.createLineBorder(secundaryColor));
         jButton15.setFocusable(false);
 
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
+        jTextArea1.setBorder(null);
         jScrollPane1.setViewportView(jTextArea1);
         addSuspectFields[0]=jTextArea1;
+        jTextArea1.getAccessibleContext().setAccessibleName("");
 
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
+        jTextArea2.setBorder(null);
         jScrollPane2.setViewportView(jTextArea2);
         addSuspectFields[1]=jTextArea2;
 
+        jScrollPane3.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane3.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         jTextArea3.setColumns(20);
         jTextArea3.setRows(5);
+        jTextArea3.setBorder(null);
         jScrollPane3.setViewportView(jTextArea3);
 
+        jScrollPane4.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
         jScrollPane4.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane4.setToolTipText("");
         jScrollPane4.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         jTextArea4.setColumns(20);
         jTextArea4.setRows(5);
+        jTextArea4.setBorder(null);
         jScrollPane4.setViewportView(jTextArea4);
         addSuspectFields[2]=jTextArea4;
 
+        jScrollPane5.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
         jScrollPane5.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane5.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         jTextArea5.setColumns(20);
         jTextArea5.setRows(5);
+        jTextArea5.setBorder(null);
         jScrollPane5.setViewportView(jTextArea5);
         addSuspectFields[4]=jTextArea5;
 
+        jScrollPane6.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
         jScrollPane6.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane6.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         jTextArea6.setColumns(20);
         jTextArea6.setRows(5);
+        jTextArea6.setBorder(null);
         jScrollPane6.setViewportView(jTextArea6);
         addSuspectFields[5]=jTextArea6;
 
+        jScrollPane7.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
         jScrollPane7.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane7.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         jTextArea7.setColumns(20);
         jTextArea7.setRows(5);
+        jTextArea7.setBorder(null);
         jScrollPane7.setViewportView(jTextArea7);
         addSuspectFields[7]=jTextArea7;
 
+        jScrollPane8.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
         jScrollPane8.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane8.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         jTextArea8.setColumns(20);
         jTextArea8.setRows(5);
+        jTextArea8.setBorder(null);
         jScrollPane8.setViewportView(jTextArea8);
         addSuspectFields[6]=jTextArea8;
 
+        jScrollPane9.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
         jScrollPane9.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane9.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         jTextArea9.setColumns(20);
         jTextArea9.setRows(5);
+        jTextArea9.setBorder(null);
         jScrollPane9.setViewportView(jTextArea9);
         addSuspectFields[9]=jTextArea9;
 
+        jScrollPane10.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
         jScrollPane10.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane10.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         jTextArea10.setColumns(20);
         jTextArea10.setRows(5);
+        jTextArea10.setBorder(null);
         jScrollPane10.setViewportView(jTextArea10);
         addSuspectFields[8]=jTextArea10;
 
@@ -1995,6 +1970,9 @@ public class UI extends javax.swing.JFrame {
                 .addGap(103, 103, 103)
                 .addGroup(pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlAddLayout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addGap(132, 132, 132))
+                    .addGroup(pnlAddLayout.createSequentialGroup()
                         .addGroup(pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel26)
                             .addComponent(jLabel29)
@@ -2002,23 +1980,17 @@ public class UI extends javax.swing.JFrame {
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane1)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-                            .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel9))
-                .addGap(132, 132, 132)
+                        .addGroup(pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                            .addComponent(jButton8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)))
                 .addGroup(pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlAddLayout.createSequentialGroup()
                         .addGroup(pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2027,7 +1999,7 @@ public class UI extends javax.swing.JFrame {
                             .addComponent(jScrollPane7)
                             .addComponent(jScrollPane9)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAddLayout.createSequentialGroup()
-                                .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(126, 126, 126))
@@ -2047,11 +2019,11 @@ public class UI extends javax.swing.JFrame {
                         .addGap(72, 72, 72))
                     .addGroup(pnlAddLayout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(118, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAddLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(285, 285, 285))
+                .addGap(277, 277, 277))
         );
         pnlAddLayout.setVerticalGroup(
             pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2063,28 +2035,22 @@ public class UI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlAddLayout.createSequentialGroup()
-                        .addGroup(pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 9, Short.MAX_VALUE))
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                        .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAddLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 3, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlAddLayout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel26)
                         .addGap(10, 10, 10)
@@ -2098,7 +2064,7 @@ public class UI extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addGap(18, 20, Short.MAX_VALUE)
                         .addComponent(jLabel9))
                     .addGroup(pnlAddLayout.createSequentialGroup()
                         .addComponent(jLabel27)
@@ -2163,57 +2129,6 @@ public class UI extends javax.swing.JFrame {
             }
         });
         jButton1.getAccessibleContext().setAccessibleName("1$0$0");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                compCallingMouseClicked(evt, jTextArea1);
-            }
-        });
-        jButton2.getAccessibleContext().setAccessibleName("1$0$0");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                view.EnteredExited.mouseComponentEffect(evt);
-            }
-        });
-
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                view.EnteredExited.mouseComponentEffect(evt);
-            }
-        });
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                compCallingMouseClicked(evt, jTextArea2);
-            }
-        });
-        jButton5.getAccessibleContext().setAccessibleName("1$0$0");
-        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                view.EnteredExited.mouseComponentEffect(evt);
-            }
-        });
-
-        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                view.EnteredExited.mouseComponentEffect(evt);
-            }
-        });
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                compCallingMouseClicked(evt, jTextArea4);
-            }
-        });
-        jButton7.getAccessibleContext().setAccessibleName("1$0$0");
-        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                view.EnteredExited.mouseComponentEffect(evt);
-            }
-        });
-
-        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                view.EnteredExited.mouseComponentEffect(evt);
-            }
-        });
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 compCallingMouseClicked(evt, jTextArea5);
@@ -2316,6 +2231,16 @@ public class UI extends javax.swing.JFrame {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
+        jScrollPane1.getAccessibleContext().setAccessibleName("");
+        jScrollPane2.getAccessibleContext().setAccessibleName("-$-$-");
+        jScrollPane3.getAccessibleContext().setAccessibleName("-$-$-");
+        jScrollPane4.getAccessibleContext().setAccessibleName("-$-$-");
+        jScrollPane5.getAccessibleContext().setAccessibleName("-$-$-");
+        jScrollPane6.getAccessibleContext().setAccessibleName("-$-$-");
+        jScrollPane7.getAccessibleContext().setAccessibleName("-$-$-");
+        jScrollPane8.getAccessibleContext().setAccessibleName("-$-$-");
+        jScrollPane9.getAccessibleContext().setAccessibleName("-$-$-");
+        jScrollPane10.getAccessibleContext().setAccessibleName("-$-$-");
         jButton16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 compCallingMouseClicked(evt, jTextArea3);
@@ -2349,7 +2274,7 @@ public class UI extends javax.swing.JFrame {
             .addGroup(layeredConfMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(pnlSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layeredConfMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(pnlAdd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(pnlAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layeredConfMainLayout.setVerticalGroup(
             layeredConfMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2365,7 +2290,7 @@ public class UI extends javax.swing.JFrame {
             .addGroup(layeredConfMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layeredConfMainLayout.createSequentialGroup()
                     .addComponent(pnlAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 19, Short.MAX_VALUE)))
+                    .addGap(0, 23, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout pnl1BackgroundLayout = new javax.swing.GroupLayout(pnl1Background);
@@ -2418,6 +2343,7 @@ public class UI extends javax.swing.JFrame {
     }//GEN-LAST:event_formMouseDragged
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        //oldColor=primaryColor;
         Communication.setPrimaryColor(themeColor[0]);
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
@@ -2562,9 +2488,6 @@ public class UI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnConfThemeActionPerformed
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-    }//GEN-LAST:event_jButton9ActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         myImageManager.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -2617,11 +2540,8 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JCheckBox jCheckBox1;
@@ -2677,6 +2597,7 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -2743,7 +2664,6 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JPanel pnlMenu4;
     private javax.swing.JPanel pnlSearch;
     private javax.swing.JScrollPane scrollTblConfSuspectView;
-    private javax.swing.JScrollPane scrollTblMain;
     private javax.swing.JScrollPane scrollTblSearchAnswer;
     private javax.swing.JScrollPane scrollTblSearchSearch;
     private javax.swing.JTable tblConfSuspectView;
@@ -2755,6 +2675,7 @@ public class UI extends javax.swing.JFrame {
     private int yMousePosition;
     private static Color primaryColor;
     private static Color secundaryColor = Color.white;
+    public static Color oldColor;
     private static Color[] themeColor;
     private static Controller myController;
     private static UI me;

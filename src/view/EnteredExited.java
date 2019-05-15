@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import static view.UiUtils.getAllComponents;
+import view.UiUtils;
 
 /**
  *
@@ -141,16 +142,16 @@ public class EnteredExited {
 
             Icon x = null;
             String newPath = null;
-            if (rgbFormatted(UI.getPrimaryColor()).equals(oldColor[1])) {
+            if (UiUtils.rgbFormatted(UI.getPrimaryColor()).equals(oldColor[1])) {
                 //System.out.println(newPath);
-                newPath = oldPath.replaceAll("\\$\\d{3},\\d{3},\\d{3}\\$", "\\$" + rgbFormatted(UI.getSecundaryColor()) + "\\$");
+                newPath = oldPath.replaceAll("\\$\\d{3},\\d{3},\\d{3}\\$", "\\$" + UiUtils.rgbFormatted(UI.getSecundaryColor()) + "\\$");
                 //System.out.println(newPath);
                 Image myImage = Toolkit.getDefaultToolkit().getImage(ClassLoader.
                         getSystemResource("view/images/" + newPath));
                 tmpLabel.setIcon(new ImageIcon(myImage));
                 tmpLabel.getAccessibleContext().setAccessibleDescription(newPath);
-            } else if (rgbFormatted(UI.getSecundaryColor()).equals(oldColor[1])) {
-                newPath = oldPath.replaceAll("\\$\\d{3},\\d{3},\\d{3}\\$", "\\$" + rgbFormatted(UI.getPrimaryColor()) + "\\$");
+            } else if (UiUtils.rgbFormatted(UI.getSecundaryColor()).equals(oldColor[1])) {
+                newPath = oldPath.replaceAll("\\$\\d{3},\\d{3},\\d{3}\\$", "\\$" + UiUtils.rgbFormatted(UI.getPrimaryColor()) + "\\$");
                 //System.out.println(newPath);
 
                 Image myImage = Toolkit.getDefaultToolkit().getImage(ClassLoader.
@@ -159,15 +160,6 @@ public class EnteredExited {
                 tmpLabel.getAccessibleContext().setAccessibleDescription(newPath);
             }
         }
-    }
-
-    private static String rgbFormatted(Color rgb) {
-        StringBuilder stringRGB = new StringBuilder();
-
-        stringRGB.append(rgb.getRed() + "," + rgb.getGreen() + "," + rgb.getBlue());
-
-        return stringRGB.toString();
-
     }
 
 }

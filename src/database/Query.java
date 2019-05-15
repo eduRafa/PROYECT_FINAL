@@ -5,6 +5,7 @@
  */
 package database;
 
+import com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.sql.Statement;
@@ -50,6 +51,7 @@ public class Query {
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         return last;
     }
     /*
@@ -278,9 +280,8 @@ public class Query {
             s.close();
             rs.close();
             Connect.closeConnection();
-         
         } catch (SQLException ex) {
-            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Query.class.getName()+"--").log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
