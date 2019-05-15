@@ -6,6 +6,7 @@
 package view;
 
 import controller.Controller;
+import database.Query;
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -49,10 +50,10 @@ public class CreateAndFillTables {
         myButton1.setBorderPainted(false);
         myButton2.setBorderPainted(false);
         myButton3.setBorderPainted(false);
+        
     }
 
     public static void setMainTable(JTable tblMain) {
-        setButtons();
 
         DefaultTableModel modelo = (DefaultTableModel) tblMain.getModel();
 
@@ -97,11 +98,10 @@ public class CreateAndFillTables {
             }
         };
 
-        
         //En esta parte cambiamos de tamaño las columnas menos las tres últimas
         tblMain.setModel(model);
         TableColumnModel defModel = tblMain.getColumnModel();
-        for (int i = 0; i < defModel.getColumnCount()-3; i++) {
+        for (int i = 0; i < defModel.getColumnCount() - 3; i++) {
             defModel.getColumn(i).setMinWidth(150);
         }
 
@@ -139,16 +139,11 @@ public class CreateAndFillTables {
                      * ejemplo, voy a mostrar en un cuadro de dialogo todos los
                      * campos de la fila que no sean un botón.
                      */
-                    StringBuilder sb = new StringBuilder();
-                    for (int i = 0; i < tblMain.getModel().getColumnCount(); i++) {
-                        if (!tblMain.getModel().getColumnClass(i).equals(JButton.class)) {
-                            sb.append("\n").append(tblMain.getModel().getColumnName(i)).append(": ").append(tblMain.getModel().getValueAt(fila, i));
-                        }
-                    }
-                    JOptionPane.showMessageDialog(null, "Seleccionada la fila " + fila + sb.toString());
+                    
                 }
             }
         });
+
     }
 
     public static void fillMainTable() {
