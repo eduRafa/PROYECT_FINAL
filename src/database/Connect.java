@@ -145,7 +145,7 @@ public class Connect {
                     lineSQL="CREATE TABLE IF NOT EXISTS PHONE"
                     + "(CodeSuspect          int unsigned,"
                     + "CodePhone             int zerofill auto_increment PRIMARY KEY,"
-                    + "PhoneNumber           int DEFAULT 00000000,"
+                    + "PhoneNumber           int DEFAULT 000000000,"
                     + "FOREIGN KEY (CodeSuspect) references SUSPECT(CodeSuspect) ON DELETE CASCADE ON UPDATE CASCADE"
                     + ")ENGINE=INNODB";
                     

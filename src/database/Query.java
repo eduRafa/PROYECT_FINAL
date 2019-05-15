@@ -56,7 +56,7 @@ public class Query {
     }
     /*
     *Este metodo borrar un sospechoso
-    *@param sus: Es el sospecgoso que se desea eliminar
+    *@param sus: Es el sospechoso que se desea eliminar
     */
     public static boolean deleteSuspect(Integer sus){
         boolean deleted=false;
@@ -64,7 +64,7 @@ public class Query {
             Connect.startConnection();
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
-            s.executeQuery("Delete from Suspect where CodeSuspect = "+sus.toString());      
+            s.executeUpdate("Delete from Suspect where CodeSuspect = "+sus.toString());
             Connect.closeConnection();
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
@@ -86,7 +86,7 @@ public class Query {
             Connect.startConnection();
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
-            s.executeQuery("Update "+table+" set "+type+"='"+value+"' where "+key+"='"+code+"'");
+            s.executeUpdate("Update "+table+" set "+type+"='"+value+"' where "+key+"='"+code+"'");
             updated=true;
             s.close();
             Connect.closeConnection();
