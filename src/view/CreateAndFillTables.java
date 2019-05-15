@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
+import model.Communication;
 import model.Suspect;
 
 /**
@@ -28,7 +29,7 @@ import model.Suspect;
  */
 public class CreateAndFillTables {
 
-    private static JButton myButton1;
+    private static TrashJButton myButton1;
     private static JButton myButton2;
     private static JButton myButton3;
 
@@ -39,7 +40,7 @@ public class CreateAndFillTables {
                 getSystemResource("view/images/icons8-galeria-20.png"));
         Image suspect = Toolkit.getDefaultToolkit().getImage(ClassLoader.
                 getSystemResource("view/images/icons8-usuario-de-genero-neutro-20.png"));
-        myButton1 = new JButton(new ImageIcon(trash));
+        myButton1 = new TrashJButton(new ImageIcon(trash));
         myButton2 = new JButton(new ImageIcon(suspect));
         myButton3 = new JButton(new ImageIcon(images));
 
@@ -78,9 +79,11 @@ public class CreateAndFillTables {
         for (int i = 0; i < tiposColumnas.length - 3; i++) {
             tiposColumnas[i] = java.lang.String.class;
         }
-        for (int i = 1; i < 4; i++) {
+        for (int i = 2; i < 4; i++) {
             tiposColumnas[tiposColumnas.length - i] = JButton.class;
         }
+
+        tiposColumnas[tiposColumnas.length - 1] = TrashJButton.class;
 
         DefaultTableModel model = new DefaultTableModel(registros, head) {
             Class[] tipos = tiposColumnas;
@@ -133,7 +136,10 @@ public class CreateAndFillTables {
                  * además preguntar por el contenido del botón o el nombre de la
                  * columna
                  */
-                if (tblMain.getModel().getColumnClass(columna).equals(JButton.class)) {
+                if (tblMain.getModel().getColumnClass(columna).equals(TrashJButton.class)) {
+                    System.out.println(tblMain.getSelectedRow());
+
+                    Controller.deleteSuspect(tblMain.getSelectedRow());
 
                     /**
                      * Aquí pueden poner lo que quieran, para efectos de este
@@ -186,6 +192,7 @@ public class CreateAndFillTables {
                         case 6:
                             if (s[i].getPhone() != null) {
                                 if (!s[i].getPhone().isEmpty()) {
+
                                     myModel.setValueAt(s[i].getPhone().get(0), i, j);
 
                                 }

@@ -30,19 +30,25 @@ public class UiUtils {
     }
 
     public static ArrayList<?> transformStringToArrayList(String allTheValues) {
-        String[] eachValue = allTheValues.split(".+\\n");
+        String[] eachValue = allTheValues.split("\\n");
+        
+        
+        for (String string : eachValue) {
+            string=string.trim();
+        }
+        
         ArrayList<String> myValues;
         myValues = new ArrayList<String>(Arrays.asList(eachValue));
+        
         return myValues;
     }
-    
+
     /*public static String transformArrayListToString(ArrayList<?> multipleText){
         StringBuilder textBuilder=new StringBuilder();
         for (int i = 0; i < multipleText.size(); i++) {
             
         }
     }*/
-    
     public static String rgbFormatted(Color rgb) {
         StringBuilder stringRGB = new StringBuilder();
 

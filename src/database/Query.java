@@ -64,7 +64,7 @@ public class Query {
             Connect.startConnection();
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
-            s.executeQuery("Delete from Suspect where CodeSuspect = "+sus.toString());      
+            s.executeUpdate("Delete from Suspect where CodeSuspect = "+sus.toString());      
             Connect.closeConnection();
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);

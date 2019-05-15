@@ -17,7 +17,6 @@ import model.Suspect;
 import view.CreateAndFillTables;
 import view.PrintComponents;
 import view.UI;
-import view.UiUtils;
 
 /**
  *
@@ -85,6 +84,11 @@ public class Controller implements ActionListener {
     
     public static /*String[]*/ void getPhotos(String idSuspect) {
         //Query.getPhotos(idSuspect);
+    }
+    
+    public static void deleteSuspect(Integer id){
+        Query.deleteSuspect(id);
+        CreateAndFillTables.setMainTable(myUI.getMainTable());
     }
 
 }
