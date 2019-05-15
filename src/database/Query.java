@@ -23,6 +23,8 @@ public class Query {
     
     static Connection c=Connect.getMyConnection();
     static  ResultSet rs;
+    static int maxPosition=12;
+    static int currentPosition=0;
     
     /*
     *@return last: es un String que contiene el codigo de sospechoso del ultimo 
@@ -145,7 +147,21 @@ public class Query {
                         }
                     }
                     if(sus.getCar_Resgistration()!=null){
-                        
+                        for(int i=0;i<sus.getCar_Resgistration().size();i++){
+                            if(sus.getCar_Resgistration().get(i)!=null){
+                                Car_Registration cRegistration=(Car_Registration) sus.getCar_Resgistration().get(i);
+                                updated=updateAttribute("Resgistration_number", cRegistration.getCodeRegistration().toString(), cRegistration.getRegistration(), "CAR_REGISTRATION", "CodeRegistration");
+                            }
+                        }
+                    }
+                    if(sus.getImages()!=null){
+                        for(int i=0;i<sus.getImages().size();i++){
+                            if(sus.getImages().get(i)!=null){
+                                Images img=(Images) sus.getImages().get(i);
+                                updated=updateAttribute("Image", img.getCodeImage().toString(), img.getImageEncoded().toString(), "IMAGES", "CodeImage");
+                                updated=updateAttribute("Description", img.getCodeImage().toString(), img.getDescription(), "IMAGES", "CodeImage");
+                            }
+                        }
                     }
                 
                 }
@@ -222,6 +238,7 @@ public class Query {
                                 
                 added=true;
                 s.close();
+                rs.close();
                 Connect.closeConnection();
             } catch (SQLException ex) {
                 Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
@@ -257,6 +274,7 @@ public class Query {
             correct=addAtrivute(last,suspect.getCar_Resgistration());
             correct=addAtrivute(last, (ArrayList<Object>) suspect.getImages());
             s.close();
+            rs.close();
             Connect.closeConnection();
          
         } catch (SQLException ex) {
@@ -266,7 +284,10 @@ public class Query {
         }
         return correct;
     }
-   
+   /*
+    *Este metodo busca un sospechoso en la base de datos a partir de su codigo y 
+    devuleve el resultado en forma de Sospechoso 
+    */
     public static Suspect find(String code){
        Suspect sus=null;
         try {
@@ -287,6 +308,7 @@ public class Query {
             Car_Registration cregistration;
             ArrayList<Images> img=null;
             Images images;
+            
             Connect.startConnection();
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
@@ -324,10 +346,10 @@ public class Query {
                 address=new Address(rs.getInt(1),Integer.valueOf(code),rs.getString(2));
                 ad.add(address);
             }
-            rs=s.executeQuery("Select Resgistration_number"
+            rs=s.executeQuery("Select Resgistration_number, CodeRegistration from CAR_REGISTRATION"
                     + "where CodeSuspect='"+code+"'");
             while(rs.next()){
-                cregistration=new Car_Registration(rs.getString(1));
+                cregistration=new Car_Registration(rs.getString(1),rs.getInt(2));
                 cr.add(cregistration);
             }
             rs=s.executeQuery("Select Image,CodeImage,Description"
@@ -337,6 +359,7 @@ public class Query {
                 img.add(images);
             }
             s.close();
+            rs.close();
             Connect.closeConnection();
             sus=new Suspect(Integer.valueOf(code), name, lastname1, lastname2, as, Record, Facts, ph, em, ad, cr, img);
         } catch (Exception ex) {
@@ -347,26 +370,54 @@ public class Query {
     }
     
     /*
-    * Este metodo realiza una consulta a la base de datos para mostrar todos los sospechosos guardados
-    *@return rs: Es el resultset con la resuesta de la consulta al servidor, el cual contiene el registro co todos los sospechosos
+    *Este metodo muestra 12 sospechos de la base de datos
+    *@return show: Son los 12 sospechosos mostrados, en caso de que no haya doce en el grupo que se esta
+    mirando habra valores nulos
     */
-    public static ResultSet showAll(){
+    public static Suspect[] showTwelve(){
+        Suspect[] show=new Suspect[12];
         try {
             Connect.startConnection();
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
-            rs=s.executeQuery("Select sus.name,sus.lastname1,sus.lastname2,sus.Record,sus.Facts,"
-                            + "p.PhoneNumber, em.Email,ad.Address,cr.Registration_number"
-                            + "from Suspect sus, PHONE p, E_Mail em,ADDRESS ad,CAR_REGISTRATION cr");
+            rs=s.executeQuery("Select CodeSuspect from SUSPECT");
+            int j=0;
+            for(int i=currentPosition;i<maxPosition&&rs.next();i++,j++){
+                show[j]=find(rs.getString(i));
+            }
             s.close();
-            Connect.closeConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
+            rs.close();
+            c.close();
+           
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return rs;
-        
+        return show;
+    }
+    /*
+    *Este metodo se usa para, una vez mostrando 12 sospechos pasar a los 12 siguientes de la base de datos
+    *@return show:Son los 12 sospechosos mostrados, en caso de que no haya doce en el grupo que se esta
+    mirando habra valores nulos
+    */
+    public static Suspect[] showNext(){
+        Suspect[] show=new Suspect[12];
+        currentPosition+=12;
+        maxPosition+=12;
+        show=showTwelve();
+        return show;
+    }
+    
+    /*
+    *Este metodo se usa para, una vez mostrando 12 sospechos pasar a los 12 anteriores de la base de datos
+    *@return show:Son los 12 sospechosos mostrados, en caso de que no haya doce en el grupo que se esta
+    mirando habra valores nulos
+    */
+    public static Suspect[] showPrevious(){
+        Suspect[] show=new Suspect[12];
+        currentPosition-=12;
+        maxPosition-=12;
+        show=showTwelve();
+        return show;
     }
     /*
     *@param sus: El sospechoso del que se desean las fotos
@@ -380,6 +431,7 @@ public class Query {
             rs=s.executeQuery("SELECT Image, Description FROM IMAGES"
                     + "where CodeSuspect="+sus.getCodeSuspect());
             s.close();
+            rs.close();
             Connect.closeConnection();
         } catch (SQLException ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
@@ -450,6 +502,7 @@ public class Query {
                     break;
             }
             s.close();
+            rs.close();
             Connect.closeConnection();
         } catch (SQLException ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
