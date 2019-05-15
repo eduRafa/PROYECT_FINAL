@@ -311,11 +311,12 @@ public class Query {
             ArrayList<Images> img=null;
             Images images;
             
+            System.out.println(code);
             Connect.startConnection();
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
             rs=s.executeQuery("Select name,lastname1,lastname2,Record,Facts"
-                    + "from Suspect where CodeSuspect='"+code+"'");
+                    + "from Suspect where CodeSuspect="+code);
             String codeSuspect=code;
             if(rs.last()){
                 name=rs.getString(1);
