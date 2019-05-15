@@ -155,7 +155,7 @@ public class Connect {
                     lineSQL="CREATE TABLE IF NOT EXISTS E_MAIL"
                     + "(CodeE_mail          int zerofill auto_increment PRIMARY KEY,"
                     + "CodeSuspect          int unsigned,"
-                    + "Email                varchar(20) DEFAULT 'desconocido',"
+                    + "Email                varchar(50) DEFAULT 'desconocido',"
                     + "FOREIGN KEY (CodeSuspect) REFERENCES SUSPECT (CodeSuspect) ON DELETE CASCADE ON UPDATE CASCADE"
                     + ")ENGINE=INNODB";
                     
@@ -173,7 +173,7 @@ public class Connect {
                     sentence.executeUpdate(lineSQL);
                     
                     lineSQL="CREATE TABLE IF NOT EXISTS CAR_REGISTRATION"
-                    + "(Resgistration_number varchar (11) DEFAULT 'desconocido',"
+                    + "(Registration_number varchar (11) DEFAULT 'desconocido',"
                     + "CodeRegistration      int zerofill auto_increment PRIMARY KEY,"
                     + "CodeSuspect           int unsigned,"
                     + "FOREIGN KEY (CodeSuspect) REFERENCES SUSPECT (CodeSuspect) ON DELETE CASCADE ON UPDATE CASCADE"

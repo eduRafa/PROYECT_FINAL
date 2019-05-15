@@ -154,7 +154,7 @@ public class Query {
                         for(int i=0;i<sus.getCar_Resgistration().size();i++){
                             if(sus.getCar_Resgistration().get(i)!=null){
                                 Car_Registration cRegistration=(Car_Registration) sus.getCar_Resgistration().get(i);
-                                updated=updateAttribute("Resgistration_number", cRegistration.getCodeRegistration().toString(), cRegistration.getRegistration(), "CAR_REGISTRATION", "CodeRegistration");
+                                updated=updateAttribute("Registration_number", cRegistration.getCodeRegistration().toString(), cRegistration.getRegistration(), "CAR_REGISTRATION", "CodeRegistration");
                             }
                         }
                     }
@@ -188,13 +188,15 @@ public class Query {
                     switch(type){
                     case "Phone":
                         for(int i=0;i<al.size();i++){
+                            System.out.println(al.get(i));
                                 s.executeUpdate("INSERT into PHONE (CodeSuspect,PhoneNumber) "
                                 + "values ("+code+","+al.get(i)+")");
                         }
                         break;
                     case "Email":
                         for(int i=0;i<al.size();i++){
-                                s.executeUpdate("INSERT into E-MAIL (CodeSuspect,Email) "
+                            System.out.println(al.get(i));
+                                s.executeUpdate("INSERT into E_MAIL (CodeSuspect,Email) "
                                 + "values ("+code+",'"+al.get(i)+"')");
                         }
                         break;
@@ -334,7 +336,7 @@ public class Query {
                 address=new Address(rs.getInt(1),Integer.valueOf(code),rs.getString(2));
                 ad.add(address);
             }
-            rs=s.executeQuery("Select Resgistration_number, CodeRegistration from CAR_REGISTRATION "
+            rs=s.executeQuery("Select Registration_number, CodeRegistration from CAR_REGISTRATION "
                     + "where CodeSuspect="+code);
             while(rs.next()){
                 cregistration=new Car_Registration(rs.getString(1),rs.getInt(2));

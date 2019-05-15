@@ -17,7 +17,6 @@ import model.Suspect;
 import view.CreateAndFillTables;
 import view.PrintComponents;
 import view.UI;
-import view.UiUtils;
 
 /**
  *
@@ -64,6 +63,8 @@ public class Controller implements ActionListener {
         {
             try {
                 Query.addSuspect(myUI.getAddSuspect());
+                //System.out.println(myUI.getAddSuspect().getPhone().get(0));
+                
                 CreateAndFillTables.fillMainTable();
             } catch (SQLException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -83,6 +84,11 @@ public class Controller implements ActionListener {
     
     public static /*String[]*/ void getPhotos(String idSuspect) {
         //Query.getPhotos(idSuspect);
+    }
+    
+    public static void deleteSuspect(Integer id){
+        Query.deleteSuspect(id);
+        CreateAndFillTables.setMainTable(myUI.getMainTable());
     }
 
 }
