@@ -187,11 +187,7 @@ public class Query {
                 if(type!=null){
                     switch(type){
                     case "Phone":
-                        System.out.println(al.size());
-                        System.out.println(al.get(0));
-                        System.out.println(al.get(1));
                         for(int i=0;i<al.size();i++){
-                                System.out.println("Entra");
                                 s.executeUpdate("INSERT into PHONE (CodeSuspect,PhoneNumber) "
                                 + "values ("+code+","+al.get(i)+")");
                         }
