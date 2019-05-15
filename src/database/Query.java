@@ -25,7 +25,7 @@ public class Query {
     
     static Connection c=Connect.getMyConnection();
     static  ResultSet rs;
-    static int maxPosition=10;
+    static int maxPosition=11;
     static int currentPosition=0;
     static int numberOfSuspects=10;
     
@@ -384,14 +384,15 @@ public class Query {
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
             rs=s.executeQuery("Select CodeSuspect from SUSPECT");
-            int j=0;
-            for(int i=currentPosition;i<maxPosition&&rs.next();i++,j++){
-                show[j]=find(rs.getString(i));
+            if(rs!=null){
+                int j=0;
+                for(int i=currentPosition;i<maxPosition&&rs.next();i++,j++){
+                    show[j]=find(rs.getString(i));
+                }
             }
-            s.close();
-            rs.close();
-            c.close();
-           
+                s.close();
+                rs.close();
+                c.close();
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -515,10 +516,11 @@ public class Query {
         return sus;
     }
     
-    public HashMap<Suspect,Boolean[]> findCoincidences(Suspect sus){
+   /* public HashMap<Suspect,HashMap<String,Boolean> findCoincidences(Suspect sus){
     HashMap<Suspect,Boolean[]> coincidences=null;
-    Boolean[] matchs=new Boolean[11];
+    Boolean[] matchs=new Boolean[8];
+    //name,lastname1,lastname2,phone,email,address,registration,suspect
     
     return coincidences;
-    }
+    }*/
 }
