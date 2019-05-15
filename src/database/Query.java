@@ -388,7 +388,7 @@ public class Query {
             if(rs!=null){
                 int j=0;
                 for(int i=currentPosition;i<maxPosition&&rs.next();i++,j++){
-                    show[j]=find(rs.getString(i));
+                    show[j]=find(rs.getString(1));
                 }
             }
                 s.close();
