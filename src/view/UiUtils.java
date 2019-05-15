@@ -36,6 +36,10 @@ public class UiUtils {
         return myValues;
     }
     
+    /*public static String transformTextToString(){
+        
+    }*/
+    
     public static String rgbFormatted(Color rgb) {
         StringBuilder stringRGB = new StringBuilder();
 
