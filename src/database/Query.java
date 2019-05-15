@@ -61,11 +61,13 @@ public class Query {
     public static boolean deleteSuspect(Integer sus){
         boolean deleted=false;
         try {
-            Connect.startConnection();
-            c=Connect.getMyConnection();
-            Statement s=c.createStatement();
-            s.executeUpdate("Delete from Suspect where CodeSuspect = "+sus.toString());
-            Connect.closeConnection();
+            if(sus!=null){
+                Connect.startConnection();
+                c=Connect.getMyConnection();
+                Statement s=c.createStatement();
+                s.executeUpdate("Delete from Suspect where CodeSuspect = "+sus.toString());
+                Connect.closeConnection();
+            }
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
