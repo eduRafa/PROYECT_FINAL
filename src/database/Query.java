@@ -58,13 +58,13 @@ public class Query {
     *Este metodo borrar un sospechoso
     *@param sus: Es el sospecgoso que se desea eliminar
     */
-    public static boolean deleteSuspect(Suspect sus){
+    public static boolean deleteSuspect(Integer sus){
         boolean deleted=false;
         try {
             Connect.startConnection();
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
-            s.executeQuery("Delete from Suspect where CodeSuspect = "+sus.getCodeSuspect());      
+            s.executeQuery("Delete from Suspect where CodeSuspect = "+sus.toString());      
             Connect.closeConnection();
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
@@ -188,44 +188,41 @@ public class Query {
                     switch(type){
                     case "Phone":
                         for(int i=0;i<al.size();i++){
-                            Phone ph=(Phone) al.get(i);
-                            s.executeUpdate("INSERT into PHONE (CodeSuspect,PhoneNumber) "
-                            + "values ('"+code+"','"+ph.getPhoneNumber()+"')");
+                                s.executeUpdate("INSERT into PHONE (CodeSuspect,PhoneNumber) "
+                                + "values ("+code+","+al.get(i)+")");
                         }
                         break;
                     case "Email":
                         for(int i=0;i<al.size();i++){
-                            Email em=(Email) al.get(i);
-                            s.executeUpdate("INSERT into E-MAIL (CodeSuspect,Email) "
-                            + "values ('"+code+"','"+em.getEmail()+"')");
+                                s.executeUpdate("INSERT into E-MAIL (CodeSuspect,Email) "
+                                + "values ("+code+",'"+al.get(i)+"')");
                         }
                         break;
                     case "Address":
                         for(int i=0;i<al.size();i++){
-                            Address ad=(Address) al.get(i);
-                            s.executeUpdate("INSERT into ADDRESS (CodeSuspect,Address) "
-                            + "values ('"+code+"','"+ad.getAddress()+"')");
+                                s.executeUpdate("INSERT into ADDRESS (CodeSuspect,Address) "
+                                + "values ("+code+",'"+al.get(i)+"')");
                         }
                         break;
                     case "Suspect":
                         for(int i=0;i<al.size();i++){
-                            Suspect su=(Suspect) al.get(i);
-                            s.executeUpdate("INSERT into COMPANIONS (CodeSuspect,CodeSuspect2) "
-                            + "values ('"+code+"','"+su.getCodeSuspect()+"')");
+                                s.executeUpdate("INSERT into COMPANIONS (CodeSuspect,CodeSuspect2) "
+                                + "values ("+code+","+al.get(i)+")");
                         }
                         break;
                     case "Car_Registration":
                         for(int i=0;i<al.size();i++){
-                            Car_Registration cr=(Car_Registration) al.get(i);
-                            s.executeUpdate("INSERT into CAR_REGISTRATION (CodeSuspect,Registration_number) "
-                            + "values ('"+code+"','"+cr.getRegistration()+"')");
+                                s.executeUpdate("INSERT into CAR_REGISTRATION (CodeSuspect,Registration_number) "
+                                + "values ("+code+",'"+al.get(i)+"')");
                         }
                         break;
                     case "Images":
                         for(int i=0;i<al.size();i++){
-                            Images img=(Images) al.get(i);
-                            s.executeUpdate("INSERT into Images (CodeSuspect,image,description) "
-                            + "values ('"+code+"','"+img.getImageEncoded()+"','"+img.getDescription()+"')");
+                            if(al.get(i) instanceof Images){
+                                Images img=(Images) al.get(i);
+                                s.executeUpdate("INSERT into Images (CodeSuspect,image,description) "
+                                + "values ('"+code+"','"+img.getImageEncoded()+"','"+img.getDescription()+"')");
+                            }
                         }
                     }
                 }

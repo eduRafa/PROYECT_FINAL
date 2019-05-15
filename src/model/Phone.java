@@ -15,7 +15,6 @@ public class Phone {
     private Integer PhoneNumber;
     
     public Phone(Integer CodeSuspect, Integer CodePhone, Integer PhoneNumber){
-        super();
         this.CodeSuspect=CodeSuspect;
         this.CodePhone=CodePhone;
         this.PhoneNumber=PhoneNumber;
