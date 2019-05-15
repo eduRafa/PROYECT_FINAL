@@ -386,13 +386,13 @@ public class Query {
             rs=s.executeQuery("Select CodeSuspect from SUSPECT");
             if(rs!=null){
                 int j=0;
-            for(int i=currentPosition;i<maxPosition&&rs.next();i++,j++){
-                show[j]=find(rs.getString(i));
+                for(int i=currentPosition;i<maxPosition&&rs.next();i++,j++){
+                    show[j]=find(rs.getString(i));
+                }
             }
-            s.close();
-            rs.close();
-            c.close();
-            }
+                s.close();
+                rs.close();
+                c.close();
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
