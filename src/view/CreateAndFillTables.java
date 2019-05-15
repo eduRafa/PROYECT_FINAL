@@ -50,10 +50,11 @@ public class CreateAndFillTables {
         myButton1.setBorderPainted(false);
         myButton2.setBorderPainted(false);
         myButton3.setBorderPainted(false);
-        
+
     }
 
     public static void setMainTable(JTable tblMain) {
+        setButtons();
 
         DefaultTableModel modelo = (DefaultTableModel) tblMain.getModel();
 
@@ -139,7 +140,6 @@ public class CreateAndFillTables {
                      * ejemplo, voy a mostrar en un cuadro de dialogo todos los
                      * campos de la fila que no sean un botón.
                      */
-                    
                 }
             }
         });
@@ -184,7 +184,12 @@ public class CreateAndFillTables {
                             ;
                             break;
                         case 6:
-                            myModel.setValueAt(s[i].getPhone(), i, j);
+                            if (s[i].getPhone() != null) {
+                                if (!s[i].getPhone().isEmpty()) {
+                                    myModel.setValueAt(s[i].getPhone().get(0), i, j);
+
+                                }
+                            }
                             ;
                             break;
                         case 7:

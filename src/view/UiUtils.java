@@ -29,15 +29,18 @@ public class UiUtils {
         return compList;
     }
 
-    public static ArrayList<?> transformTextToArrayList(String allTheValues) {
+    public static ArrayList<?> transformStringToArrayList(String allTheValues) {
         String[] eachValue = allTheValues.split(".+\\n");
         ArrayList<String> myValues;
         myValues = new ArrayList<String>(Arrays.asList(eachValue));
         return myValues;
     }
     
-    /*public static String transformTextToString(){
-        
+    /*public static String transformArrayListToString(ArrayList<?> multipleText){
+        StringBuilder textBuilder=new StringBuilder();
+        for (int i = 0; i < multipleText.size(); i++) {
+            
+        }
     }*/
     
     public static String rgbFormatted(Color rgb) {

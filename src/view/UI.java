@@ -126,8 +126,8 @@ public class UI extends javax.swing.JFrame {
 
         Suspect mySuspect = new Suspect(null, values[0].trim(), values[1].trim(), values[2].trim(), null/*companions*/,
                 new SerialBlob(values[4].getBytes()), new SerialBlob(values[5].getBytes()),
-                UiUtils.transformTextToArrayList(values[6]), UiUtils.transformTextToArrayList(values[7]),
-                UiUtils.transformTextToArrayList(values[8]), UiUtils.transformTextToArrayList(values[9]),
+                UiUtils.transformStringToArrayList(values[6]), UiUtils.transformStringToArrayList(values[7]),
+                UiUtils.transformStringToArrayList(values[8]), UiUtils.transformStringToArrayList(values[9]),
                 myImageManager.getPhotos());
 
         return mySuspect;

@@ -64,6 +64,8 @@ public class Controller implements ActionListener {
         {
             try {
                 Query.addSuspect(myUI.getAddSuspect());
+                //System.out.println(myUI.getAddSuspect().getPhone().get(0));
+                
                 CreateAndFillTables.fillMainTable();
             } catch (SQLException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
