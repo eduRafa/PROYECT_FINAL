@@ -298,17 +298,17 @@ public class Query {
             String lastname2=null;
             Blob Record=null;
             Blob Facts=null;
-            ArrayList<Phone> ph=null;
+            ArrayList<Phone> ph=new ArrayList<>();
             Phone p;
-            ArrayList<Suspect> as=null;
+            ArrayList<Suspect> as=new ArrayList<>();
             Suspect suspect;
-            ArrayList<Email> em=null;
+            ArrayList<Email> em=new ArrayList<>();
             Email email;
-            ArrayList<Address> ad=null;
+            ArrayList<Address> ad=new ArrayList<>();
             Address address;
-            ArrayList<Car_Registration> cr=null;
+            ArrayList<Car_Registration> cr=new ArrayList<>();
             Car_Registration cregistration;
-            ArrayList<Images> img=null;
+            ArrayList<Images> img=new ArrayList<>();
             Images images;
             
             System.out.println(code);
@@ -355,7 +355,7 @@ public class Query {
                 cregistration=new Car_Registration(rs.getString(1),rs.getInt(2));
                 cr.add(cregistration);
             }
-            rs=s.executeQuery("Select Image,CodeImage,Description from IMAGES"
+            rs=s.executeQuery("Select Image,CodeImage,Description from IMAGES "
                     + "where CodeSuspect="+code);
             while(rs.next()){
                 images=new Images(rs.getBlob(1),rs.getInt(2), rs.getString(3),Integer.valueOf(code));
@@ -383,7 +383,8 @@ public class Query {
             Connect.startConnection();
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
-            rs=s.executeQuery("Select CodeSuspect from SUSPECT");
+            ResultSet rs2=null;
+            rs2=s.executeQuery("Select CodeSuspect from SUSPECT");
             if(rs!=null){
                 int j=0;
                 for(int i=currentPosition;i<maxPosition&&rs.next();i++,j++){
@@ -391,7 +392,7 @@ public class Query {
                 }
             }
                 s.close();
-                rs.close();
+                rs2.close();
                 c.close();
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);

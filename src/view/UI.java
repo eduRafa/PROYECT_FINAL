@@ -2343,7 +2343,7 @@ public class UI extends javax.swing.JFrame {
     
     private void myInitComponents(){
         CreateDefaultTableModel.setMainTable(tblMain);
-        //setTblMain(Query.showTen());
+        setTblMain(Query.showTen());
         myImageManager = new ImageManager(me, true);
         setLocationRelativeTo(null);
         hideLayouts();
