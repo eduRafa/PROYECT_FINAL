@@ -5,7 +5,7 @@
  */
 package database;
 
-import com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping;
+
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.sql.Statement;
