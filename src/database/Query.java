@@ -311,6 +311,7 @@ public class Query {
             ArrayList<Images> img=null;
             Images images;
             
+            System.out.println(code);
             Connect.startConnection();
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
