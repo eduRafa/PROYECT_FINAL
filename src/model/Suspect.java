@@ -133,7 +133,7 @@ public class Suspect {
         this.Car_registration=Car_registration;
     }
    
-      public ArrayList<?> getImages(){
+      public ArrayList<Images> getImages(){
         return Images;
     }
     

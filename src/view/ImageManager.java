@@ -13,6 +13,7 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -55,7 +56,7 @@ public class ImageManager extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
     }
-
+    
     private void setImages() {
         photos = new Images[NPHOTOS];
 

@@ -5,12 +5,17 @@
  */
 package model;
 
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 /**
@@ -22,7 +27,6 @@ public class Images {
     private ImageIcon image;
     private Integer codeImage;
     private String description;
-    public FileInputStream fis;
     private Integer codeSuspect;
 
     /*Constructor para cuando obtengas info de la bd*/
@@ -36,7 +40,6 @@ public class Images {
 
     public Images(Image image) {
         transformImage(image);
-        setFileInputStream();
     }
 
     public void transformImage(Image image) {
@@ -75,20 +78,38 @@ public class Images {
         this.codeSuspect = CodeSuspect;
     }
 
-    private void setFileInputStream() {
-        String pathWrongFormed = image.toString();
-        String pathWellFormed = pathWrongFormed.substring(6, pathWrongFormed.length());
-
-        try {
-            FileInputStream fis = null;
-            File file = new File(pathWellFormed);
-            fis = new FileInputStream(file);
-            //ps.setBinaryStream(1, fis, (int) file.length());
-
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Images.class.getName()).log(Level.SEVERE, null, ex);
+    public static BufferedImage getBufferedImage(Image img) {
+        if (img instanceof BufferedImage) {
+            return (BufferedImage) img;
         }
-        this.fis=fis;
+
+        BufferedImage bimage = new BufferedImage(img.getWidth(null),
+                img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D bGr = bimage.createGraphics();
+        bGr.drawImage(img, 0, 0, null);
+        bGr.dispose();
+
+        // Return the buffered image
+        return bimage;
+    }
+
+    public byte[] getBytes() {
+        byte[] byteArray = null;
+
+        if (image != null) {
+            try {
+                BufferedImage bi = getBufferedImage(image.getImage());
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write(bi, "png", baos);
+
+                byteArray = baos.toByteArray();
+            } catch (IOException ex) {
+                Logger.getLogger(Images.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return byteArray;
     }
 
 }
