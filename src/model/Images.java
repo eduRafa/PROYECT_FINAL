@@ -79,6 +79,8 @@ public class Images {
     }
 
     public static BufferedImage getBufferedImage(Image img) {
+        
+        
         if (img instanceof BufferedImage) {
             return (BufferedImage) img;
         }
@@ -98,15 +100,10 @@ public class Images {
         byte[] byteArray = null;
 
         if (image != null) {
-            try {
                 BufferedImage bi = getBufferedImage(image.getImage());
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                ImageIO.write(bi, "png", baos);
 
                 byteArray = baos.toByteArray();
-            } catch (IOException ex) {
-                Logger.getLogger(Images.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
 
         return byteArray;
