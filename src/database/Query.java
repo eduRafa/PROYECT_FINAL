@@ -421,13 +421,13 @@ public class Query {
     *@param sus: El sospechoso del que se desean las fotos
     *@return rs: es el resulset el cual contiene las fotografias del sospechosos junto a su descripcion
     */
-    public static ResultSet showImg(Suspect sus){
+    public static ResultSet showImg(String sus){
         try {
             Connect.startConnection();
             c=Connect.getMyConnection();   
             Statement s=c.createStatement();
             rs=s.executeQuery("SELECT Image, Description FROM IMAGES "
-                    + "where CodeSuspect="+sus.getCodeSuspect());
+                    + "where CodeSuspect="+sus);
             s.close();
             rs.close();
             Connect.closeConnection();
