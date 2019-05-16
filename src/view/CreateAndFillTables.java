@@ -26,6 +26,8 @@ import model.Suspect;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -33,35 +35,9 @@ import java.util.Map.Entry;
  */
 public class CreateAndFillTables {
 
-    private static TrashJButton myButton1;
-    private static JButton myButton2;
-    private static JButton myButton3;
     private static HashMap<Integer, Integer> mySuspects = new HashMap<>();
 
-    private static void setButtons() {
-        Image trash = Toolkit.getDefaultToolkit().getImage(ClassLoader.
-                getSystemResource("view/images/icons8-papelera-vacia-20.png"));
-        Image images = Toolkit.getDefaultToolkit().getImage(ClassLoader.
-                getSystemResource("view/images/icons8-galeria-20.png"));
-        Image suspect = Toolkit.getDefaultToolkit().getImage(ClassLoader.
-                getSystemResource("view/images/icons8-usuario-de-genero-neutro-20.png"));
-        myButton1 = new TrashJButton(new ImageIcon(trash));
-        myButton2 = new JButton(new ImageIcon(suspect));
-        myButton3 = new JButton(new ImageIcon(images));
-
-        myButton1.setContentAreaFilled(false);
-        myButton2.setContentAreaFilled(false);
-        myButton3.setContentAreaFilled(false);
-
-        myButton1.setBorderPainted(false);
-        myButton2.setBorderPainted(false);
-        myButton3.setBorderPainted(false);
-
-    }
-
     public static void setMainTable(JTable tblMain) {
-        setButtons();
-
         DefaultTableModel modelo = (DefaultTableModel) tblMain.getModel();
 
         Object[][] registros = new Object[modelo.getRowCount()][modelo.getColumnCount()];
@@ -75,19 +51,18 @@ public class CreateAndFillTables {
             for (int j = 0; j < registros[i].length - 3; j++) {
                 registros[i][j] = "";
             }
-            registros[i][registros[i].length - 3] = myButton3;
-            registros[i][registros[i].length - 2] = myButton2;
-            registros[i][registros[i].length - 1] = myButton1;
+            registros[i][registros[i].length - 3] = new PhotoJButton();
+            registros[i][registros[i].length - 2] = new ProfileJButton();
+            registros[i][registros[i].length - 1] = new TrashJButton();
         }
 
         final Class[] tiposColumnas = new Class[modelo.getColumnCount()];
         for (int i = 0; i < tiposColumnas.length - 3; i++) {
             tiposColumnas[i] = java.lang.String.class;
         }
-        for (int i = 2; i < 4; i++) {
-            tiposColumnas[tiposColumnas.length - i] = JButton.class;
-        }
 
+        tiposColumnas[tiposColumnas.length - 3] = PhotoJButton.class;
+        tiposColumnas[tiposColumnas.length - 2] = ProfileJButton.class;
         tiposColumnas[tiposColumnas.length - 1] = TrashJButton.class;
 
         DefaultTableModel model = new DefaultTableModel(registros, head) {
@@ -103,7 +78,10 @@ public class CreateAndFillTables {
             @Override
             public boolean isCellEditable(int row, int column) {
                 // Sobrescribimos este método para evitar que la columna que contiene los botones sea editada.
-                return !(this.getColumnClass(column).equals(JButton.class));
+                Class[] myClasses = new Class[2];
+                myClasses[0] = String.class;
+                myClasses[1] = JButton.class;
+                return false;
             }
         };
 
@@ -112,9 +90,11 @@ public class CreateAndFillTables {
         TableColumnModel defModel = tblMain.getColumnModel();
         for (int i = 0; i < defModel.getColumnCount() - 3; i++) {
             defModel.getColumn(i).setMinWidth(150);
+
         }
 
-        tblMain.setDefaultRenderer(JButton.class, new TableCellRenderer() {
+        tblMain.setDefaultRenderer(JButton.class,
+                new TableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable jtable, Object objeto, boolean estaSeleccionado, boolean tieneElFoco, int fila, int columna) {
                 /**
@@ -141,16 +121,22 @@ public class CreateAndFillTables {
                  * además preguntar por el contenido del botón o el nombre de la
                  * columna
                  */
-                if (tblMain.getModel().getColumnClass(columna).equals(TrashJButton.class)) {
-                    System.out.println(tblMain.getSelectedRow() + 1);
-
+                if (tblMain.getModel().getColumnClass(columna).equals(TrashJButton.class
+                )) {
                     Controller.deleteSuspect(getValue(tblMain.getSelectedRow() + 1));
+                    fillMainTable();
 
-                    /**
-                     * Aquí pueden poner lo que quieran, para efectos de este
-                     * ejemplo, voy a mostrar en un cuadro de dialogo todos los
-                     * campos de la fila que no sean un botón.
-                     */
+                } else if (tblMain.getModel().getColumnClass(columna).equals(PhotoJButton.class
+                )) {
+                    try {
+                        new ImageManager(UI.getInstance(), true, getValue(tblMain.getSelectedRow() + 1)).setVisible(true);
+                    } catch (Exception ex) {
+                        Logger.getLogger(CreateAndFillTables.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                } else if (tblMain.getModel().getColumnClass(columna).equals(ProfileJButton.class
+                )) {
+
                 }
             }
         });
@@ -159,9 +145,9 @@ public class CreateAndFillTables {
 
     public static void fillMainTable() {
         removeMainDataTable();
-        JTable tblMain = UI.getMainTable();
         Suspect[] s = Controller.getSuspects();
         setHashMap(s);
+        JTable tblMain = UI.getMainTable();
 
         DefaultTableModel myModel = (DefaultTableModel) tblMain.getModel();
         int col = myModel.getColumnCount();
@@ -228,7 +214,6 @@ public class CreateAndFillTables {
 
     public static void removeMainDataTable() {
         JTable tblMain = UI.getMainTable();
-        Suspect[] s = Controller.getSuspects();
 
         DefaultTableModel myModel = (DefaultTableModel) tblMain.getModel();
         int col = myModel.getColumnCount();
@@ -245,6 +230,14 @@ public class CreateAndFillTables {
         for (int i = 0; i < mySuspects.length; i++) {
             if (mySuspects[i] != null) {
                 CreateAndFillTables.mySuspects.put(i + 1, mySuspects[i].getCodeSuspect());
+            } else {
+                CreateAndFillTables.mySuspects.put(i + 1, null);
+
+            }
+        }
+        for (Suspect mySuspect : mySuspects) {
+            if (mySuspect != null) {
+                System.out.println(mySuspect.getCodeSuspect());
             }
         }
     }
@@ -259,6 +252,8 @@ public class CreateAndFillTables {
                 value = e.getValue();
             }
         }
+
+        System.out.println("--" + key + value);
         return value;
     }
 

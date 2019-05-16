@@ -555,23 +555,6 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
-                          <Component id="jCheckBox4" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                          <Component id="jCheckBox5" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                          <Component id="jCheckBox6" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jComboBox2" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jButton10" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
-                      </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="jScrollPane11" min="-2" pref="650" max="-2" attributes="0"/>
@@ -581,114 +564,15 @@
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
                           <EmptySpace pref="44" max="32767" attributes="0"/>
-                          <Component id="jScrollPane11" min="-2" pref="341" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jComboBox2" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                  <Component id="jCheckBox4" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox5" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox6" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jButton10" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="jScrollPane11" min="-2" pref="343" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="93" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JCheckBox" name="jCheckBox4">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="secundaryColor" type="code"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Orden ascendente"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox4ActionPerformed"/>
-                  </Events>
-                </Component>
-                <Component class="javax.swing.JCheckBox" name="jCheckBox5">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="secundaryColor" type="code"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Orden descendente"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JCheckBox" name="jCheckBox6">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="secundaryColor" type="code"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Totalmente rellenado"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JComboBox" name="jComboBox2">
-                  <Properties>
-                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
-                        <StringItem index="0" value="Item 1"/>
-                        <StringItem index="1" value="Item 2"/>
-                        <StringItem index="2" value="Item 3"/>
-                        <StringItem index="3" value="Item 4"/>
-                      </StringArray>
-                    </Property>
-                  </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                  </AuxValues>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabel1">
-                  <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/view/images/icons8-filtro-relleno-18.png"/>
-                    </Property>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabel3">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="secundaryColor" type="code"/>
-                    </Property>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="12" style="0"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Filtrar por:"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JButton" name="jButton10">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="primaryColor" type="code"/>
-                    </Property>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="secundaryColor" type="code"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Actualizar"/>
-                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                        <LineBorder>
-                          <Connection PropertyName="color" code="secundaryColor" type="code"/>
-                        </LineBorder>
-                      </Border>
-                    </Property>
-                  </Properties>
-                  <AccessibilityProperties>
-                    <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="1$-$-"/>
-                  </AccessibilityProperties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton10ActionPerformed"/>
-                  </Events>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jButton10.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});&#xa;&#xa;jButton10.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});"/>
-                  </AuxValues>
-                </Component>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane11">
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -3131,6 +3015,9 @@
                   </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel30">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="0/5"/>
+                  </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                   </AuxValues>

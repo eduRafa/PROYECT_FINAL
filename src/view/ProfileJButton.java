@@ -13,20 +13,19 @@ import javax.swing.ImageIcon;
  *
  * @author rafa0
  */
-public class TrashJButton extends javax.swing.JButton {
+public class ProfileJButton extends javax.swing.JButton {
 
-    private Image trash = Toolkit.getDefaultToolkit().getImage(ClassLoader.
-            getSystemResource("view/images/icons8-papelera-vacia-20.png"));
+    Image profile = Toolkit.getDefaultToolkit().getImage(ClassLoader.
+            getSystemResource("view/images/icons8-usuario-de-genero-neutro-20.png"));
 
-    public TrashJButton() {
+    public ProfileJButton() {
         setBorderPainted(false);
         setContentAreaFilled(false);
         setImageIcon();
     }
 
     public void setImageIcon() {
-        super.setIcon(new ImageIcon(trash));
+        super.setIcon(new ImageIcon(profile));
 
     }
-
 }

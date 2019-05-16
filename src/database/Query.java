@@ -229,7 +229,7 @@ public class Query {
                             if(al.get(i) instanceof Images){
                                 Images img=(Images) al.get(i);
                                 s.executeUpdate("INSERT into Images (CodeSuspect,image,description) "
-                                + "values ('"+code+"','"+img.getImageEncoded()+"','"+img.getDescription()+"')");
+                                + "values ('"+code+"','"+img.fis+"','"+img.getDescription()+"')");
                             }
                         }
                     }
