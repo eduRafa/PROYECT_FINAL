@@ -5,7 +5,7 @@
  */
 package database;
 
-import com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping;
+
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.sql.Statement;
@@ -56,16 +56,18 @@ public class Query {
     }
     /*
     *Este metodo borrar un sospechoso
-    *@param sus: Es el sospecgoso que se desea eliminar
+    *@param sus: Es el sospechoso que se desea eliminar
     */
-    public static boolean deleteSuspect(Suspect sus){
+    public static boolean deleteSuspect(Integer sus){
         boolean deleted=false;
         try {
-            Connect.startConnection();
-            c=Connect.getMyConnection();
-            Statement s=c.createStatement();
-            s.executeQuery("Delete from Suspect where CodeSuspect = "+sus.getCodeSuspect());      
-            Connect.closeConnection();
+            if(sus!=null){
+                Connect.startConnection();
+                c=Connect.getMyConnection();
+                Statement s=c.createStatement();
+                s.executeUpdate("Delete from Suspect where CodeSuspect = "+sus.toString());
+                Connect.closeConnection();
+            }
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -86,7 +88,7 @@ public class Query {
             Connect.startConnection();
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
-            s.executeQuery("Update "+table+" set "+type+"='"+value+"' where "+key+"='"+code+"'");
+            s.executeUpdate("Update "+table+" set "+type+"='"+value+"' where "+key+"='"+code+"'");
             updated=true;
             s.close();
             Connect.closeConnection();
@@ -154,7 +156,7 @@ public class Query {
                         for(int i=0;i<sus.getCar_Resgistration().size();i++){
                             if(sus.getCar_Resgistration().get(i)!=null){
                                 Car_Registration cRegistration=(Car_Registration) sus.getCar_Resgistration().get(i);
-                                updated=updateAttribute("Resgistration_number", cRegistration.getCodeRegistration().toString(), cRegistration.getRegistration(), "CAR_REGISTRATION", "CodeRegistration");
+                                updated=updateAttribute("Registration_number", cRegistration.getCodeRegistration().toString(), cRegistration.getRegistration(), "CAR_REGISTRATION", "CodeRegistration");
                             }
                         }
                     }
@@ -177,64 +179,58 @@ public class Query {
     *@param code: Es el codigo del sospechosos al que se le desean añadir los atributos
     *@param al:Es el arraylist con los valores que se desean añadir
     */
-    public static boolean addAtrivute(String code,ArrayList<Object> al){
+    public static boolean addAtrivute(String code,ArrayList<Object> al,String type){
         boolean added=false;
         if(al!=null){
             try {
                 Connect.startConnection();
                 c=Connect.getMyConnection();   
-                boolean find=false;
-                String type=null;
-                for(int j=0;j<al.size()&&!find;j++){
-                    if(al.get(j)!=null){
-                        type=al.get(j).getClass().getSimpleName();
-                        find=true;
-                    }
-                }
-                
                 Statement s=c.createStatement();
                 if(type!=null){
                     switch(type){
                     case "Phone":
                         for(int i=0;i<al.size();i++){
-                            Phone ph=(Phone) al.get(i);
-                            s.executeUpdate("INSERT into PHONE (CodeSuspect,PhoneNumber) "
-                            + "values ('"+code+"','"+ph.getPhoneNumber()+"')");
+                            if(al.get(i).equals("")){
+                                s.executeUpdate("INSERT into PHONE (CodeSuspect,PhoneNumber) "
+                                + "values ("+code+",null)");
+                            }else{
+                                s.executeUpdate("INSERT into PHONE (CodeSuspect,PhoneNumber) "
+                                + "values ("+code+","+al.get(i)+")");
+                            }
                         }
                         break;
                     case "Email":
                         for(int i=0;i<al.size();i++){
-                            Email em=(Email) al.get(i);
-                            s.executeUpdate("INSERT into E-MAIL (CodeSuspect,Email) "
-                            + "values ('"+code+"','"+em.getEmail()+"')");
+                            System.out.println(al.get(i));
+                                s.executeUpdate("INSERT into E_MAIL (CodeSuspect,Email) "
+                                + "values ("+code+",'"+al.get(i)+"')");
                         }
                         break;
                     case "Address":
                         for(int i=0;i<al.size();i++){
-                            Address ad=(Address) al.get(i);
-                            s.executeUpdate("INSERT into ADDRESS (CodeSuspect,Address) "
-                            + "values ('"+code+"','"+ad.getAddress()+"')");
+                                s.executeUpdate("INSERT into ADDRESS (CodeSuspect,Address) "
+                                + "values ("+code+",'"+al.get(i)+"')");
                         }
                         break;
                     case "Suspect":
                         for(int i=0;i<al.size();i++){
-                            Suspect su=(Suspect) al.get(i);
-                            s.executeUpdate("INSERT into COMPANIONS (CodeSuspect,CodeSuspect2) "
-                            + "values ('"+code+"','"+su.getCodeSuspect()+"')");
+                                s.executeUpdate("INSERT into COMPANIONS (CodeSuspect,CodeSuspect2) "
+                                + "values ("+code+","+al.get(i)+")");
                         }
                         break;
                     case "Car_Registration":
                         for(int i=0;i<al.size();i++){
-                            Car_Registration cr=(Car_Registration) al.get(i);
-                            s.executeUpdate("INSERT into CAR_REGISTRATION (CodeSuspect,Registration_number) "
-                            + "values ('"+code+"','"+cr.getRegistration()+"')");
+                                s.executeUpdate("INSERT into CAR_REGISTRATION (CodeSuspect,Registration_number) "
+                                + "values ("+code+",'"+al.get(i)+"')");
                         }
                         break;
                     case "Images":
                         for(int i=0;i<al.size();i++){
-                            Images img=(Images) al.get(i);
-                            s.executeUpdate("INSERT into Images (CodeSuspect,image,description) "
-                            + "values ('"+code+"','"+img.getImageEncoded()+"','"+img.getDescription()+"')");
+                            if(al.get(i) instanceof Images){
+                                Images img=(Images) al.get(i);
+                                s.executeUpdate("INSERT into Images (CodeSuspect,image,description) "
+                                + "values ('"+code+"','"+img.getImageEncoded()+"','"+img.getDescription()+"')");
+                            }
                         }
                     }
                 }
@@ -260,9 +256,7 @@ public class Query {
     */
     public static boolean addSuspect(Suspect suspect){
         boolean correct=false;
-        
-        
-        try {
+            try {
             Connect.startConnection();
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
@@ -270,12 +264,12 @@ public class Query {
             + "values ('"+suspect.getName()+"','"+suspect.getLastname1()+"','"+suspect.getLastname2()+"','"+suspect.getRecord()+"','"+suspect.getFacts()+"')");
 
             String last=findLast();
-            correct=addAtrivute(last,suspect.getPhone());
-            correct=addAtrivute(last,suspect.getEmail());
-            correct=addAtrivute(last,suspect.getAddress());
-            correct=addAtrivute(last,suspect.getSuspect());
-            correct=addAtrivute(last,suspect.getCar_Resgistration());
-            correct=addAtrivute(last, (ArrayList<Object>) suspect.getImages());
+            correct=addAtrivute(last,suspect.getPhone(),"Phone");
+            correct=addAtrivute(last,suspect.getEmail(),"Email");
+            correct=addAtrivute(last,suspect.getAddress(),"Address");
+            correct=addAtrivute(last,suspect.getSuspect(),"Suspect");
+            correct=addAtrivute(last,suspect.getCar_Resgistration(),"Car_Registration");
+            correct=addAtrivute(last, (ArrayList<Object>) suspect.getImages(),"Images");
             s.close();
             rs.close();
             Connect.closeConnection();
@@ -311,7 +305,6 @@ public class Query {
             ArrayList<Images> img=new ArrayList<>();
             Images images;
             
-            System.out.println(code);
             Connect.startConnection();
             c=Connect.getMyConnection();
             Statement s=c.createStatement();
@@ -349,7 +342,7 @@ public class Query {
                 address=new Address(rs.getInt(1),Integer.valueOf(code),rs.getString(2));
                 ad.add(address);
             }
-            rs=s.executeQuery("Select Resgistration_number, CodeRegistration from CAR_REGISTRATION "
+            rs=s.executeQuery("Select Registration_number, CodeRegistration from CAR_REGISTRATION "
                     + "where CodeSuspect="+code);
             while(rs.next()){
                 cregistration=new Car_Registration(rs.getString(1),rs.getInt(2));
@@ -454,7 +447,7 @@ public class Query {
     *@return sus: Es el arraylist de los sospechosos  resultado de la consulta
     */
     public static ArrayList<Suspect> searchBy(String key,String value){
-        ArrayList<Suspect> sus=null;
+        ArrayList<Suspect> sus=new ArrayList<>();
         try {
             Connect.startConnection();
             c=Connect.getMyConnection();
@@ -522,7 +515,7 @@ public class Query {
         HashMap<Suspect,HashMap<String,Boolean>> coincidences=null;
         Boolean[] matchs=new Boolean[8];
         String code=sus.getCodeSuspect().toString();
-        ArrayList<Suspect> als=null;
+        ArrayList<Suspect> als=new ArrayList<>();
         //name,lastname1,lastname2,phone,email,address,registration,suspect
         als=searchBy("name",sus.getName());
         
