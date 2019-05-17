@@ -13,6 +13,7 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -35,6 +36,7 @@ public class ImageManager extends javax.swing.JDialog {
     private static int selectedPhoto = 1;
     public static String imageDefPath = "view/images/icons8-añadir-imagen-100.png";
     private static Image myImage = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource(imageDefPath));
+    private Integer idSuspect;
 
     public ImageManager(UI parent, boolean modal) {
         super(parent, modal);
@@ -45,15 +47,16 @@ public class ImageManager extends javax.swing.JDialog {
         setImages();
     }
 
-    public ImageManager(UI parent, boolean modal, String idSuspect) {
+    public ImageManager(UI parent, boolean modal, Integer idSuspect) {
         super(parent, modal);
         this.parent = parent;
         photos = new Images[NPHOTOS];
+        this.idSuspect = idSuspect;
+        setPhotos(idSuspect);
         initComponents();
         setLocationRelativeTo(null);
-        setPhotos(idSuspect);
     }
-
+    
     private void setImages() {
         photos = new Images[NPHOTOS];
 
@@ -318,8 +321,10 @@ public class ImageManager extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        parent.jLabel30.setText(getInsertedPhotos() + " / "
-                + NPHOTOS);
+        if (idSuspect == null) {
+            parent.jLabel30.setText(getInsertedPhotos() + " / "
+                    + NPHOTOS);
+        }
         super.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -376,7 +381,7 @@ public class ImageManager extends javax.swing.JDialog {
 
         for (int i = 0; i < photos.length; i++) {
             if (photos[i].getImage().getImage() != myImage) {
-                if(i==selectedPhoto-1){
+                if (i == selectedPhoto - 1) {
                     photos[i].setDescription(jTextArea1.getText());
                 }
                 insertedImages.add(photos[i]);
@@ -386,8 +391,8 @@ public class ImageManager extends javax.swing.JDialog {
         return insertedImages;
     }
 
-    private void setPhotos(String idSuspect) {
-        //this.photos=Controller.getPhotos(idSuspect);Usado al buscar y seleccionar en sus fortos;
+    private void setPhotos(Integer idSuspect) {
+        //this.photos=Controller.getPhotos(idSuspect);
     }
 
     public void addPhoto(Image image) {

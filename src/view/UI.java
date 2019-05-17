@@ -56,11 +56,11 @@ public class UI extends javax.swing.JFrame {
         myInitComponents();
     }
 
-    public static UI getInstance() throws Exception {
+    public static UI getInstance() {
         if (me == null) {
             return new UI();
         } else {
-            throw new Exception("Interfaz ya instanciada");
+            return me;
         }
     }
 
@@ -107,8 +107,8 @@ public class UI extends javax.swing.JFrame {
     public static Color getSecundaryColor() {
         return secundaryColor;
     }
-    
-    public static JTable getMainTable(){
+
+    public static JTable getMainTable() {
         return tblMain;
     }
 
@@ -118,7 +118,6 @@ public class UI extends javax.swing.JFrame {
         for (int i = 0; i < addSuspectFields.length; i++) {
 
             if (addSuspectFields[i] != null) {
-                //System.out.println("no es null");
                 values[i] = addSuspectFields[i].getText();
             } else {
                 values[i] = null;
@@ -130,6 +129,7 @@ public class UI extends javax.swing.JFrame {
                 UiUtils.transformStringToArrayList(values[6]), UiUtils.transformStringToArrayList(values[7]),
                 UiUtils.transformStringToArrayList(values[8]), UiUtils.transformStringToArrayList(values[9]),
                 myImageManager.getPhotos());
+        System.out.println(myImageManager.getPhotos().get(0).getBytes().length);
 
         return mySuspect;
     }
@@ -147,7 +147,15 @@ public class UI extends javax.swing.JFrame {
     }
 
     public void compCallingMouseClicked(java.awt.event.ActionEvent evt, JTextComponent x) {
-        TextDialog miTextDialog = new TextDialog(this, true, x);
+        new TextDialog(this, true, x);
+    }
+
+    public void removeAddSuspectsFields() {
+        for (JTextComponent suspectField : addSuspectFields) {
+            if (suspectField != null) {
+                suspectField.setText("");
+            }
+        }
     }
 
     /**
@@ -178,13 +186,6 @@ public class UI extends javax.swing.JFrame {
         pnlFormDecoratedMinimizeWindow = new javax.swing.JButton();
         layeredConfMain = new javax.swing.JLayeredPane();
         pnlMain = new javax.swing.JPanel();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jButton10 = new javax.swing.JButton();
         jScrollPane11 = new javax.swing.JScrollPane();
         tblMain = new javax.swing.JTable();
         pnlSearch = new javax.swing.JPanel();
@@ -620,38 +621,6 @@ public class UI extends javax.swing.JFrame {
 
         pnlMain.setBackground(new java.awt.Color(255, 255, 255));
 
-        jCheckBox4.setBackground(secundaryColor);
-        jCheckBox4.setText("Orden ascendente");
-        jCheckBox4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox4ActionPerformed(evt);
-            }
-        });
-
-        jCheckBox5.setBackground(secundaryColor);
-        jCheckBox5.setText("Orden descendente");
-
-        jCheckBox6.setBackground(secundaryColor);
-        jCheckBox6.setText("Totalmente rellenado");
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-filtro-relleno-18.png"))); // NOI18N
-
-        jLabel3.setBackground(secundaryColor);
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel3.setText("Filtrar por:");
-
-        jButton10.setBackground(primaryColor);
-        jButton10.setForeground(secundaryColor);
-        jButton10.setText("Actualizar");
-        jButton10.setBorder(javax.swing.BorderFactory.createLineBorder(secundaryColor));
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
-            }
-        });
-
         tblMain.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"", null, null, null, null, null, null, null, null, null, null, null, null},
@@ -698,22 +667,6 @@ public class UI extends javax.swing.JFrame {
         pnlMain.setLayout(pnlMainLayout);
         pnlMainLayout.setHorizontalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlMainLayout.createSequentialGroup()
-                .addGap(73, 73, 73)
-                .addComponent(jCheckBox4)
-                .addGap(12, 12, 12)
-                .addComponent(jCheckBox5)
-                .addGap(12, 12, 12)
-                .addComponent(jCheckBox6)
-                .addGap(12, 12, 12)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton10)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -721,34 +674,11 @@ public class UI extends javax.swing.JFrame {
         );
         pnlMainLayout.setVerticalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlMainLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
                 .addContainerGap(44, Short.MAX_VALUE)
-                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
-                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jCheckBox4)
-                        .addComponent(jCheckBox5)
-                        .addComponent(jCheckBox6)
-                        .addComponent(jLabel3)
-                        .addComponent(jButton10))
-                    .addComponent(jLabel1))
-                .addGap(35, 35, 35))
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(93, 93, 93))
         );
-
-        jButton10.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                view.EnteredExited.mouseComponentEffect(evt);
-            }
-        });
-
-        jButton10.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                view.EnteredExited.mouseComponentEffect(evt);
-            }
-        });
-        jButton10.getAccessibleContext().setAccessibleName("1$-$-");
 
         pnlSearch.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -2073,6 +2003,8 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
+        jLabel30.setText("0/5");
+
         jLabel29.setText("Antecedentes (Varios)");
 
         jLabel31.setText("Direcciones (Varios)");
@@ -2719,14 +2651,6 @@ public class UI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox4ActionPerformed
-
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton10ActionPerformed
-
     private void jToggleButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jToggleButton1MouseClicked
         myController.setPrimaryColor(themeColor[0]);
         primaryColor = themeColor[0];
@@ -2816,7 +2740,6 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JButton btnConfSuspctView;
     private javax.swing.JButton btnConfTheme;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
@@ -2834,11 +2757,6 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -2858,7 +2776,6 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
     public javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
@@ -2991,5 +2908,5 @@ public class UI extends javax.swing.JFrame {
     private static UI me;
     private Images[] photos;
     private static ImageManager myImageManager;
-    private static JTextComponent[] addSuspectFields = new JTextComponent[10];
+    private JTextComponent[] addSuspectFields = new JTextComponent[10];
 }

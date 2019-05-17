@@ -6,10 +6,12 @@
 package database;
 
 
+import java.io.FileInputStream;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.sql.Statement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -87,11 +89,15 @@ public class Query {
         try {
             Connect.startConnection();
             c=Connect.getMyConnection();
-            Statement s=c.createStatement();
-            s.executeUpdate("Update "+table+" set "+type+"='"+value+"' where "+key+"='"+code+"'");
-            updated=true;
-            s.close();
-            Connect.closeConnection();
+            if(!key.equals("CodeImage")){
+                Statement s=c.createStatement();
+                s.executeUpdate("Update "+table+" set "+type+"='"+value+"' where "+key+"='"+code+"'");
+                updated=true;
+                s.close();
+                Connect.closeConnection();
+            }else{
+                
+            }
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -163,7 +169,7 @@ public class Query {
                     if(sus.getImages()!=null){
                         for(int i=0;i<sus.getImages().size();i++){
                             if(sus.getImages().get(i)!=null){
-                                Images img=(Images) sus.getImages().get(i);
+                                Images img=(Images) sus.getImages().get(i);        
                                 updated=updateAttribute("Image", img.getCodeImage().toString(), img.getImageEncoded().toString(), "IMAGES", "CodeImage");
                                 updated=updateAttribute("Description", img.getCodeImage().toString(), img.getDescription(), "IMAGES", "CodeImage");
                             }
@@ -186,6 +192,8 @@ public class Query {
                 Connect.startConnection();
                 c=Connect.getMyConnection();   
                 Statement s=c.createStatement();
+                FileInputStream fis =null;
+                PreparedStatement ps = null;
                 if(type!=null){
                     switch(type){
                     case "Phone":
@@ -226,11 +234,14 @@ public class Query {
                         break;
                     case "Images":
                         for(int i=0;i<al.size();i++){
-                            if(al.get(i) instanceof Images){
+                                Images img=(Images) al.get(i);
+                                String insert=("insert into Images (Image,Description,CodeSuspect)"
+                                        + "values(?,?,"+code+")");
+                                ps=c.prepareStatement(insert);
+                                ps.setBinaryStream(1, fis, (int)file.length());
                                 Images img=(Images) al.get(i);
                                 s.executeUpdate("INSERT into Images (CodeSuspect,image,description) "
-                                + "values ('"+code+"','"+img.getImageEncoded()+"','"+img.getDescription()+"')");
-                            }
+                                + "values ('"+code+"','"+img.fis+"','"+img.getDescription()+"')");
                         }
                     }
                 }

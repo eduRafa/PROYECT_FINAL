@@ -63,7 +63,8 @@ public class Controller implements ActionListener {
         {
             try {
                 Query.addSuspect(myUI.getAddSuspect());
-                //System.out.println(myUI.getAddSuspect().getPhone().get(0));
+                myUI.removeAddSuspectsFields();
+                System.out.println(myUI.getAddSuspect().getPhone().get(0));
                 
                 CreateAndFillTables.fillMainTable();
             } catch (SQLException ex) {
@@ -82,13 +83,12 @@ public class Controller implements ActionListener {
         return Query.showTen();
     }
     
-    public static /*String[]*/ void getPhotos(String idSuspect) {
+    public static void getPhotos(Integer idSuspect) {
         //Query.getPhotos(idSuspect);
     }
     
     public static void deleteSuspect(Integer id){
         Query.deleteSuspect(id);
-        CreateAndFillTables.fillMainTable();
     }
 
 }
