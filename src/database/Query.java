@@ -121,6 +121,7 @@ public class Query {
     public static boolean Update(Suspect sus) {
         boolean updated = false;
         Suspect preUpdate = Query.findSuspect(sus.getCodeSuspect());
+        System.out.println("holi");
         if (sus != null) {
             System.out.println(sus.getName());
             if (!sus.getName().equals(preUpdate.getName())) {
