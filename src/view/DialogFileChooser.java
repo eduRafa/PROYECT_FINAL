@@ -98,7 +98,7 @@ public class DialogFileChooser extends javax.swing.JDialog {
             } catch (IOException ex) {
                 Logger.getLogger(DialogFileChooser.class.getName()).log(Level.SEVERE, null, ex);
             }
-            parent.addPhoto(image);
+            parent.addPhoto(image,fichero.getPath());
             parent.putPhoto();
         }
     }//GEN-LAST:event_jFileChooser1ActionPerformed

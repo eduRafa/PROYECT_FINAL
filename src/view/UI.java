@@ -129,7 +129,7 @@ public class UI extends javax.swing.JFrame {
                 UiUtils.transformStringToArrayList(values[6]), UiUtils.transformStringToArrayList(values[7]),
                 UiUtils.transformStringToArrayList(values[8]), UiUtils.transformStringToArrayList(values[9]),
                 myImageManager.getPhotos());
-        System.out.println(myImageManager.getPhotos().get(0).getBytes().length);
+        //System.out.println(myImageManager.getPhotos().get(0).getBytes().length);
 
         return mySuspect;
     }

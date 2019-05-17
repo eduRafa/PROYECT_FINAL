@@ -61,7 +61,7 @@ public class ImageManager extends javax.swing.JDialog {
         photos = new Images[NPHOTOS];
 
         for (int i = 0; i < photos.length; i++) {
-            photos[i] = new Images(myImage);
+            photos[i] = new Images(myImage,imageDefPath);
         }
     }
 
@@ -395,8 +395,8 @@ public class ImageManager extends javax.swing.JDialog {
         //this.photos=Controller.getPhotos(idSuspect);
     }
 
-    public void addPhoto(Image image) {
-        Images aImage = new Images(image);
+    public void addPhoto(Image image, String path) {
+        Images aImage = new Images(image, path);
         boolean added = false;
 
         if (insertedPhotos != NPHOTOS) {

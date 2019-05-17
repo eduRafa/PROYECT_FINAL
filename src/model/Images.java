@@ -10,12 +10,6 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 /**
@@ -28,6 +22,7 @@ public class Images {
     private Integer codeImage;
     private String description;
     private Integer codeSuspect;
+    private File f;
 
     /*Constructor para cuando obtengas info de la bd*/
     public Images(Integer CodeImage, String Description,
@@ -38,8 +33,9 @@ public class Images {
         this.codeSuspect = CodeSuspect;
     }
 
-    public Images(Image image) {
+    public Images(Image image, String path) {
         transformImage(image);
+        this.f=new File(path);
     }
 
     public void transformImage(Image image) {
@@ -77,36 +73,4 @@ public class Images {
     public void setCodeSuspect(Integer CodeSuspect) {
         this.codeSuspect = CodeSuspect;
     }
-
-    public static BufferedImage getBufferedImage(Image img) {
-        
-        
-        if (img instanceof BufferedImage) {
-            return (BufferedImage) img;
-        }
-
-        BufferedImage bimage = new BufferedImage(img.getWidth(null),
-                img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-
-        Graphics2D bGr = bimage.createGraphics();
-        bGr.drawImage(img, 0, 0, null);
-        bGr.dispose();
-
-        // Return the buffered image
-        return bimage;
-    }
-
-    public byte[] getBytes() {
-        byte[] byteArray = null;
-
-        if (image != null) {
-                BufferedImage bi = getBufferedImage(image.getImage());
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-                byteArray = baos.toByteArray();
-        }
-
-        return byteArray;
-    }
-
 }
