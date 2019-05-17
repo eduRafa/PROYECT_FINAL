@@ -122,9 +122,12 @@ public class Query {
         boolean updated = false;
         Suspect preUpdate = Query.findSuspect(sus.getCodeSuspect());
         System.out.println("holi");
+        System.out.println(sus.getCodeSuspect());
         if (sus != null) {
             System.out.println(sus.getName());
             if (!sus.getName().equals(preUpdate.getName())) {
+                System.out.println(sus.getCodeSuspect().toString());
+                System.out.println(sus.getName());
                 updated = updateAttribute("Name", sus.getCodeSuspect().toString(), sus.getName(), "Suspect", "CodeSuspect");
             }
             if (!sus.equals(preUpdate.getLastname1())) {
@@ -259,7 +262,6 @@ public class Query {
                             break;
                         case "Email":
                             for (int i = 0; i < al.size(); i++) {
-                                System.out.println(al.get(i));
                                 s.executeUpdate("INSERT into E_MAIL (CodeSuspect,Email) "
                                         + "values (" + code + ",'" + al.get(i) + "')");
                             }
@@ -453,7 +455,7 @@ public class Query {
             s.close();
             rs.close();
             Connect.closeConnection();
-            sus = new Suspect(Integer.valueOf(code), name, lastname1, lastname2, as, Record, Facts, ph, em, ad, cr, img);
+            sus = new Suspect(code, name, lastname1, lastname2, as, Record, Facts, ph, em, ad, cr, img);
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
