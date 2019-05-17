@@ -36,14 +36,16 @@ public class PrintComponents {
                     applyForegroundColor(comp, value[2], col);
                 } else if (comp instanceof JLabel) {
                     JLabel tmpLabel = (JLabel) comp;
+
                     applyBackgroundColor(comp, value[0], col);
+                    //applyButtonBorderColor((JButton)comp, value[1], col);
                     applyForegroundColor(comp, value[2], col);
                 } else if (comp instanceof JTable) {
                     applyBackgroundTableHeaderColor((JTable) comp, value[0], col);
                     applyBorderTableHeaderColor((JTable) comp, value[1], col);
                     applyForegroundColor((JTable) comp, value[2], col);
                     ((JTable) comp).setSelectionBackground(col);
-                }else if (comp instanceof JPanel) {
+                } else if (comp instanceof JPanel) {
                     applyBackgroundPanelColor((JPanel) comp, value[0], col);
                     applyBorderPanelColor((JPanel) comp, value[1], col);
                     applyForegroundColor(comp, value[2], col);

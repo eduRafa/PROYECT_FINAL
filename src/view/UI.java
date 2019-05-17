@@ -3104,7 +3104,7 @@ public class UI extends javax.swing.JFrame {
                     .addGap(0, 28, Short.MAX_VALUE)))
         );
 
-        pnlModifySuspect.getAccessibleContext().setAccessibleName("$");
+        pnlModifySuspect.getAccessibleContext().setAccessibleName("-$-$-");
 
         javax.swing.GroupLayout pnl1BackgroundLayout = new javax.swing.GroupLayout(pnl1Background);
         pnl1Background.setLayout(pnl1BackgroundLayout);
