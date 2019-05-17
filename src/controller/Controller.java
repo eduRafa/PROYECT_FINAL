@@ -64,8 +64,6 @@ public class Controller implements ActionListener {
                 try {
                     Query.addSuspect(myUI.getAddSuspect());
                     myUI.removeAddSuspectsFields();
-                    System.out.println(myUI.getAddSuspect().getPhone().get(0));
-
                     CreateAndFillTables.fillMainTable();
                 } catch (SQLException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,9 +73,16 @@ public class Controller implements ActionListener {
             case "remove":
                 ;
                 break;
-            case "modify":
-                
-                ;break;
+            case "modify": {
+                try {
+                    Query.Update(myUI.getModifySuspect());
+                    CreateAndFillTables.fillMainTable();
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            break;
 
         }
     }
@@ -85,9 +90,9 @@ public class Controller implements ActionListener {
     public static Suspect[] getSuspects() {
         return Query.showTen();
     }
-    
-    public static void findSuspect(Integer suspectCode){
-        //return Query.findSuspect();
+
+    public static Suspect findSuspect(Integer suspectCode) {
+        return Query.findSuspect(suspectCode);
     }
 
     public static void getPhotos(Integer idSuspect) {
