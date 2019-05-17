@@ -368,7 +368,7 @@ public class ImageManager extends javax.swing.JDialog {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         if (insertedPhotos > 0) {
-            photos[selectedPhoto - 1].setImage(myImage);
+            photos[selectedPhoto - 1].setImage(myImage,null);
             photos[selectedPhoto - 1].setDescription("");
             insertedPhotos--;
             putDescription();
@@ -402,7 +402,7 @@ public class ImageManager extends javax.swing.JDialog {
         if (insertedPhotos != NPHOTOS) {
             for (int i = 0; i < photos.length && !added; i++) {
                 if (i + 1 == selectedPhoto) {
-                    photos[i].setImage(image);
+                    photos[i].setImage(image,path);
                     insertedPhotos++;
                     putPhoto();
                     added = true;

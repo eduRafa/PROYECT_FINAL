@@ -39,6 +39,10 @@ public class Images {
             this.f = new File(path);
         }
     }
+    
+    public File getFile(){
+        return f;
+    }
 
     public void transformImage(Image image) {
         this.image = new ImageIcon(image);
@@ -48,8 +52,9 @@ public class Images {
         return image;
     }
 
-    public void setImage(Image Image) {
+    public void setImage(Image Image, String path) {
         transformImage(Image);
+        f=new File(path);
     }
 
     public Integer getCodeImage() {
