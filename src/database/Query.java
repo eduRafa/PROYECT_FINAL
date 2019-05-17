@@ -148,8 +148,8 @@ public class Query {
             }
             if (sus.getPhone() != null) {
                 for (int i = 0; i < sus.getPhone().size(); i++) {
-                    if (sus.getPhone().get(i) != null) {
-                        Phone phone = (Phone) sus.getSuspect().get(i);
+                    if ((Phone phone = (Phone) sus.getSuspect().get(i))!= null) {
+                        phone = (Phone) sus.getSuspect().get(i);
                         updated = updateAttribute("PhoneNumber", phone.getCodePhone().toString(), phone.getPhoneNumber().toString(), "PHONE", "CodePhone");
                     }
                 }
