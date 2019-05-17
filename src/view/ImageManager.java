@@ -61,7 +61,7 @@ public class ImageManager extends javax.swing.JDialog {
         photos = new Images[NPHOTOS];
 
         for (int i = 0; i < photos.length; i++) {
-            photos[i] = new Images(myImage,imageDefPath);
+            photos[i] = new Images(myImage,null);
         }
     }
 

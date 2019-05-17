@@ -35,7 +35,9 @@ public class Images {
 
     public Images(Image image, String path) {
         transformImage(image);
-        this.f=new File(path);
+        if (path != null) {
+            this.f = new File(path);
+        }
     }
 
     public void transformImage(Image image) {

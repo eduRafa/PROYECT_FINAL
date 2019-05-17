@@ -260,7 +260,7 @@ public class Query {
             PreparedStatement ps = null;
             for(int i=0;i<al.size();i++){
                 try {
-                    file = new File(al.getPath);
+                    /*file = new File(al.getPath);
                     fis = new FileInputStream(file);
                     System.out.println("Entra img");
                     System.out.println(code);
@@ -272,15 +272,15 @@ public class Query {
                     ps.setString(2,al.get(i).getDescription());
                     Image img;
                     ps.setString(3,code);
-                    ps.execute();
+                    */ps.execute();
                     
                 } catch (SQLException ex) {
                     Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
                     added=false;
                 }
             }
-           fis.close();
-           ps.close();
+           //fis.close();
+           //ps.close();
            c.close();
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
