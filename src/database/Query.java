@@ -112,7 +112,6 @@ public class Query {
         }
         return updated;
     }
-
     /*
     Este metodo actualiza la infomracion de un sospechoso
     *@param sus: Es el sospechoso que se desea actualizar el la base de datos cuyos parametros ya tiene los nuevos valores
@@ -159,7 +158,7 @@ public class Query {
                             s.executeUpdate("Update PHONE set PhoneNumber = null where "
                                     +"CodeSuspect=" + sus.getCodeSuspect());
                         } else {
-                            s.executeUpdate("Update PHONE set PhoneNumber = " + sus.getPhone() + " where "
+                            s.executeUpdate("Update PHONE set PhoneNumber = " + sus.getPhone().get(i) + " where "
                                     +"CodeSuspect=" + sus.getCodeSuspect());
                         }
                     }
@@ -171,27 +170,66 @@ public class Query {
                 }
             }
             if (sus.getEmail() != null) {
-                for (int i = 0; i < sus.getSuspect().size(); i++) {
-                    if (sus.getEmail().get(i) != null) {
-                        Email email = (Email) sus.getAddress().get(i);
-                        updated = updateAttribute("Email", email.getCodeEmail().toString(), email.getEmail(), "E_MAIL", "CodeE_mail");
+                try {
+                    Connect.startConnection();
+                    c = Connect.getMyConnection();
+                    Statement s = c.createStatement();
+                    for (int i = 0; i < sus.getPhone().size(); i++) {
+                        if (sus.getEmail().get(i).equals("")) {
+                            s.executeUpdate("Update E_MAIL set Email = null where "
+                                    +"CodeSuspect=" + sus.getCodeSuspect());
+                        } else {
+                            s.executeUpdate("Update E_MAIL set Email = '" + sus.getEmail().get(i) + "' where "
+                                    +"CodeSuspect=" + sus.getCodeSuspect());
+                        }
                     }
+                s.close();
+                rs.close();
+                Connect.closeConnection();
+                } catch (Exception ex) {
+                    Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (sus.getAddress() != null) {
-                for (int i = 0; i < sus.getAddress().size(); i++) {
-                    if (sus.getAddress().get(i) != null) {
-                        Address address = (Address) sus.getAddress().get(i);
-                        updated = updateAttribute("Address", address.getCodeAddress().toString(), address.getAddress(), "ADDRESS", "CodeAddress");
+                try {
+                    Connect.startConnection();
+                    c = Connect.getMyConnection();
+                    Statement s = c.createStatement();
+                    for (int i = 0; i < sus.getAddress().size(); i++) {
+                        if (sus.getAddress().get(i).equals("")) {
+                            s.executeUpdate("Update ADDRESS set Address = null where "
+                                    +"CodeSuspect=" + sus.getCodeSuspect());
+                        } else {
+                            s.executeUpdate("Update ADDRESS set Address = '" + sus.getAddress().get(i) + "' where "
+                                    +"CodeSuspect=" + sus.getCodeSuspect());
+                        }
                     }
+                s.close();
+                rs.close();
+                Connect.closeConnection();
+                } catch (Exception ex) {
+                    Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (sus.getCar_Resgistration() != null) {
-                for (int i = 0; i < sus.getCar_Resgistration().size(); i++) {
-                    if (sus.getCar_Resgistration().get(i) != null) {
-                        Car_Registration cRegistration = (Car_Registration) sus.getCar_Resgistration().get(i);
-                        updated = updateAttribute("Registration_number", cRegistration.getCodeRegistration().toString(), cRegistration.getRegistration(), "CAR_REGISTRATION", "CodeRegistration");
+                try {
+                    Connect.startConnection();
+                    c = Connect.getMyConnection();
+                    Statement s = c.createStatement();
+                    for (int i = 0; i < sus.getCar_Resgistration().size(); i++) {
+                        if (sus.getCar_Resgistration().get(i).equals("")) {
+                            s.executeUpdate("Update CAR_REGISTRATION set Registration_number = null where "
+                                    +"CodeSuspect=" + sus.getCodeSuspect());
+                        } else {
+                            s.executeUpdate("Update CAR_REGISTRATION set Registration_number = '" + sus.getCar_Resgistration().get(i) + "' where "
+                                    +"CodeSuspect=" + sus.getCodeSuspect());
+                        }
                     }
+                s.close();
+                rs.close();
+                Connect.closeConnection();
+                } catch (Exception ex) {
+                    Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (sus.getImages() != null) {
@@ -225,8 +263,12 @@ public class Query {
                ps.execute();
                c.close();
             }
-            ps.close();
-            fis.close();
+            if(ps!=null){
+                ps.close();
+            }
+            if(fis!=null){
+                fis.close();
+            }
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -624,8 +666,10 @@ public class Query {
         String code = sus.getCodeSuspect().toString();
         ArrayList<Suspect> als = new ArrayList<>();
         //name,lastname1,lastname2,phone,email,address,registration,suspect
-        als = searchBy("name", sus.getName());
-
+        als = searchBy("lastname1", sus.getName());
+        for(int i=0;i<als.size();i++){
+           
+        }
         return coincidences;
     }
 }
