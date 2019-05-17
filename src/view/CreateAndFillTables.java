@@ -129,14 +129,27 @@ public class CreateAndFillTables {
                 } else if (tblMain.getModel().getColumnClass(columna).equals(PhotoJButton.class
                 )) {
                     try {
-                        new ImageManager(UI.getInstance(), true, getValue(tblMain.getSelectedRow() + 1)).setVisible(true);
+                        Integer suspectCode = getValue(tblMain.getSelectedRow() + 1);
+                        if (suspectCode != null) {
+                            UI.getModifySuspectImageManager().showSuspect(suspectCode);
+                            UI.getModifySuspectImageManager().setVisible(true);
+                        }
                     } catch (Exception ex) {
                         Logger.getLogger(CreateAndFillTables.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                 } else if (tblMain.getModel().getColumnClass(columna).equals(ProfileJButton.class
                 )) {
+                    Integer suspectCode = getValue(tblMain.getSelectedRow() + 1);
 
+                    if (suspectCode != null) {
+                        UI myUI = UI.getInstance();
+                        Suspect[] s = Controller.getSuspects();
+                        myUI.setModifySuspectFields(s[0]);
+                        myUI.hideLayouts();
+                        myUI.showSuspectLayouts();
+                        myUI.hiddePnlSearch();
+                    }
                 }
             }
         });
@@ -253,7 +266,6 @@ public class CreateAndFillTables {
             }
         }
 
-        System.out.println("--" + key + value);
         return value;
     }
 

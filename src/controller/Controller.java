@@ -52,7 +52,8 @@ public class Controller implements ActionListener {
     public void setPrimaryColor(Color c) {
         Communication.setPrimaryColor(c);
         PrintComponents.printAllComponents(myUI, c);
-        PrintComponents.printAllComponents(myUI.getImageManager(), c);
+        PrintComponents.printAllComponents(myUI.getAddSuspectImageManager(), c);
+        PrintComponents.printAllComponents(myUI.getModifySuspectImageManager(), c);
     }
 
     @Override

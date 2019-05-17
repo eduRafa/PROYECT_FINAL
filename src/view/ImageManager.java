@@ -44,25 +44,19 @@ public class ImageManager extends javax.swing.JDialog {
         photos = new Images[NPHOTOS];
         initComponents();
         setLocationRelativeTo(null);
-        setImages();
+        setDefaultImages();
     }
 
-    public ImageManager(UI parent, boolean modal, Integer idSuspect) {
-        super(parent, modal);
-        this.parent = parent;
-        photos = new Images[NPHOTOS];
-        this.idSuspect = idSuspect;
-        setPhotos(idSuspect);
-        initComponents();
-        setLocationRelativeTo(null);
-    }
-    
-    private void setImages() {
+    private void setDefaultImages() {
         photos = new Images[NPHOTOS];
 
         for (int i = 0; i < photos.length; i++) {
-            photos[i] = new Images(myImage,null);
+            photos[i] = new Images(myImage, null);
         }
+    }
+    
+    public void showSuspect(Integer id){
+        //busco a el usuario
     }
 
     public void refreshSelectedImage() {
@@ -368,7 +362,7 @@ public class ImageManager extends javax.swing.JDialog {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         if (insertedPhotos > 0) {
-            photos[selectedPhoto - 1].setImage(myImage,null);
+            photos[selectedPhoto - 1].setImage(myImage, null);
             photos[selectedPhoto - 1].setDescription("");
             insertedPhotos--;
             putDescription();
@@ -392,7 +386,7 @@ public class ImageManager extends javax.swing.JDialog {
     }
 
     private void setPhotos(Integer idSuspect) {
-        //this.photos=Controller.getPhotos(idSuspect);
+            //this.photos = Controller.getPhotos(idSuspect);
     }
 
     public void addPhoto(Image image, String path) {
@@ -402,7 +396,7 @@ public class ImageManager extends javax.swing.JDialog {
         if (insertedPhotos != NPHOTOS) {
             for (int i = 0; i < photos.length && !added; i++) {
                 if (i + 1 == selectedPhoto) {
-                    photos[i].setImage(image,path);
+                    photos[i].setImage(image, path);
                     insertedPhotos++;
                     putPhoto();
                     added = true;

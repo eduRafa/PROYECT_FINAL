@@ -30,8 +30,6 @@ public class Suspect {
     private ArrayList<Images> Images= new ArrayList<>();
     private ArrayList<Suspect> Suspect= new ArrayList<>();
     
-   
-    
     public Suspect(Integer CodeSuspect, String name, String lastname1,
             String lastname2, ArrayList Suspect, Blob Record, Blob Facts,
             ArrayList Phone, ArrayList Email, ArrayList Address,
