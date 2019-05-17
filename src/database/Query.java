@@ -122,6 +122,7 @@ public class Query {
         boolean updated = false;
         Suspect preUpdate = Query.findSuspect(sus.getCodeSuspect());
         if (sus != null) {
+            System.out.println(sus.getName());
             if (!sus.getName().equals(preUpdate.getName())) {
                 updated = updateAttribute("Name", sus.getCodeSuspect().toString(), sus.getName(), "Suspect", "CodeSuspect");
             }
@@ -310,8 +311,12 @@ public class Query {
                     added = false;
                 }
             }
-            fis.close();
-            ps.close();
+            if(fis!=null){
+                fis.close();
+            }
+            if(ps!=null){
+                ps.close();
+            }
             c.close();
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
