@@ -6,6 +6,8 @@
 package database;
 
 
+import java.awt.Image;
+import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Blob;
 import java.util.ArrayList;
@@ -170,7 +172,7 @@ public class Query {
                         for(int i=0;i<sus.getImages().size();i++){
                             if(sus.getImages().get(i)!=null){
                                 Images img=(Images) sus.getImages().get(i);        
-                                updated=updateAttribute("Image", img.getCodeImage().toString(), img.getImageEncoded().toString(), "IMAGES", "CodeImage");
+                                //updated=updateAttribute("Image", img.getCodeImage().toString(), img.getImageEncoded().toString(), "IMAGES", "CodeImage");
                                 updated=updateAttribute("Description", img.getCodeImage().toString(), img.getDescription(), "IMAGES", "CodeImage");
                             }
                         }
@@ -232,17 +234,6 @@ public class Query {
                                 + "values ("+code+",'"+al.get(i)+"')");
                         }
                         break;
-                    case "Images":
-                        for(int i=0;i<al.size();i++){
-                                Images img=(Images) al.get(i);
-                                String insert=("insert into Images (Image,Description,CodeSuspect)"
-                                        + "values(?,?,"+code+")");
-                                ps=c.prepareStatement(insert);
-                                ps.setBinaryStream(1, fis, (int)file.length());
-                                Images img=(Images) al.get(i);
-                                s.executeUpdate("INSERT into Images (CodeSuspect,image,description) "
-                                + "values ('"+code+"','"+img.fis+"','"+img.getDescription()+"')");
-                        }
                     }
                 }
                                 
@@ -258,7 +249,44 @@ public class Query {
         }
         return added;
     }
-  
+    private static boolean addImage(String code,ArrayList<Images> al){
+        boolean added=true;
+        String ruta=null;
+        File file=null;
+        FileInputStream fis = null;
+        try {
+            Connect.startConnection();
+            c=Connect.getMyConnection();
+            PreparedStatement ps = null;
+            for(int i=0;i<al.size();i++){
+                try {
+                    file = new File(al.getPath);
+                    fis = new FileInputStream(file);
+                    System.out.println("Entra img");
+                    System.out.println(code);
+                    System.out.println(al.get(i).getDescription());
+                    String insert=("insert into Images (Image,Description,CodeSuspect)"
+                            + "values(?,?,?)");                
+                    ps=c.prepareStatement(insert);
+                    ps.setBinaryStream(1,fis,(int)file.length());
+                    ps.setString(2,al.get(i).getDescription());
+                    Image img;
+                    ps.setString(3,code);
+                    ps.execute();
+                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
+                    added=false;
+                }
+            }
+           fis.close();
+           ps.close();
+           c.close();
+        } catch (Exception ex) {
+            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return added;
+    }
     /*
     *Este metodo permite añadir un sospechoso desde cero, pudiendo recibir campos nulos en aquellos que puedan serlo en la base de datos
     *@param attributes: Es un array con los atributos del sospechosos, puede tener campos null que seran guardados asi en la base de datos, 
@@ -275,12 +303,12 @@ public class Query {
             + "values ('"+suspect.getName()+"','"+suspect.getLastname1()+"','"+suspect.getLastname2()+"','"+suspect.getRecord()+"','"+suspect.getFacts()+"')");
 
             String last=findLast();
-            correct=addAtrivute(last,suspect.getPhone(),"Phone");
-            correct=addAtrivute(last,suspect.getEmail(),"Email");
-            correct=addAtrivute(last,suspect.getAddress(),"Address");
-            correct=addAtrivute(last,suspect.getSuspect(),"Suspect");
-            correct=addAtrivute(last,suspect.getCar_Resgistration(),"Car_Registration");
-            correct=addAtrivute(last, (ArrayList<Object>) suspect.getImages(),"Images");
+            correct=Query.addAtrivute(last,suspect.getPhone(),"Phone");
+            correct=Query.addAtrivute(last,suspect.getEmail(),"Email");
+            correct=Query.addAtrivute(last,suspect.getAddress(),"Address");
+            correct=Query.addAtrivute(last,suspect.getSuspect(),"Suspect");
+            correct=Query.addAtrivute(last,suspect.getCar_Resgistration(),"Car_Registration");
+            correct=Query.addImage(last,suspect.getImages());
             s.close();
             rs.close();
             Connect.closeConnection();
@@ -362,8 +390,8 @@ public class Query {
             rs=s.executeQuery("Select Image,CodeImage,Description from IMAGES "
                     + "where CodeSuspect="+code);
             while(rs.next()){
-                images=new Images(rs.getBlob(1),rs.getInt(2), rs.getString(3),Integer.valueOf(code));
-                img.add(images);
+                //images=new Images(rs.getBlob(1),rs.getInt(2), rs.getString(3),Integer.valueOf(code));
+                //img.add(images);
             }
             s.close();
             rs.close();
@@ -443,7 +471,7 @@ public class Query {
             if(rs!=null){
                 int j=0;
                 for(int i=0;i<maxPosition&&rs.next();i++,j++){
-                    show[j]=find(rs.getString(1));
+                    //show[j]=find(rs.getString(1));
                 }
             }
             s.close();
