@@ -45,7 +45,10 @@ public class PrintComponents {
                     applyBorderTableHeaderColor((JTable) comp, value[1], col);
                     applyForegroundColor((JTable) comp, value[2], col);
                     ((JTable) comp).setSelectionBackground(col);
-                } else if (comp instanceof JPanel) {
+                } else if(comp instanceof JTextComponent){
+                    JTextComponent tmpTextComponent = (JTextComponent) comp;
+                    tmpTextComponent.setBorder(javax.swing.BorderFactory.createLineBorder(col));
+                }else if (comp instanceof JPanel) {
                     applyBackgroundPanelColor((JPanel) comp, value[0], col);
                     applyBorderPanelColor((JPanel) comp, value[1], col);
                     applyForegroundColor(comp, value[2], col);

@@ -140,15 +140,18 @@ public class CreateAndFillTables {
 
                 } else if (tblMain.getModel().getColumnClass(columna).equals(ProfileJButton.class
                 )) {
-                    Suspect suspectToUpdate=Controller.findSuspect(getValue(tblMain.getSelectedRow() + 1));
-                    
-                    if (suspectToUpdate != null) {
-                        UI myUI = UI.getInstance();
-                        myUI.setSuspectToUpdate(suspectToUpdate);
-                        myUI.setModifySuspectFields(suspectToUpdate);
-                        myUI.hideLayouts();
-                        myUI.showSuspectLayouts();
-                        myUI.hiddePnlSearch();
+                    if (getValue(tblMain.getSelectedRow() + 1) != null) {
+                        Suspect suspectToUpdate = Controller.findSuspect(getValue(tblMain.getSelectedRow() + 1));
+                        System.out.println(suspectToUpdate.getCodeSuspect());
+
+                        if (suspectToUpdate != null) {
+                            UI myUI = UI.getInstance();
+                            myUI.setSuspectToUpdate(suspectToUpdate);
+                            myUI.setModifySuspectFields(suspectToUpdate);
+                            myUI.hideLayouts();
+                            myUI.showSuspectLayouts();
+                            myUI.hiddePnlSearch();
+                        }
                     }
                 }
             }
