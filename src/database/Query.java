@@ -422,12 +422,19 @@ public class Query {
     *@return rs: es el resulset el cual contiene las fotografias del sospechosos junto a su descripcion
     */
     public static ResultSet showImg(Integer sus){
+        Images[] imgs=new Images[5];
         try {
             Connect.startConnection();
             c=Connect.getMyConnection();   
             Statement s=c.createStatement();
             rs=s.executeQuery("SELECT Image, Description FROM IMAGES "
                     + "where CodeSuspect="+sus.toString());
+            if(rs!=null){
+                int j=0;
+                for(int i=0;i<maxPosition&&rs.next();i++,j++){
+                    show[j]=find(rs.getString(1));
+                }
+            }
             s.close();
             rs.close();
             Connect.closeConnection();
