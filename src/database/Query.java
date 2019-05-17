@@ -147,11 +147,24 @@ public class Query {
                 }
             }
             if (sus.getPhone() != null) {
-                for (int i = 0; i < sus.getPhone().size(); i++) {
-                    if ((Phone phone = (Phone) sus.getSuspect().get(i))!= null) {
-                        phone = (Phone) sus.getSuspect().get(i);
-                        updated = updateAttribute("PhoneNumber", phone.getCodePhone().toString(), phone.getPhoneNumber().toString(), "PHONE", "CodePhone");
+                try {
+                    Connect.startConnection();
+                    c = Connect.getMyConnection();
+                    Statement s = c.createStatement();
+                    for (int i = 0; i < sus.getPhone().size(); i++) {
+                        if (sus.getPhone().get(i).equals("")) {
+                            s.executeUpdate("Update PHONE set PhoneNumber = null where "
+                                    +"CodeSuspect=" + sus.getCodeSuspect());
+                        } else {
+                            s.executeUpdate("Update PHONE set PhoneNumber = " + sus.getPhone() + " where "
+                                    +"CodeSuspect=" + sus.getCodeSuspect());
+                        }
                     }
+                s.close();
+                rs.close();
+                Connect.closeConnection();
+                } catch (Exception ex) {
+                    Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (sus.getEmail() != null) {
