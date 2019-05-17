@@ -60,22 +60,24 @@ public class Controller implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         switch (e.getActionCommand()) {
-            case "add":
-        {
-            try {
-                Query.addSuspect(myUI.getAddSuspect());
-                myUI.removeAddSuspectsFields();
-                System.out.println(myUI.getAddSuspect().getPhone().get(0));
-                
-                CreateAndFillTables.fillMainTable();
-            } catch (SQLException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            case "add": {
+                try {
+                    Query.addSuspect(myUI.getAddSuspect());
+                    myUI.removeAddSuspectsFields();
+                    System.out.println(myUI.getAddSuspect().getPhone().get(0));
+
+                    CreateAndFillTables.fillMainTable();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        }
-                break;
+            break;
             case "remove":
                 ;
                 break;
+            case "modify":
+                
+                ;break;
 
         }
     }
@@ -84,11 +86,15 @@ public class Controller implements ActionListener {
         return Query.showTen();
     }
     
+    public static void findSuspect(Integer suspectCode){
+        //return Query.findSuspect();
+    }
+
     public static void getPhotos(Integer idSuspect) {
         //Query.getPhotos(idSuspect);
     }
-    
-    public static void deleteSuspect(Integer id){
+
+    public static void deleteSuspect(Integer id) {
         Query.deleteSuspect(id);
     }
 

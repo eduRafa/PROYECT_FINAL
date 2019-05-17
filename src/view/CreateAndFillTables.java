@@ -141,10 +141,12 @@ public class CreateAndFillTables {
                 } else if (tblMain.getModel().getColumnClass(columna).equals(ProfileJButton.class
                 )) {
                     Integer suspectCode = getValue(tblMain.getSelectedRow() + 1);
-
+                    //Suspect suspectToUpdate=Controller.findSuspect(getValue(tblMain.getSelectedRow() + 1));
+                    
                     if (suspectCode != null) {
                         UI myUI = UI.getInstance();
                         Suspect[] s = Controller.getSuspects();
+                        //myUi.setSuspectToUpdate(s);
                         myUI.setModifySuspectFields(s[0]);
                         myUI.hideLayouts();
                         myUI.showSuspectLayouts();
