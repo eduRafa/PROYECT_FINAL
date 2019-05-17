@@ -310,8 +310,12 @@ public class Query {
                     added = false;
                 }
             }
-            fis.close();
-            ps.close();
+            if(fis!=null){
+                fis.close();
+            }
+            if(ps!=null){
+                ps.close();
+            }
             c.close();
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
