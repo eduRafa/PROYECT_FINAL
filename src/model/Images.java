@@ -26,11 +26,12 @@ public class Images {
 
     /*Constructor para cuando obtengas info de la bd*/
     public Images(Integer CodeImage, String Description,
-            Integer CodeSuspect) {
+            Integer CodeSuspect,ImageIcon img) {
 
         this.codeImage = CodeImage;
         this.description = Description;
         this.codeSuspect = CodeSuspect;
+        this.image=img;
     }
 
     public Images(Image image, String path) {

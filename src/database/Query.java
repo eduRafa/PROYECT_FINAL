@@ -6,8 +6,11 @@
 package database;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.sql.Statement;
@@ -18,6 +21,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import model.*;
 
 /**
@@ -92,15 +97,16 @@ public class Query {
         try {
             Connect.startConnection();
             c = Connect.getMyConnection();
-            if (!key.equals("CodeImage")) {
-                Statement s = c.createStatement();
-                s.executeUpdate("Update " + table + " set " + type + "='" + value + "' where " + key + "='" + code + "'");
+            Statement s = c.createStatement();
+            if(!type.equals("PhoneNumber")){
+                s.executeUpdate("Update " + table + " set " + type + "='" + value + "' where " + key + "=" + code);
                 updated = true;
-                s.close();
-                Connect.closeConnection();
-            } else {
-
+            }else{
+                s.executeUpdate("Update " + table + " set " + type + "=" + value + " where " + key + "=" + code);
+                updated = true;
             }
+            s.close();
+            Connect.closeConnection();
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -114,7 +120,7 @@ public class Query {
      */
     public static boolean Update(Suspect sus) {
         boolean updated = false;
-        Suspect preUpdate = Query.find(sus.getCodeSuspect().toString());
+        Suspect preUpdate = Query.findSuspect(sus.getCodeSuspect());
         if (sus != null) {
             if (!sus.getName().equals(preUpdate.getName())) {
                 updated = updateAttribute("Name", sus.getCodeSuspect().toString(), sus.getName(), "Suspect", "CodeSuspect");
@@ -173,18 +179,42 @@ public class Query {
             if (sus.getImages() != null) {
                 for (int i = 0; i < sus.getImages().size(); i++) {
                     if (sus.getImages().get(i) != null) {
-                        Images img = (Images) sus.getImages().get(i);
-                        //updated=updateAttribute("Image", img.getCodeImage().toString(), img.getImageEncoded().toString(), "IMAGES", "CodeImage");
-                        updated = updateAttribute("Description", img.getCodeImage().toString(), img.getDescription(), "IMAGES", "CodeImage");
+                        updateImage(sus.getImages().get(i).getCodeImage().toString(),sus.getImages().get(i));
                     }
                 }
             }
 
         }
-
         return updated;
     }
-
+    
+    private static boolean updateImage(String code,Images img){
+        boolean added=false;
+        String update="Update Images set ? = ? where CodeImage="+ code;
+        FileInputStream fis=null;
+        try {
+            Connect.startConnection();
+            c = Connect.getMyConnection();
+            PreparedStatement ps=null;
+            if (img.getFile() != null){
+               fis = new FileInputStream(img.getFile());
+               ps=c.prepareStatement(update);
+               ps.setString(1, "Image");
+               ps.setBinaryStream(2, fis, img.getFile().length());
+               ps.execute();
+               ps.setString(1, "Description");
+               ps.setString(2, img.getDescription());
+               ps.execute();
+               c.close();
+            }
+            ps.close();
+            fis.close();
+        } catch (Exception ex) {
+            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return added;
+    }
+    
     /*
     *Este metodo se encarga de almacenar en la base de datos una informacion dada de un atributo dado para un sospechosos en concreto
     *@param code: Es el codigo del sospechosos al que se le desean añadir los atributos
@@ -265,9 +295,6 @@ public class Query {
                 try {
                     if (al.get(i).getFile() != null) {
                         fis = new FileInputStream(al.get(i).getFile());
-                        System.out.println("Entra img");
-                        System.out.println(code);
-                        System.out.println(al.get(i).getDescription());
                         String insert = ("insert into Images (Image,Description,CodeSuspect)"
                                 + "values(?,?,?)");
                         ps = c.prepareStatement(insert);
@@ -283,8 +310,8 @@ public class Query {
                     added = false;
                 }
             }
-            //fis.close();
-            //ps.close();
+            fis.close();
+            ps.close();
             c.close();
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
@@ -329,7 +356,7 @@ public class Query {
     *Este metodo busca un sospechoso en la base de datos a partir de su codigo y 
     devuleve el resultado en forma de Sospechoso 
      */
-    public static Suspect find(String code) {
+    public static Suspect findSuspect(Integer code) {
         Suspect sus = null;
         try {
             String name = null;
@@ -355,7 +382,7 @@ public class Query {
             Statement s = c.createStatement();
             rs = s.executeQuery("Select name,lastname1,lastname2,Record,Facts "
                     + "from Suspect where CodeSuspect=" + code);
-            String codeSuspect = code;
+            Integer codeSuspect = code;
             if (rs.last()) {
                 name = rs.getString(1);
                 lastname1 = rs.getString(2);
@@ -396,8 +423,13 @@ public class Query {
             rs = s.executeQuery("Select Image,CodeImage,Description from IMAGES "
                     + "where CodeSuspect=" + code);
             while (rs.next()) {
-                //images=new Images(rs.getBlob(1),rs.getInt(2), rs.getString(3),Integer.valueOf(code));
-                //img.add(images);
+                Blob blob = rs.getBlob(1);
+                byte[] data=blob.getBytes(1, (int)blob.length());
+                BufferedImage image = null;
+                image=ImageIO.read(new ByteArrayInputStream(data));
+                ImageIcon imageICON= new ImageIcon(image);
+                images=new Images(rs.getInt(2), rs.getString(3),code,imageICON);
+                img.add(images);
             }
             s.close();
             rs.close();
@@ -426,7 +458,7 @@ public class Query {
             if (rs2 != null) {
                 int j = 0;
                 for (int i = currentPosition; i < maxPosition && rs2.next(); i++, j++) {
-                    show[j] = find(rs2.getString(1));
+                    show[j] = findSuspect(rs2.getInt(1));
                 }
             }
             s.close();
@@ -479,7 +511,7 @@ public class Query {
             if (rs != null) {
                 int j = 0;
                 for (int i = 0; i < maxPosition && rs.next(); i++, j++) {
-                    //show[j]=find(rs.getString(1));
+                    //show[j]=findSuspect(rs.getString(1));
                 }
             }
             s.close();
@@ -514,7 +546,7 @@ public class Query {
                     rs = s.executeQuery("Select CodeSuspect from Suspect "
                             + "where " + key + "='" + value + "'");
                     while (rs.next()) {
-                        sus.add(Query.find(rs.getString(1)));
+                        sus.add(Query.findSuspect(rs.getInt(1)));
                     }
                     break;
                 case "PhoneNumber":
@@ -522,35 +554,35 @@ public class Query {
                     rs = s.executeQuery("Select CodeSuspect from PHONE "
                             + "where " + key + "='" + value + "'");
                     while (rs.next()) {
-                        sus.add(Query.find(rs.getString(1)));
+                        sus.add(Query.findSuspect(rs.getInt(1)));
                     }
                     break;
                 case "Email":
                     rs = s.executeQuery("Select CodeSuspect from E_MAIL "
                             + "where " + key + "='" + value + "'");
                     while (rs.next()) {
-                        sus.add(Query.find(rs.getString(1)));
+                        sus.add(Query.findSuspect(rs.getInt(1)));
                     }
                     break;
                 case "Registration_number":
                     rs = s.executeQuery("Select CodeSuspect from CAR_REGISTRATION "
                             + "where " + key + "='" + value + "'");
                     while (rs.next()) {
-                        sus.add(Query.find(rs.getString(1)));
+                        sus.add(Query.findSuspect(rs.getInt(1)));
                     }
                     break;
                 case "Address":
                     rs = s.executeQuery("Select CodeSuspect from ADDRESS "
                             + "where " + key + "='" + value + "'");
                     while (rs.next()) {
-                        sus.add(Query.find(rs.getString(1)));
+                        sus.add(Query.findSuspect(rs.getInt(1)));
                     }
                     break;
                 case "CodeSuspect2":
                     rs = s.executeQuery("Select CodeSuspect from COMPANIONS "
                             + "where " + key + "='" + value + "'");
                     while (rs.next()) {
-                        sus.add(Query.find(rs.getString(1)));
+                        sus.add(Query.findSuspect(rs.getInt(1)));
                     }
                     break;
             }
