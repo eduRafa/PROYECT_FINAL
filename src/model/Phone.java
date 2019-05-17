@@ -12,9 +12,9 @@ package model;
 public class Phone {
     private Integer CodeSuspect;
     private Integer CodePhone;
-    private Integer PhoneNumber;
+    private int PhoneNumber;
     
-    public Phone(Integer CodeSuspect, Integer CodePhone, Integer PhoneNumber){
+    public Phone(Integer CodeSuspect, Integer CodePhone, int PhoneNumber){
         this.CodeSuspect=CodeSuspect;
         this.CodePhone=CodePhone;
         this.PhoneNumber=PhoneNumber;
@@ -36,11 +36,11 @@ public class Phone {
         this.CodePhone=CodePhone;
     }
     
-    public Integer getPhoneNumber(){
+    public int getPhoneNumber(){
         return PhoneNumber;
     }
     
-    public void setPhoneNumber(Integer PhoneNumber){
+    public void setPhoneNumber(int PhoneNumber){
         this.PhoneNumber=PhoneNumber;
     }
 }
