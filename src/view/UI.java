@@ -128,8 +128,8 @@ public class UI extends javax.swing.JFrame {
 
         Suspect mySuspect = new Suspect(null, values[0].trim(), values[1].trim(), values[2].trim(), null/*companions*/,
                 new SerialBlob(values[4].getBytes()), new SerialBlob(values[5].getBytes()),
-                UiUtils.transformStringToArrayList(values[6]), UiUtils.transformStringToArrayList(values[7]),
-                UiUtils.transformStringToArrayList(values[8]), UiUtils.transformStringToArrayList(values[9]),
+                UiUtils.transformStringToArrayListPhone(values[6],null), UiUtils.transformStringToArrayListEmail(values[7],null),
+                UiUtils.transformStringToArrayListAddress(values[8],null), UiUtils.transformStringToArrayListCar_Registration(values[9],null),
                 addSuspectImageManager.getPhotos());
         return mySuspect;
     }
@@ -148,8 +148,8 @@ public class UI extends javax.swing.JFrame {
 
         Suspect mySuspect = new Suspect(suspectBeenModified.getCodeSuspect(), values[0].trim(), values[1].trim(), values[2].trim(), null/*companions*/,
                 new SerialBlob(values[4].getBytes()), new SerialBlob(values[5].getBytes()),
-                UiUtils.transformStringToArrayList(values[6]), UiUtils.transformStringToArrayList(values[7]),
-                UiUtils.transformStringToArrayList(values[8]), UiUtils.transformStringToArrayList(values[9]),
+                UiUtils.transformStringToArrayListPhone(values[6],suspectBeenModified.getCodeSuspect()), UiUtils.transformStringToArrayListEmail(values[7],suspectBeenModified.getCodeSuspect()),
+                UiUtils.transformStringToArrayListAddress(values[8],suspectBeenModified.getCodeSuspect()), UiUtils.transformStringToArrayListCar_Registration(values[9],suspectBeenModified.getCodeSuspect()),
                 suspectBeenModified.getImages());
         
         return mySuspect;
@@ -268,8 +268,8 @@ public class UI extends javax.swing.JFrame {
                     }
                     break;
                 case 9:
-                    if (s.getCar_Resgistration() != null) {
-                        modifySuspectFields[i].setText(UiUtils.transformArrayListCarRegToString(s.getCar_Resgistration()));
+                    if (s.getCar_registration() != null) {
+                        modifySuspectFields[i].setText(UiUtils.transformArrayListCarRegToString(s.getCar_registration()));
                     } else {
                         modifySuspectFields[i].setText("");
                     }

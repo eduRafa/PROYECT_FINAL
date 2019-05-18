@@ -10,33 +10,40 @@ package model;
  * @author usuario
  */
 public class Email {
+
     private Integer CodeEmail;
     private Integer CodeSuspect;
     private String Email;
-    
-    public Email(Integer CodeEmail, Integer CodeSuspect, String Email){
-        this.CodeEmail=CodeEmail;
-        this.CodeSuspect=CodeSuspect;
-        this.Email=Email;
+
+    public Email(Integer CodeEmail, Integer CodeSuspect, String Email) {
+        this.CodeEmail = CodeEmail;
+        this.CodeSuspect = CodeSuspect;
+        this.Email = Email;
     }
-    
-     public Integer getCodeEmail(){
+
+    public Email(String Email, Integer CodeSuspect) {
+        this.Email = Email;
+        this.CodeSuspect = CodeSuspect;
+
+    }
+
+    public Integer getCodeEmail() {
         return CodeEmail;
     }
-    
-    public void setCodeEmail(Integer CodeEmail){
-        this.CodeEmail=CodeEmail;
+
+    public void setCodeEmail(Integer CodeEmail) {
+        this.CodeEmail = CodeEmail;
     }
-    
-     public Integer getCodeSuspect(){
+
+    public Integer getCodeSuspect() {
         return CodeSuspect;
     }
-    
-    public void setCodeSuspect(Integer CodeSuspect){
-        this.CodeSuspect=CodeSuspect;
+
+    public void setCodeSuspect(Integer CodeSuspect) {
+        this.CodeSuspect = CodeSuspect;
     }
-    
-    public String getEmail(){
+
+    public String getEmail() {
         return Email;
     }
 }

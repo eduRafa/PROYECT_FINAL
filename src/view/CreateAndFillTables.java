@@ -211,9 +211,9 @@ public class CreateAndFillTables {
                             ;
                             break;
                         case 9:
-                            if (s[i].getCar_Resgistration() != null) {
-                                if (!s[i].getCar_Resgistration().isEmpty()) {
-                                    myModel.setValueAt(UiUtils.transformArrayListCarRegToString(s[i].getCar_Resgistration()), i, j);
+                            if (s[i].getCar_registration() != null) {
+                                if (!s[i].getCar_registration().isEmpty()) {
+                                    myModel.setValueAt(UiUtils.transformArrayListCarRegToString(s[i].getCar_registration()), i, j);
                                 }
                             }
                             ;
