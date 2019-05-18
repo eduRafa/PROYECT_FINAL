@@ -64,6 +64,7 @@ public class Query {
         return last;
     }
 
+   
     /*
     *Este metodo borrar un sospechoso
     *@param sus: Es el sospechoso que se desea eliminar
@@ -152,8 +153,9 @@ public class Query {
                     c = Connect.getMyConnection();
                     Statement s = c.createStatement();
                     for (int i = 0; i < phones.size(); i++) {
+                        System.out.println(sus.getPhone().get(i).getPhoneNumber());
                         s.executeUpdate("Update PHONE set PhoneNumber = " + phones.get(i).getPhoneNumber() + " where "
-                        + "CodeSuspect=" + phones.get(i).getCodePhone());
+                        + "CodePhone=" + phones.get(i).getCodePhone());
                     }
                     s.close();
                     rs.close();
@@ -168,13 +170,12 @@ public class Query {
                     c = Connect.getMyConnection();
                     Statement s = c.createStatement();
                     for (int i = 0; i < sus.getEmail().size(); i++) {
-                        System.out.println(sus.getEmail().get(i));
                         if (sus.getEmail().get(i).getEmail().equals("")) {
                             s.executeUpdate("Update E_MAIL set Email = null where "
-                                    + "CodeSuspect=" + sus.getEmail().get(i).getCodeEmail());
+                                    + "CodeE_mail=" + sus.getEmail().get(i).getCodeEmail());
                         } else {
                             s.executeUpdate("Update E_MAIL set Email = '" + sus.getEmail().get(i).getEmail() + "' where "
-                                    + "CodeSuspect=" + sus.getEmail().get(i).getCodeEmail());
+                                    + "CodeE_mail=" + sus.getEmail().get(i).getCodeEmail());
                         }
                     }
                     s.close();
@@ -192,10 +193,10 @@ public class Query {
                     for (int i = 0; i < sus.getAddress().size(); i++) {
                         if (sus.getAddress().get(i).getAddress().equals("")) {
                             s.executeUpdate("Update ADDRESS set Address = null where "
-                                    + "CodeSuspect=" + sus.getAddress().get(i).getCodeAddress());
+                                    + "CodeAddress=" + sus.getAddress().get(i).getCodeAddress());
                         } else {
                             s.executeUpdate("Update ADDRESS set Address = '" + sus.getAddress().get(i).getAddress() + "' where "
-                                    + "CodeSuspect=" + sus.getAddress().get(i).getCodeAddress());
+                                    + "CodeAddress=" + sus.getAddress().get(i).getCodeAddress());
                         }
                     }
                     s.close();
@@ -213,11 +214,11 @@ public class Query {
                     for (int i = 0; i < sus.getCar_registration().size(); i++) {
                         if (sus.getCar_registration().get(i).getRegistration().equals("")) {
                             s.executeUpdate("Update CAR_REGISTRATION set Registration_number = null where "
-                                    + "CodeSuspect=" + sus.getCar_registration().get(i).getCodeRegistration());
+                                    + "CodeRegistration=" + sus.getCar_registration().get(i).getCodeRegistration());
                         } else {
                             s.executeUpdate("Update CAR_REGISTRATION set Registration_number = '" 
                                     + sus.getCar_registration().get(i).getRegistration() + "' where "
-                                    + "CodeSuspect=" + sus.getCar_registration().get(i).getCodeRegistration());
+                                    + "CodeRegistration=" + sus.getCar_registration().get(i).getCodeRegistration());
                         }
                     }
                     s.close();
@@ -288,12 +289,17 @@ public class Query {
                     switch (type) {
                         case "Phone":
                             for (int i = 0; i < al.size(); i++) {
+                                al.add(i, (Phone) al.get(i));
                                 if (al.get(i).equals("")) {
                                     s.executeUpdate("INSERT into PHONE (CodeSuspect,PhoneNumber) "
                                             + "values (" + code + ",null)");
                                 } else {
                                     s.executeUpdate("INSERT into PHONE (CodeSuspect,PhoneNumber) "
-                                            + "values (" + code + "," + al.get(i) + ")");
+                                            + "values (" + code + "," + al.get(i).getPhoneNumber() + ")");
+                                }
+                                rs = s.executeQuery("SELECT CodePhone from PHONE");
+                                if (rs.last()) {
+                                     al.get(i).getC= rs.getInt(1);
                                 }
                             }
                             break;
@@ -465,7 +471,6 @@ public class Query {
                     + "where CodeSuspect=" + code);
             while (rs.next()) {
                 email = new Email(rs.getInt(1), Integer.valueOf(code), rs.getString(2));
-                System.out.println(email.getEmail());
                 em.add(email);
             }
             rs = s.executeQuery("Select CodeAddress,Address from ADDRESS "
@@ -495,7 +500,6 @@ public class Query {
             rs.close();
             Connect.closeConnection();
 
-            System.out.println(em.get(0).getEmail());
             sus = new Suspect(code, name, lastname1, lastname2, as, Record, Facts, ph, em, ad, cr, img);
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);

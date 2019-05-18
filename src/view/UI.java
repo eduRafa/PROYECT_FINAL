@@ -268,8 +268,8 @@ public class UI extends javax.swing.JFrame {
                     }
                     break;
                 case 9:
-                    if (s.getCar_Resgistration() != null) {
-                        modifySuspectFields[i].setText(UiUtils.transformArrayListCarRegToString(s.getCar_Resgistration()));
+                    if (s.getCar_registration()!= null) {
+                        modifySuspectFields[i].setText(UiUtils.transformArrayListCarRegToString(s.getCar_registration()));
                     } else {
                         modifySuspectFields[i].setText("");
                     }
