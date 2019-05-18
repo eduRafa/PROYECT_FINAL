@@ -254,7 +254,13 @@ public class Query {
             if (sus.getImages() != null) {
                 for (int i = 0; i < sus.getImages().size(); i++) {
                     if (sus.getImages().get(i) != null) {
-                        updateImage(sus.getImages().get(i).getCodeImage().toString(), sus.getImages().get(i));
+                        if(i<sus.getImages().size()){
+                            updateImage(preUpdate.getImages().get(i).getCodeImage().toString(), sus.getImages().get(i));
+                        }else{
+                            ArrayList<Images> img=new ArrayList<>();
+                            img.add(sus.getImages().get(i));
+                            Query.addImage(preUpdate.getCodeSuspect().toString(),img);
+                        }
                     }
                 }
             }
