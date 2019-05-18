@@ -16,7 +16,7 @@ public class Car_Registration {
     private String registration;
     private Integer codeRegistration;
     
-    public Car_Registration(String registration,int codeRegistration) {
+    public Car_Registration(String registration,Integer codeRegistration) {
         this.registration=registration;
         this.codeRegistration=codeRegistration;
 }

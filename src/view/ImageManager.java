@@ -232,6 +232,7 @@ public class ImageManager extends javax.swing.JDialog {
         jTextArea1.setRows(5);
         jTextArea1.setBorder(null);
         jScrollPane1.setViewportView(jTextArea1);
+        jTextArea1.getAccessibleContext().setAccessibleName("$");
 
         jLabel2.setText("Introduzca si lo desea una descripción de su imagen.");
 
