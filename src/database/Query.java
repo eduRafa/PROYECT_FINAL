@@ -148,6 +148,8 @@ public class Query {
             }
             if (sus.getPhone() != null) {
                 ArrayList<Phone> phones=sus.getPhone();
+
+                
                 try {
                     Connect.startConnection();
                     c = Connect.getMyConnection();

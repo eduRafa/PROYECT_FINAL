@@ -10,39 +10,44 @@ package model;
  * @author Antonio Jose Adamuz Sereno
  */
 public class Address {
+
     private Integer CodeAddress;
     private Integer CodeSuspect;
     private String Address;
-    
-    public Address(Integer CodeAddress, Integer CodeSuspect, String Address){
-        
-        this.CodeAddress=CodeAddress;
-        this.CodeSuspect=CodeSuspect;
-        this.Address=Address;
-        
+
+    public Address(Integer CodeAddress, Integer CodeSuspect, String Address) {
+
+        this.CodeAddress = CodeAddress;
+        this.CodeSuspect = CodeSuspect;
+        this.Address = Address;
     }
-    
-    public Integer getCodeAddress(){
+
+    public Address(String Address, Integer CodeSuspect) {
+        this.Address = Address;
+        this.CodeSuspect = CodeSuspect;
+    }
+
+    public Integer getCodeAddress() {
         return CodeAddress;
     }
-    
-    public void setCodeAddress(Integer CodeAddress){
-        this.CodeAddress=CodeAddress;
+
+    public void setCodeAddress(Integer CodeAddress) {
+        this.CodeAddress = CodeAddress;
     }
-    
-    public Integer getCodeSuspect(){
+
+    public Integer getCodeSuspect() {
         return CodeSuspect;
     }
-    
-    public void setCodeSuspect(Integer CodeSuspect){
-        this.CodeSuspect=CodeSuspect;
+
+    public void setCodeSuspect(Integer CodeSuspect) {
+        this.CodeSuspect = CodeSuspect;
     }
-    
-    public String getAddress(){
+
+    public String getAddress() {
         return Address;
     }
-    
-    public void setAddress(String Address){
-        this.Address= Address;
+
+    public void setAddress(String Address) {
+        this.Address = Address;
     }
 }

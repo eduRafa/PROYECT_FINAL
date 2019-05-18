@@ -20,6 +20,10 @@ public class Car_Registration {
         this.registration=registration;
         this.codeRegistration=codeRegistration;
 }
+    
+    public Car_Registration(String registration){
+        this.registration=registration;
+    }
 
     public void setCodeRegistration(Integer codeRegistration) {
         this.codeRegistration = codeRegistration;
@@ -28,17 +32,6 @@ public class Car_Registration {
     public Integer getCodeRegistration() {
         return codeRegistration;
     }
-
-    public boolean validate (String registration){
-    boolean validate=false;    
-    Pattern p = Pattern.compile("^[0-9]{4}[a-zA-Z]{3}$");
-    Matcher m = p.matcher(this.registration);
-    if (m.find()){}
-    
-        return true;
-}
-
-
     public String getRegistration(){
         return registration;
     }

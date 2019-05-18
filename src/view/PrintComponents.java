@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.text.JTextComponent;
 
@@ -48,6 +49,9 @@ public class PrintComponents {
                     applyBackgroundPanelColor((JPanel) comp, value[0], col);
                     applyBorderPanelColor((JPanel) comp, value[1], col);
                     applyForegroundColor(comp, value[2], col);
+                }else if(comp instanceof JSeparator){
+                    JSeparator tmpSeparator=(JSeparator) comp;
+                    tmpSeparator.setForeground(col);
                 }
             }
             if (comp instanceof Container) {

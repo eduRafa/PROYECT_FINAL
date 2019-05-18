@@ -38,17 +38,48 @@ public class UiUtils {
         return compList;
     }
 
-    public static ArrayList<?> transformStringToArrayList(String allTheValues) {
+    public static ArrayList<Phone> transformStringToArrayListPhone(String allTheValues, Integer suspetCode) {
         String[] eachValue = allTheValues.split("\\n");
+        ArrayList<Phone> myPhones = new ArrayList<>();
 
         for (String string : eachValue) {
-            string = string.trim();
+            myPhones.add(new Phone(Integer.valueOf(string),suspetCode));
         }
 
-        ArrayList<String> myValues;
-        myValues = new ArrayList<String>(Arrays.asList(eachValue));
+        return myPhones;
+    }
 
-        return myValues;
+    public static ArrayList<Email> transformStringToArrayListEmail(String allTheValues, Integer suspetCode) {
+        String[] eachValue = allTheValues.split("\\n");
+        ArrayList<Email> myEmails = new ArrayList<>();
+
+        for (String string : eachValue) {
+            myEmails.add(new Email(string,suspetCode));
+        }
+
+        return myEmails;
+    }
+
+    public static ArrayList<Address> transformStringToArrayListAddress(String allTheValues, Integer suspetCode) {
+        String[] eachValue = allTheValues.split("\\n");
+        ArrayList<Address> myAddresses = new ArrayList<>();
+
+        for (String string : eachValue) {
+            myAddresses.add(new Address(string,suspetCode));
+        }
+
+        return myAddresses;
+    }
+
+    public static ArrayList<Car_Registration> transformStringToArrayListCar_Registration(String allTheValues, Integer suspetCode) {
+        String[] eachValue = allTheValues.split("\\n");
+        ArrayList<Car_Registration> myAddresses = new ArrayList<>();
+
+        for (String string : eachValue) {
+            myAddresses.add(new Car_Registration(string,suspetCode));
+        }
+
+        return myAddresses;
     }
 
     public static String transformArrayListPhoneToString(ArrayList<Phone> multipleText) {
