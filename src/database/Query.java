@@ -147,17 +147,14 @@ public class Query {
                 }
             }
             if (sus.getPhone() != null) {
-                ArrayList<Phone> phones=sus.getPhone();
-
-                
                 try {
                     Connect.startConnection();
                     c = Connect.getMyConnection();
                     Statement s = c.createStatement();
-                    for (int i = 0; i < phones.size(); i++) {
-                        System.out.println(sus.getPhone().get(i).getPhoneNumber());
-                        s.executeUpdate("Update PHONE set PhoneNumber = " + phones.get(i).getPhoneNumber() + " where "
-                        + "CodePhone=" + phones.get(i).getCodePhone());
+                    for (int i = 0; i < sus.getPhone().size(); i++) {
+                        System.out.println(preUpdate.getPhone().get(i).getCodePhone());
+                        s.executeUpdate("Update PHONE set PhoneNumber = " + sus.getPhone().get(i).getPhoneNumber() + " where "
+                        + "CodePhone=" + preUpdate.getPhone().get(i).getCodePhone());
                     }
                     s.close();
                     rs.close();
@@ -174,10 +171,10 @@ public class Query {
                     for (int i = 0; i < sus.getEmail().size(); i++) {
                         if (sus.getEmail().get(i).getEmail().equals("")) {
                             s.executeUpdate("Update E_MAIL set Email = null where "
-                                    + "CodeE_mail=" + sus.getEmail().get(i).getCodeEmail());
+                                    + "CodeE_mail=" + preUpdate.getEmail().get(i).getCodeEmail());
                         } else {
                             s.executeUpdate("Update E_MAIL set Email = '" + sus.getEmail().get(i).getEmail() + "' where "
-                                    + "CodeE_mail=" + sus.getEmail().get(i).getCodeEmail());
+                                    + "CodeE_mail=" + preUpdate.getEmail().get(i).getCodeEmail());
                         }
                     }
                     s.close();
@@ -195,10 +192,10 @@ public class Query {
                     for (int i = 0; i < sus.getAddress().size(); i++) {
                         if (sus.getAddress().get(i).getAddress().equals("")) {
                             s.executeUpdate("Update ADDRESS set Address = null where "
-                                    + "CodeAddress=" + sus.getAddress().get(i).getCodeAddress());
+                                    + "CodeAddress=" + preUpdate.getAddress().get(i).getCodeAddress());
                         } else {
                             s.executeUpdate("Update ADDRESS set Address = '" + sus.getAddress().get(i).getAddress() + "' where "
-                                    + "CodeAddress=" + sus.getAddress().get(i).getCodeAddress());
+                                    + "CodeAddress=" + preUpdate.getAddress().get(i).getCodeAddress());
                         }
                     }
                     s.close();
