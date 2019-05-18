@@ -12,6 +12,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,6 +29,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Phone;
 
 /**
  *
@@ -131,7 +133,7 @@ public class CreateAndFillTables {
                     try {
                         Integer suspectCode = getValue(tblMain.getSelectedRow() + 1);
                         if (suspectCode != null) {
-                            UI.getModifySuspectImageManager().showSuspect(suspectCode);
+                            UI.getModifySuspectImageManager().showSuspect(Controller.findSuspect(suspectCode));
                             UI.getModifySuspectImageManager().setVisible(true);
                         }
                     } catch (Exception ex) {
@@ -141,12 +143,11 @@ public class CreateAndFillTables {
                 } else if (tblMain.getModel().getColumnClass(columna).equals(ProfileJButton.class
                 )) {
                     if (getValue(tblMain.getSelectedRow() + 1) != null) {
-                        Suspect suspectToUpdate = Controller.findSuspect(getValue(tblMain.getSelectedRow() + 1));
-                        System.out.println(suspectToUpdate.getCodeSuspect());
-
+                        Suspect suspectToUpdate = Controller.findSuspect(getValue(tblMain.getSelectedRow() + 1));                        
+                        
                         if (suspectToUpdate != null) {
                             UI myUI = UI.getInstance();
-                            myUI.setSuspectToUpdate(suspectToUpdate);
+                            myUI.setSuspectBeenModified(suspectToUpdate);
                             myUI.setModifySuspectFields(suspectToUpdate);
                             myUI.hideLayouts();
                             myUI.showSuspectLayouts();
@@ -201,23 +202,33 @@ public class CreateAndFillTables {
                         case 6:
                             if (s[i].getPhone() != null) {
                                 if (!s[i].getPhone().isEmpty()) {
-
-                                    myModel.setValueAt(s[i].getPhone().get(0), i, j);//aqui
-
+                                    myModel.setValueAt(UiUtils.transformArrayListToString(s[i].getPhone()), i, j);
                                 }
                             }
                             ;
                             break;
                         case 7:
-                            myModel.setValueAt(s[i].getEmail(), i, j);
+                            if (s[i].getEmail() != null) {
+                                if (!s[i].getEmail().isEmpty()) {
+                                    myModel.setValueAt(UiUtils.transformArrayListToString(s[i].getEmail()), i, j);
+                                }
+                            }
                             ;
                             break;
                         case 8:
-                            myModel.setValueAt(s[i].getAddress(), i, j);
+                            if (s[i].getAddress() != null) {
+                                if (!s[i].getAddress().isEmpty()) {
+                                    myModel.setValueAt(UiUtils.transformArrayListToString(s[i].getAddress()), i, j);
+                                }
+                            }
                             ;
                             break;
                         case 9:
-                            myModel.setValueAt(s[i].getCar_Resgistration(), i, j);
+                            if (s[i].getCar_Resgistration()!= null) {
+                                if (!s[i].getCar_Resgistration().isEmpty()) {
+                                    myModel.setValueAt(UiUtils.transformArrayListToString(s[i].getCar_Resgistration()), i, j);
+                                }
+                            }
                             ;
                             break;
                     }

@@ -12,13 +12,17 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import model.Images;
+import model.Suspect;
 
 /**
  *
@@ -36,7 +40,7 @@ public class ImageManager extends javax.swing.JDialog {
     private static int selectedPhoto = 1;
     public static String imageDefPath = "view/images/icons8-añadir-imagen-100.png";
     private static Image myImage = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource(imageDefPath));
-    private Integer idSuspect;
+    private Suspect suspectToModify;
 
     public ImageManager(UI parent, boolean modal) {
         super(parent, modal);
@@ -52,11 +56,29 @@ public class ImageManager extends javax.swing.JDialog {
 
         for (int i = 0; i < photos.length; i++) {
             photos[i] = new Images(myImage, null);
+            photos[i].setDescription("");
+
         }
     }
-    
-    public void showSuspect(Integer id){
-        //busco a el usuario
+
+    public void showSuspect(Suspect s) {
+        resetImageManager();
+        ArrayList<Images> suspectImages = s.getImages();
+        if (!suspectImages.isEmpty()) {
+            for (int i = 0; i < suspectImages.size(); i++) {
+                if (suspectImages.get(i) != null) {
+                    photos[i].setImageIcon(suspectImages.get(i).getImage());
+                    insertedPhotos++;
+                }
+            }
+            if (suspectImages.size() < NPHOTOS) {
+                for (int i = suspectImages.size(); i < NPHOTOS; i++) {
+                    photos[i].setImage(myImage, null);
+                }
+            }
+        }
+        putPhoto();
+        putDescription();
     }
 
     public void refreshSelectedImage() {
@@ -83,6 +105,14 @@ public class ImageManager extends javax.swing.JDialog {
 
     private int getInsertedPhotos() {
         return insertedPhotos;
+    }
+
+    public void resetImageManager() {
+        selectedPhoto = 1;
+        setDefaultImages();
+        refreshSelectedImage();
+        putPhoto();
+        putDescription();
     }
 
     /**
@@ -315,9 +345,13 @@ public class ImageManager extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if (idSuspect == null) {
+        if (suspectToModify == null) {
             parent.jLabel30.setText(getInsertedPhotos() + " / "
                     + NPHOTOS);
+        } else {
+            ArrayList<Images> x = new ArrayList<>(Arrays.asList(photos));
+            suspectToModify.setImages(x);
+            parent.setSuspectBeenModified(suspectToModify);
         }
         super.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -383,10 +417,6 @@ public class ImageManager extends javax.swing.JDialog {
         }
 
         return insertedImages;
-    }
-
-    private void setPhotos(Integer idSuspect) {
-            //this.photos = Controller.getPhotos(idSuspect);
     }
 
     public void addPhoto(Image image, String path) {

@@ -11,6 +11,7 @@ import java.awt.Container;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.text.JTextComponent;
 
@@ -27,7 +28,7 @@ public class PrintComponents {
                     getAccessibleContext().getAccessibleName().contains("$")) {
                 String[] value = comp.getAccessibleContext().getAccessibleName().split("\\$");
                 if (comp instanceof JTextComponent) {
-                    JTextComponent tmp = (JTextComponent) comp;
+                    JScrollPane tmp = (JScrollPane) comp.getParent().getParent();
                     tmp.setBorder(javax.swing.BorderFactory.createLineBorder(col));
                 } else if (comp instanceof JButton) {
                     JButton tmpButton = (JButton) comp;
@@ -36,9 +37,7 @@ public class PrintComponents {
                     applyForegroundColor(comp, value[2], col);
                 } else if (comp instanceof JLabel) {
                     JLabel tmpLabel = (JLabel) comp;
-
                     applyBackgroundColor(comp, value[0], col);
-                    //applyButtonBorderColor((JButton)comp, value[1], col);
                     applyForegroundColor(comp, value[2], col);
                 } else if (comp instanceof JTable) {
                     applyBackgroundTableHeaderColor((JTable) comp, value[0], col);

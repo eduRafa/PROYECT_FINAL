@@ -5,6 +5,7 @@
  */
 package model;
 
+
 /**
  *
  * @author Antonio Jose Adamuz Sereno
@@ -12,9 +13,9 @@ package model;
 public class Phone {
     private Integer CodeSuspect;
     private Integer CodePhone;
-    private int PhoneNumber;
+    private Integer PhoneNumber;
     
-    public Phone(Integer CodeSuspect, Integer CodePhone, int PhoneNumber){
+    public Phone(Integer CodeSuspect, Integer CodePhone, Integer PhoneNumber){
         this.CodeSuspect=CodeSuspect;
         this.CodePhone=CodePhone;
         this.PhoneNumber=PhoneNumber;
@@ -36,11 +37,11 @@ public class Phone {
         this.CodePhone=CodePhone;
     }
     
-    public int getPhoneNumber(){
+    public Integer getPhoneNumber(){
         return PhoneNumber;
     }
     
-    public void setPhoneNumber(int PhoneNumber){
+    public void setPhoneNumber(Integer PhoneNumber){
         this.PhoneNumber=PhoneNumber;
     }
 }

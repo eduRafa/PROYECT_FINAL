@@ -145,12 +145,20 @@ public class UI extends javax.swing.JFrame {
             }
         }
 
-        Suspect mySuspect = new Suspect(suspectToUpdate.getCodeSuspect(), values[0].trim(), values[1].trim(), values[2].trim(), null/*companions*/,
+        Suspect mySuspect = new Suspect(suspectBeenModified.getCodeSuspect(), values[0].trim(), values[1].trim(), values[2].trim(), null/*companions*/,
                 new SerialBlob(values[4].getBytes()), new SerialBlob(values[5].getBytes()),
                 UiUtils.transformStringToArrayList(values[6]), UiUtils.transformStringToArrayList(values[7]),
                 UiUtils.transformStringToArrayList(values[8]), UiUtils.transformStringToArrayList(values[9]),
                 modifySuspectImageManager.getPhotos());
         return mySuspect;
+    }
+    
+    public Suspect getSupectBennModified(){
+        return suspectBeenModified;
+    }
+    
+    public void setSuspectBeenModified(Suspect s){
+        suspectBeenModified=s;
     }
 
     public ImageManager getAddSuspectImageManager() {
@@ -238,38 +246,34 @@ public class UI extends javax.swing.JFrame {
                     break;
                 case 6:
                     if (s.getPhone() != null) {
-                        modifySuspectFields[i].setText(s.getPhone().toString());
+                        modifySuspectFields[i].setText(UiUtils.transformArrayListToString(s.getPhone()));
                     } else {
                         modifySuspectFields[i].setText("");
                     }
                     break;
                 case 7:
                     if (s.getEmail() != null) {
-                        modifySuspectFields[i].setText(s.getEmail().toString());
+                        modifySuspectFields[i].setText(UiUtils.transformArrayListToString(s.getEmail()));
                     } else {
                         modifySuspectFields[i].setText("");
                     }
                     break;
                 case 8:
                     if (s.getAddress() != null) {
-                        modifySuspectFields[i].setText(s.getAddress().toString());
+                        modifySuspectFields[i].setText(UiUtils.transformArrayListToString(s.getAddress()));
                     } else {
                         modifySuspectFields[i].setText("");
                     }
                     break;
                 case 9:
                     if (s.getCar_Resgistration() != null) {
-                        modifySuspectFields[i].setText(s.getCar_Resgistration().toString());
+                        modifySuspectFields[i].setText(UiUtils.transformArrayListToString(s.getCar_Resgistration()));
                     } else {
                         modifySuspectFields[i].setText("");
                     }
                     break;
             }
         }
-    }
-    
-    public void setSuspectToUpdate(Suspect s){
-        suspectToUpdate=s;
     }
 
     public JPanel getPanelModifySuspect() {
@@ -599,7 +603,7 @@ public class UI extends javax.swing.JFrame {
         lblMenu33.setBackground(new java.awt.Color(255, 255, 255));
         lblMenu33.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblMenu33.setForeground(secundaryColor);
-        lblMenu33.setText("Sospechosos");
+        lblMenu33.setText("Añadir Sospechososo");
 
         lblMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-anadir-usuario-masculino-30-$255-255-255$.png"))); // NOI18N
 
@@ -793,6 +797,17 @@ public class UI extends javax.swing.JFrame {
         jScrollPane22.setViewportView(jTextArea21);
         modifySuspectFields[0]=jTextArea21;
         jTextArea21.getAccessibleContext().setAccessibleName("$");
+        jTextArea21.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea21.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
 
         jLabel37.setText("Telefonos (varios)");
 
@@ -806,6 +821,17 @@ public class UI extends javax.swing.JFrame {
         jScrollPane23.setViewportView(jTextArea22);
         modifySuspectFields[6]=jTextArea22;
         jTextArea22.getAccessibleContext().setAccessibleName("$");
+        jTextArea22.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea22.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
 
         jButton25.setBackground(primaryColor
         );
@@ -829,7 +855,18 @@ public class UI extends javax.swing.JFrame {
         jTextArea23.setBorder(null);
         jScrollPane24.setViewportView(jTextArea23);
         modifySuspectFields[7]=jTextArea23;
-        jTextArea23.getAccessibleContext().setAccessibleName("$");
+        jTextArea23.getAccessibleContext().setAccessibleName("");
+        jTextArea23.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea23.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
 
         jLabel43.setText("Email (varios)");
 
@@ -843,6 +880,17 @@ public class UI extends javax.swing.JFrame {
         jScrollPane25.setViewportView(jTextArea24);
         modifySuspectFields[1]=jTextArea24;
         jTextArea24.getAccessibleContext().setAccessibleName("$");
+        jTextArea25.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea25.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
 
         jLabel44.setText("Apellido 1");
 
@@ -859,6 +907,17 @@ public class UI extends javax.swing.JFrame {
         jScrollPane26.setViewportView(jTextArea25);
         modifySuspectFields[2]=jTextArea25;
         jTextArea25.getAccessibleContext().setAccessibleName("$");
+        jTextArea26.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea26.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
 
         jScrollPane27.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
         jScrollPane27.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -870,6 +929,17 @@ public class UI extends javax.swing.JFrame {
         jScrollPane27.setViewportView(jTextArea26);
         modifySuspectFields[8]=jTextArea26;
         jTextArea26.getAccessibleContext().setAccessibleName("$");
+        jTextArea26.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea26.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
 
         jButton27.setBackground(primaryColor);
         jButton27.setForeground(secundaryColor);
@@ -889,6 +959,17 @@ public class UI extends javax.swing.JFrame {
         jScrollPane28.setViewportView(jTextArea27);
         modifySuspectFields[3]=jTextArea27;
         jTextArea27.getAccessibleContext().setAccessibleName("$");
+        jTextArea27.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea27.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
 
         jLabel47.setText("Acompañantes (Varios)");
 
@@ -909,6 +990,17 @@ public class UI extends javax.swing.JFrame {
         jScrollPane29.setViewportView(jTextArea28);
         modifySuspectFields[4]=jTextArea28;
         jTextArea28.getAccessibleContext().setAccessibleName("$");
+        jTextArea28.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea28.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
 
         jLabel48.setText("Antecedentes (Varios)");
 
@@ -929,6 +1021,17 @@ public class UI extends javax.swing.JFrame {
         jScrollPane30.setViewportView(jTextArea29);
         modifySuspectFields[9]=jTextArea29;
         jTextArea29.getAccessibleContext().setAccessibleName("$");
+        jTextArea29.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea29.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
 
         jLabel49.setText("Matriculas (Varios)");
 
@@ -957,6 +1060,17 @@ public class UI extends javax.swing.JFrame {
         jScrollPane31.setViewportView(jTextArea30);
         modifySuspectFields[5]=jTextArea30;
         jTextArea30.getAccessibleContext().setAccessibleName("$");
+        jTextArea30.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea30.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
 
         jLabel52.setText("Hechos (varios)");
 
@@ -1139,6 +1253,7 @@ public class UI extends javax.swing.JFrame {
                 compCallingMouseClicked(evt, jTextArea23);
             }
         });
+        jScrollPane24.getAccessibleContext().setAccessibleName("$");
         jButton27.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 compCallingMouseClicked(evt, jTextArea26);
@@ -1267,6 +1382,18 @@ public class UI extends javax.swing.JFrame {
         jTextArea11.setRows(5);
         jTextArea11.setBorder(null);
         jScrollPane12.setViewportView(jTextArea11);
+        jTextArea11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jTextArea11.getAccessibleContext().setAccessibleName("$");
 
         jLabel33.setText("Telefonos (varios)");
 
@@ -1278,6 +1405,18 @@ public class UI extends javax.swing.JFrame {
         jTextArea12.setRows(5);
         jTextArea12.setBorder(null);
         jScrollPane13.setViewportView(jTextArea12);
+        jTextArea12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea21.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jTextArea12.getAccessibleContext().setAccessibleName("$");
 
         jButton17.setBackground(primaryColor
         );
@@ -1300,6 +1439,18 @@ public class UI extends javax.swing.JFrame {
         jTextArea13.setRows(5);
         jTextArea13.setBorder(null);
         jScrollPane14.setViewportView(jTextArea13);
+        jTextArea13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jTextArea13.getAccessibleContext().setAccessibleName("$");
 
         jButton19.setBackground(primaryColor);
         jButton19.setForeground(secundaryColor);
@@ -1315,6 +1466,18 @@ public class UI extends javax.swing.JFrame {
         jTextArea14.setRows(5);
         jTextArea14.setBorder(null);
         jScrollPane15.setViewportView(jTextArea14);
+        jTextArea14.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea14.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jTextArea14.getAccessibleContext().setAccessibleName("$");
 
         jButton20.setBackground(primaryColor);
         jButton20.setForeground(secundaryColor);
@@ -1330,6 +1493,18 @@ public class UI extends javax.swing.JFrame {
         jTextArea15.setRows(5);
         jTextArea15.setBorder(null);
         jScrollPane16.setViewportView(jTextArea15);
+        jTextArea15.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea15.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jTextArea15.getAccessibleContext().setAccessibleName("$");
 
         jLabel34.setText("Direcciones (Varios)");
 
@@ -1345,6 +1520,18 @@ public class UI extends javax.swing.JFrame {
         jTextArea16.setRows(5);
         jTextArea16.setBorder(null);
         jScrollPane17.setViewportView(jTextArea16);
+        jTextArea16.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea16.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jTextArea16.getAccessibleContext().setAccessibleName("$");
 
         jLabel38.setText("Apellido 1");
 
@@ -1359,6 +1546,18 @@ public class UI extends javax.swing.JFrame {
         jTextArea17.setRows(5);
         jTextArea17.setBorder(null);
         jScrollPane18.setViewportView(jTextArea17);
+        jTextArea17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jTextArea17.getAccessibleContext().setAccessibleName("$");
 
         jLabel40.setText("Acompañantes (Varios)");
 
@@ -1370,6 +1569,18 @@ public class UI extends javax.swing.JFrame {
         jTextArea18.setRows(5);
         jTextArea18.setBorder(null);
         jScrollPane19.setViewportView(jTextArea18);
+        jTextArea18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jTextArea18.getAccessibleContext().setAccessibleName("$");
 
         jButton21.setBackground(primaryColor);
         jButton21.setForeground(secundaryColor
@@ -1393,6 +1604,18 @@ public class UI extends javax.swing.JFrame {
         jTextArea19.setRows(5);
         jTextArea19.setBorder(null);
         jScrollPane20.setViewportView(jTextArea19);
+        jTextArea19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea21.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jTextArea19.getAccessibleContext().setAccessibleName("$");
 
         jLabel41.setText("Antecedentes (Varios)");
 
@@ -1406,6 +1629,18 @@ public class UI extends javax.swing.JFrame {
         jTextArea20.setRows(5);
         jTextArea20.setBorder(null);
         jScrollPane21.setViewportView(jTextArea20);
+        jTextArea20.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea20.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jTextArea20.getAccessibleContext().setAccessibleName("$");
 
         jButton23.setBackground(primaryColor);
         jButton23.setForeground(secundaryColor);
@@ -1600,7 +1835,7 @@ public class UI extends javax.swing.JFrame {
         jButton18.getAccessibleContext().setAccessibleName("1$0$0");
         jButton19.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                compCallingMouseClicked(evt, jTextArea19);
+                compCallingMouseClicked(evt, jTextArea14);
             }
         });
 
@@ -1618,7 +1853,7 @@ public class UI extends javax.swing.JFrame {
         jButton19.getAccessibleContext().setAccessibleName("1$0$0");
         jButton20.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                compCallingMouseClicked(evt, jTextArea20);
+                compCallingMouseClicked(evt, jTextArea15);
             }
         });
 
@@ -2667,7 +2902,18 @@ public class UI extends javax.swing.JFrame {
         jTextArea1.setBorder(null);
         jScrollPane1.setViewportView(jTextArea1);
         addSuspectFields[0]=jTextArea1;
-        jTextArea1.getAccessibleContext().setAccessibleName("");
+        jTextArea1.getAccessibleContext().setAccessibleName("$");
+        jTextArea1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
 
         jScrollPane2.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -2679,6 +2925,19 @@ public class UI extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTextArea2);
         addSuspectFields[1]=jTextArea2;
 
+        jTextArea2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jTextArea2.getAccessibleContext().setAccessibleName("$");
+
         jScrollPane3.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane3.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -2687,6 +2946,18 @@ public class UI extends javax.swing.JFrame {
         jTextArea3.setRows(5);
         jTextArea3.setBorder(null);
         jScrollPane3.setViewportView(jTextArea3);
+        jTextArea3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jTextArea3.getAccessibleContext().setAccessibleName("$");
 
         jScrollPane4.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
         jScrollPane4.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -2699,6 +2970,19 @@ public class UI extends javax.swing.JFrame {
         jScrollPane4.setViewportView(jTextArea4);
         addSuspectFields[2]=jTextArea4;
 
+        jTextArea4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jTextArea4.getAccessibleContext().setAccessibleName("$");
+
         jScrollPane5.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
         jScrollPane5.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane5.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -2708,6 +2992,19 @@ public class UI extends javax.swing.JFrame {
         jTextArea5.setBorder(null);
         jScrollPane5.setViewportView(jTextArea5);
         addSuspectFields[4]=jTextArea5;
+
+        jTextArea5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jTextArea5.getAccessibleContext().setAccessibleName("$");
 
         jScrollPane6.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
         jScrollPane6.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -2719,6 +3016,19 @@ public class UI extends javax.swing.JFrame {
         jScrollPane6.setViewportView(jTextArea6);
         addSuspectFields[5]=jTextArea6;
 
+        jTextArea6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jTextArea6.getAccessibleContext().setAccessibleName("$");
+
         jScrollPane7.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
         jScrollPane7.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane7.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -2728,6 +3038,19 @@ public class UI extends javax.swing.JFrame {
         jTextArea7.setBorder(null);
         jScrollPane7.setViewportView(jTextArea7);
         addSuspectFields[7]=jTextArea7;
+
+        jTextArea7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jTextArea7.getAccessibleContext().setAccessibleName("$");
 
         jScrollPane8.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
         jScrollPane8.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -2739,6 +3062,19 @@ public class UI extends javax.swing.JFrame {
         jScrollPane8.setViewportView(jTextArea8);
         addSuspectFields[6]=jTextArea8;
 
+        jTextArea8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jTextArea8.getAccessibleContext().setAccessibleName("$");
+
         jScrollPane9.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
         jScrollPane9.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane9.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -2749,6 +3085,19 @@ public class UI extends javax.swing.JFrame {
         jScrollPane9.setViewportView(jTextArea9);
         addSuspectFields[9]=jTextArea9;
 
+        jTextArea9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jTextArea9.getAccessibleContext().setAccessibleName("$");
+
         jScrollPane10.setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
         jScrollPane10.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane10.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -2758,6 +3107,19 @@ public class UI extends javax.swing.JFrame {
         jTextArea10.setBorder(null);
         jScrollPane10.setViewportView(jTextArea10);
         addSuspectFields[8]=jTextArea10;
+
+        jTextArea10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+
+        jTextArea10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jTextArea10.getAccessibleContext().setAccessibleName("$");
 
         jButton16.setBackground(primaryColor);
         jButton16.setForeground(secundaryColor
@@ -2863,9 +3225,9 @@ public class UI extends javax.swing.JFrame {
                             .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel28))
+                        .addGroup(pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel28)
+                            .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlAddLayout.createSequentialGroup()
@@ -3097,11 +3459,11 @@ public class UI extends javax.swing.JFrame {
             .addGroup(layeredConfMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layeredConfMainLayout.createSequentialGroup()
                     .addComponent(pnlAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 23, Short.MAX_VALUE)))
+                    .addGap(0, 62, Short.MAX_VALUE)))
             .addGroup(layeredConfMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layeredConfMainLayout.createSequentialGroup()
                     .addComponent(pnlModifySuspect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 28, Short.MAX_VALUE)))
+                    .addGap(0, 66, Short.MAX_VALUE)))
         );
 
         pnlModifySuspect.getAccessibleContext().setAccessibleName("-$-$-");
@@ -3307,7 +3669,8 @@ public class UI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        modifySuspectImageManager.showSuspect(suspectBeenModified);
+        modifySuspectImageManager.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public static void start() {
@@ -3574,5 +3937,5 @@ public class UI extends javax.swing.JFrame {
     private static ImageManager modifySuspectImageManager;
     private static JTextComponent[] addSuspectFields = new JTextComponent[10];
     private JTextComponent[] modifySuspectFields = new JTextComponent[10];
-    private Suspect suspectToUpdate;
+    private Suspect suspectBeenModified;
 }

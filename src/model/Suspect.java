@@ -135,8 +135,8 @@ public class Suspect {
         return Images;
     }
     
-    public void setImages(ArrayList Images){
-        this.Images=Images;
+    public void setImages(ArrayList<Images> img){
+        this.Images=img;
     }
     
       public ArrayList getSuspect(){

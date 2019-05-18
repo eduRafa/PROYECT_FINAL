@@ -59,6 +59,10 @@ public class Images {
         }
         transformImage(Image);
     }
+    
+    public void setImageIcon(ImageIcon image){
+        this.image=image;
+    }
 
     public Integer getCodeImage() {
         return codeImage;

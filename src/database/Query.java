@@ -11,6 +11,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.sql.Statement;
@@ -98,10 +99,10 @@ public class Query {
             Connect.startConnection();
             c = Connect.getMyConnection();
             Statement s = c.createStatement();
-            if(!type.equals("PhoneNumber")){
+            if (!type.equals("PhoneNumber")) {
                 s.executeUpdate("Update " + table + " set " + type + "='" + value + "' where " + key + "=" + code);
                 updated = true;
-            }else{
+            } else {
                 s.executeUpdate("Update " + table + " set " + type + "=" + value + " where " + key + "=" + code);
                 updated = true;
             }
@@ -112,6 +113,7 @@ public class Query {
         }
         return updated;
     }
+
     /*
     Este metodo actualiza la infomracion de un sospechoso
     *@param sus: Es el sospechoso que se desea actualizar el la base de datos cuyos parametros ya tiene los nuevos valores
@@ -120,13 +122,8 @@ public class Query {
     public static boolean Update(Suspect sus) {
         boolean updated = false;
         Suspect preUpdate = Query.findSuspect(sus.getCodeSuspect());
-        System.out.println("holi");
-        System.out.println(sus.getCodeSuspect());
         if (sus != null) {
-            System.out.println(sus.getName());
             if (!sus.getName().equals(preUpdate.getName())) {
-                System.out.println(sus.getCodeSuspect().toString());
-                System.out.println(sus.getName());
                 updated = updateAttribute("Name", sus.getCodeSuspect().toString(), sus.getName(), "Suspect", "CodeSuspect");
             }
             if (!sus.equals(preUpdate.getLastname1())) {
@@ -156,15 +153,16 @@ public class Query {
                     for (int i = 0; i < sus.getPhone().size(); i++) {
                         if (sus.getPhone().get(i).equals("")) {
                             s.executeUpdate("Update PHONE set PhoneNumber = null where "
-                                    +"CodeSuspect=" + sus.getCodeSuspect());
+                                    + "CodeSuspect=" + sus.getCodeSuspect());
                         } else {
+                            System.out.println(sus.getPhone().get(i));
                             s.executeUpdate("Update PHONE set PhoneNumber = " + sus.getPhone().get(i) + " where "
-                                    +"CodeSuspect=" + sus.getCodeSuspect());
+                                    + "CodeSuspect=" + sus.getCodeSuspect());
                         }
                     }
-                s.close();
-                rs.close();
-                Connect.closeConnection();
+                    s.close();
+                    rs.close();
+                    Connect.closeConnection();
                 } catch (Exception ex) {
                     Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -177,15 +175,15 @@ public class Query {
                     for (int i = 0; i < sus.getPhone().size(); i++) {
                         if (sus.getEmail().get(i).equals("")) {
                             s.executeUpdate("Update E_MAIL set Email = null where "
-                                    +"CodeSuspect=" + sus.getCodeSuspect());
+                                    + "CodeSuspect=" + sus.getCodeSuspect());
                         } else {
                             s.executeUpdate("Update E_MAIL set Email = '" + sus.getEmail().get(i) + "' where "
-                                    +"CodeSuspect=" + sus.getCodeSuspect());
+                                    + "CodeSuspect=" + sus.getCodeSuspect());
                         }
                     }
-                s.close();
-                rs.close();
-                Connect.closeConnection();
+                    s.close();
+                    rs.close();
+                    Connect.closeConnection();
                 } catch (Exception ex) {
                     Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -198,15 +196,15 @@ public class Query {
                     for (int i = 0; i < sus.getAddress().size(); i++) {
                         if (sus.getAddress().get(i).equals("")) {
                             s.executeUpdate("Update ADDRESS set Address = null where "
-                                    +"CodeSuspect=" + sus.getCodeSuspect());
+                                    + "CodeSuspect=" + sus.getCodeSuspect());
                         } else {
                             s.executeUpdate("Update ADDRESS set Address = '" + sus.getAddress().get(i) + "' where "
-                                    +"CodeSuspect=" + sus.getCodeSuspect());
+                                    + "CodeSuspect=" + sus.getCodeSuspect());
                         }
                     }
-                s.close();
-                rs.close();
-                Connect.closeConnection();
+                    s.close();
+                    rs.close();
+                    Connect.closeConnection();
                 } catch (Exception ex) {
                     Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -219,15 +217,15 @@ public class Query {
                     for (int i = 0; i < sus.getCar_Resgistration().size(); i++) {
                         if (sus.getCar_Resgistration().get(i).equals("")) {
                             s.executeUpdate("Update CAR_REGISTRATION set Registration_number = null where "
-                                    +"CodeSuspect=" + sus.getCodeSuspect());
+                                    + "CodeSuspect=" + sus.getCodeSuspect());
                         } else {
                             s.executeUpdate("Update CAR_REGISTRATION set Registration_number = '" + sus.getCar_Resgistration().get(i) + "' where "
-                                    +"CodeSuspect=" + sus.getCodeSuspect());
+                                    + "CodeSuspect=" + sus.getCodeSuspect());
                         }
                     }
-                s.close();
-                rs.close();
-                Connect.closeConnection();
+                    s.close();
+                    rs.close();
+                    Connect.closeConnection();
                 } catch (Exception ex) {
                     Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -235,7 +233,7 @@ public class Query {
             if (sus.getImages() != null) {
                 for (int i = 0; i < sus.getImages().size(); i++) {
                     if (sus.getImages().get(i) != null) {
-                        updateImage(sus.getImages().get(i).getCodeImage().toString(),sus.getImages().get(i));
+                        updateImage(sus.getImages().get(i).getCodeImage().toString(), sus.getImages().get(i));
                     }
                 }
             }
@@ -243,30 +241,30 @@ public class Query {
         }
         return updated;
     }
-    
-    private static boolean updateImage(String code,Images img){
-        boolean added=false;
-        String update="Update Images set ? = ? where CodeImage="+ code;
-        FileInputStream fis=null;
+
+    private static boolean updateImage(String code, Images img) {
+        boolean added = false;
+        String update = "Update Images set ? = ? where CodeImage=" + code;
+        FileInputStream fis = null;
         try {
             Connect.startConnection();
             c = Connect.getMyConnection();
-            PreparedStatement ps=null;
-            if (img.getFile() != null){
-               fis = new FileInputStream(img.getFile());
-               ps=c.prepareStatement(update);
-               ps.setString(1, "Image");
-               ps.setBinaryStream(2, fis, img.getFile().length());
-               ps.execute();
-               ps.setString(1, "Description");
-               ps.setString(2, img.getDescription());
-               ps.execute();
-               c.close();
+            PreparedStatement ps = null;
+            if (img.getFile() != null) {
+                fis = new FileInputStream(img.getFile());
+                ps = c.prepareStatement(update);
+                ps.setString(1, "Image");
+                ps.setBinaryStream(2, fis, img.getFile().length());
+                ps.execute();
+                ps.setString(1, "Description");
+                ps.setString(2, img.getDescription());
+                ps.execute();
+                c.close();
             }
-            if(ps!=null){
+            if (ps != null) {
                 ps.close();
             }
-            if(fis!=null){
+            if (fis != null) {
                 fis.close();
             }
         } catch (Exception ex) {
@@ -274,7 +272,7 @@ public class Query {
         }
         return added;
     }
-    
+
     /*
     *Este metodo se encarga de almacenar en la base de datos una informacion dada de un atributo dado para un sospechosos en concreto
     *@param code: Es el codigo del sospechosos al que se le desean añadir los atributos
@@ -369,10 +367,10 @@ public class Query {
                     added = false;
                 }
             }
-            if(fis!=null){
+            if (fis != null) {
                 fis.close();
             }
-            if(ps!=null){
+            if (ps != null) {
                 ps.close();
             }
             c.close();
@@ -469,6 +467,7 @@ public class Query {
                     + "where CodeSuspect=" + code);
             while (rs.next()) {
                 email = new Email(rs.getInt(1), Integer.valueOf(code), rs.getString(2));
+                System.out.println(email.getEmail());
                 em.add(email);
             }
             rs = s.executeQuery("Select CodeAddress,Address from ADDRESS "
@@ -487,16 +486,18 @@ public class Query {
                     + "where CodeSuspect=" + code);
             while (rs.next()) {
                 Blob blob = rs.getBlob(1);
-                byte[] data=blob.getBytes(1, (int)blob.length());
+                byte[] data = blob.getBytes(1, (int) blob.length());
                 BufferedImage image = null;
-                image=ImageIO.read(new ByteArrayInputStream(data));
-                ImageIcon imageICON= new ImageIcon(image);
-                images=new Images(rs.getInt(2), rs.getString(3),code,imageICON);
+                image = ImageIO.read(new ByteArrayInputStream(data));
+                ImageIcon imageICON = new ImageIcon(image);
+                images = new Images(rs.getInt(2), rs.getString(3), code, imageICON);
                 img.add(images);
             }
             s.close();
             rs.close();
             Connect.closeConnection();
+
+            System.out.println(em.get(0).getEmail());
             sus = new Suspect(code, name, lastname1, lastname2, as, Record, Facts, ph, em, ad, cr, img);
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
@@ -574,7 +575,13 @@ public class Query {
             if (rs != null) {
                 int j = 0;
                 for (int i = 0; i < maxPosition && rs.next(); i++, j++) {
-                    //show[j]=findSuspect(rs.getString(1));
+                    Blob blob = rs.getBlob("Image");
+                    InputStream in = blob.getBinaryStream();
+                    BufferedImage image = ImageIO.read(in);
+                    imgs[i].setImage(image, null);
+                    imgs[i].setCodeImage(rs.getInt(2));
+                    imgs[i].setDescription(rs.getString(3));//ES un blob
+                    imgs[i].setCodeSuspect(rs.getInt(4));
                 }
             }
             s.close();
@@ -667,8 +674,8 @@ public class Query {
         ArrayList<Suspect> als = new ArrayList<>();
         //name,lastname1,lastname2,phone,email,address,registration,suspect
         als = searchBy("lastname1", sus.getName());
-        for(int i=0;i<als.size();i++){
-           
+        for (int i = 0; i < als.size(); i++) {
+
         }
         return coincidences;
     }

@@ -64,6 +64,7 @@ public class Controller implements ActionListener {
                 try {
                     Query.addSuspect(myUI.getAddSuspect());
                     myUI.removeAddSuspectsFields();
+                    myUI.getAddSuspectImageManager().resetImageManager();
                     CreateAndFillTables.fillMainTable();
                 } catch (SQLException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
