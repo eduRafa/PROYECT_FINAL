@@ -50,101 +50,102 @@ public class Suspect {
            
             
     }
-    
-    public Integer getCodeSuspect(){
+
+    public Integer getCodeSuspect() {
         return CodeSuspect;
     }
-    
-    public void setCodeSuspect(Integer CodeSuspect){
-        this.CodeSuspect=CodeSuspect;
-    }
-    
-    public String getName(){
+
+    public String getName() {
         return name;
     }
-    
-    public void setName(String name){
-        this.name=name;
-    }
-    
-     public String getLastname1(){
+
+    public String getLastname1() {
         return lastname1;
     }
-    
-    public void setLastname1(String lastname1){
-        this.lastname1=lastname1;
-    }
-    
-    public String getLastname2(){
+
+    public String getLastname2() {
         return lastname2;
     }
-    
-    public void setLastname2(String lastname2){
-        this.lastname2=lastname2;
-    }
-    
-    public Blob getRecord(){
+
+    public Blob getRecord() {
         return Record;
     }
-    
-    public void setRecord(Blob Record){
-        this.Record=Record;
-    }
-    
-    public Blob getFacts(){
+
+    public Blob getFacts() {
         return Facts;
     }
-    
-    public void setFacts(Blob Facts){
-        this.Facts=Facts;
-    }
-    
-    public ArrayList getPhone(){
+
+    public ArrayList<Phone> getPhone() {
         return Phone;
     }
-    
-    public void setPhone(ArrayList Phone){
-        this.Phone=Phone;
-    }
-    
-    public ArrayList getEmail(){
+
+    public ArrayList<Email> getEmail() {
         return Email;
-    } 
-    
-    public void setEmail(ArrayList Email){
-        this.Email=Email;
     }
-    
-    public ArrayList getAddress(){
+
+    public ArrayList<Address> getAddress() {
         return Address;
     }
-    
-    public void setAddress(ArrayList Address){
-        this.Address=Address;
-    }
-    
-    public ArrayList getCar_Resgistration(){
+
+    public ArrayList<Car_Registration> getCar_registration() {
         return Car_registration;
     }
-    
-    public void setCar_Registration(ArrayList Car_registration){
-        this.Car_registration=Car_registration;
-    }
-   
-      public ArrayList<Images> getImages(){
+
+    public ArrayList<Images> getImages() {
         return Images;
     }
-    
-    public void setImages(ArrayList<Images> img){
-        this.Images=img;
-    }
-    
-      public ArrayList getSuspect(){
+
+    public ArrayList<Suspect> getSuspect() {
         return Suspect;
     }
-    
-    public void setSuspect(ArrayList Suspect){
-        this.Suspect=Suspect;
+
+    public void setCodeSuspect(Integer CodeSuspect) {
+        this.CodeSuspect = CodeSuspect;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLastname1(String lastname1) {
+        this.lastname1 = lastname1;
+    }
+
+    public void setLastname2(String lastname2) {
+        this.lastname2 = lastname2;
+    }
+
+    public void setRecord(Blob Record) {
+        this.Record = Record;
+    }
+
+    public void setFacts(Blob Facts) {
+        this.Facts = Facts;
+    }
+
+    public void setPhone(ArrayList<Phone> Phone) {
+        this.Phone = Phone;
+    }
+
+    public void setEmail(ArrayList<Email> Email) {
+        this.Email = Email;
+    }
+
+    public void setAddress(ArrayList<Address> Address) {
+        this.Address = Address;
+    }
+
+    public void setCar_registration(ArrayList<Car_Registration> Car_registration) {
+        this.Car_registration = Car_registration;
+    }
+
+    public void setImages(ArrayList<Images> Images) {
+        this.Images = Images;
+    }
+
+    public void setSuspect(ArrayList<Suspect> Suspect) {
+        this.Suspect = Suspect;
+    }
+    
     
 }

@@ -146,19 +146,14 @@ public class Query {
                 }
             }
             if (sus.getPhone() != null) {
+                ArrayList<Phone> phones=sus.getPhone();
                 try {
                     Connect.startConnection();
                     c = Connect.getMyConnection();
                     Statement s = c.createStatement();
-                    for (int i = 0; i < sus.getPhone().size(); i++) {
-                        if (sus.getPhone().get(i).equals("")) {
-                            s.executeUpdate("Update PHONE set PhoneNumber = null where "
-                                    + "CodeSuspect=" + sus.getCodeSuspect());
-                        } else {
-                            System.out.println(sus.getPhone().get(i));
-                            s.executeUpdate("Update PHONE set PhoneNumber = " + sus.getPhone().get(i) + " where "
-                                    + "CodeSuspect=" + sus.getCodeSuspect());
-                        }
+                    for (int i = 0; i < phones.size(); i++) {
+                        s.executeUpdate("Update PHONE set PhoneNumber = " + phones.get(i).getPhoneNumber() + " where "
+                        + "CodeSuspect=" + phones.get(i).getCodePhone());
                     }
                     s.close();
                     rs.close();
@@ -172,13 +167,14 @@ public class Query {
                     Connect.startConnection();
                     c = Connect.getMyConnection();
                     Statement s = c.createStatement();
-                    for (int i = 0; i < sus.getPhone().size(); i++) {
-                        if (sus.getEmail().get(i).equals("")) {
+                    for (int i = 0; i < sus.getEmail().size(); i++) {
+                        System.out.println(sus.getEmail().get(i));
+                        if (sus.getEmail().get(i).getEmail().equals("")) {
                             s.executeUpdate("Update E_MAIL set Email = null where "
-                                    + "CodeSuspect=" + sus.getCodeSuspect());
+                                    + "CodeSuspect=" + sus.getEmail().get(i).getCodeEmail());
                         } else {
-                            s.executeUpdate("Update E_MAIL set Email = '" + sus.getEmail().get(i) + "' where "
-                                    + "CodeSuspect=" + sus.getCodeSuspect());
+                            s.executeUpdate("Update E_MAIL set Email = '" + sus.getEmail().get(i).getEmail() + "' where "
+                                    + "CodeSuspect=" + sus.getEmail().get(i).getCodeEmail());
                         }
                     }
                     s.close();
@@ -194,12 +190,12 @@ public class Query {
                     c = Connect.getMyConnection();
                     Statement s = c.createStatement();
                     for (int i = 0; i < sus.getAddress().size(); i++) {
-                        if (sus.getAddress().get(i).equals("")) {
+                        if (sus.getAddress().get(i).getAddress().equals("")) {
                             s.executeUpdate("Update ADDRESS set Address = null where "
-                                    + "CodeSuspect=" + sus.getCodeSuspect());
+                                    + "CodeSuspect=" + sus.getAddress().get(i).getCodeAddress());
                         } else {
-                            s.executeUpdate("Update ADDRESS set Address = '" + sus.getAddress().get(i) + "' where "
-                                    + "CodeSuspect=" + sus.getCodeSuspect());
+                            s.executeUpdate("Update ADDRESS set Address = '" + sus.getAddress().get(i).getAddress() + "' where "
+                                    + "CodeSuspect=" + sus.getAddress().get(i).getCodeAddress());
                         }
                     }
                     s.close();
@@ -209,18 +205,19 @@ public class Query {
                     Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            if (sus.getCar_Resgistration() != null) {
+            if (sus.getCar_registration() != null) {
                 try {
                     Connect.startConnection();
                     c = Connect.getMyConnection();
                     Statement s = c.createStatement();
-                    for (int i = 0; i < sus.getCar_Resgistration().size(); i++) {
-                        if (sus.getCar_Resgistration().get(i).equals("")) {
+                    for (int i = 0; i < sus.getCar_registration().size(); i++) {
+                        if (sus.getCar_registration().get(i).getRegistration().equals("")) {
                             s.executeUpdate("Update CAR_REGISTRATION set Registration_number = null where "
-                                    + "CodeSuspect=" + sus.getCodeSuspect());
+                                    + "CodeSuspect=" + sus.getCar_registration().get(i).getCodeRegistration());
                         } else {
-                            s.executeUpdate("Update CAR_REGISTRATION set Registration_number = '" + sus.getCar_Resgistration().get(i) + "' where "
-                                    + "CodeSuspect=" + sus.getCodeSuspect());
+                            s.executeUpdate("Update CAR_REGISTRATION set Registration_number = '" 
+                                    + sus.getCar_registration().get(i).getRegistration() + "' where "
+                                    + "CodeSuspect=" + sus.getCar_registration().get(i).getCodeRegistration());
                         }
                     }
                     s.close();
@@ -278,7 +275,7 @@ public class Query {
     *@param code: Es el codigo del sospechosos al que se le desean añadir los atributos
     *@param al:Es el arraylist con los valores que se desean añadir
      */
-    public static boolean addAtrivute(String code, ArrayList<Object> al, String type) {
+    public static boolean addAtrivute(String code, ArrayList al, String type) {
         boolean added = false;
         if (al != null) {
             try {
@@ -393,14 +390,15 @@ public class Query {
             c = Connect.getMyConnection();
             Statement s = c.createStatement();
             s.executeUpdate("INSERT INTO SUSPECT (name,lastname1, lastname2, Record,Facts) "
-                    + "values ('" + suspect.getName() + "','" + suspect.getLastname1() + "','" + suspect.getLastname2() + "','" + suspect.getRecord() + "','" + suspect.getFacts() + "')");
+                    + "values ('" + suspect.getName() + "','" + suspect.getLastname1() + "','"
+                            + suspect.getLastname2() + "','" + suspect.getRecord() + "','" + suspect.getFacts() + "')");
 
             String last = findLast();
             correct = Query.addAtrivute(last, suspect.getPhone(), "Phone");
             correct = Query.addAtrivute(last, suspect.getEmail(), "Email");
             correct = Query.addAtrivute(last, suspect.getAddress(), "Address");
             correct = Query.addAtrivute(last, suspect.getSuspect(), "Suspect");
-            correct = Query.addAtrivute(last, suspect.getCar_Resgistration(), "Car_Registration");
+            correct = Query.addAtrivute(last, suspect.getCar_registration(), "Car_Registration");
             correct = Query.addImage(last, suspect.getImages());
             s.close();
             rs.close();
