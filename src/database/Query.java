@@ -291,7 +291,6 @@ public class Query {
                         case "Phone":
                             for (int i = 0; i < al.size(); i++) {
                                 Phone phone=(Phone) al.get(i);
-                                System.out.println(phone.getCodePhone());
                                 if (al.get(i).equals("")) {
                                     s.executeUpdate("INSERT into PHONE (CodeSuspect,PhoneNumber) "
                                             + "values (" + code + ",null)");
@@ -303,10 +302,8 @@ public class Query {
                                 rs = s.executeQuery("SELECT CodePhone from PHONE");
                                 if (rs.last()) {
                                      phone.setCodePhone(rs.getInt(1));
-                                     Object obj=(Object)phone;
                                      al.set(i, (T) phone);
                                 }
-                                
                             }
                             break;
                         case "Email":
@@ -314,6 +311,11 @@ public class Query {
                                 Email email=(Email) al.get(i);
                                 s.executeUpdate("INSERT into E_MAIL (CodeSuspect,Email) "
                                         + "values (" + code + ",'" + email.getEmail() + "')");
+                                rs = s.executeQuery("SELECT CodeE_mail from E_MAIL");
+                                if (rs.last()) {
+                                     email.setCodeEmail(rs.getInt(1));
+                                     al.set(i, (T) email);
+                                }
                             }
                             break;
                         case "Address":
@@ -321,6 +323,11 @@ public class Query {
                                 Address address=(Address) al.get(i);
                                 s.executeUpdate("INSERT into ADDRESS (CodeSuspect,Address) "
                                         + "values (" + code + ",'" + address.getAddress() + "')");
+                                rs = s.executeQuery("SELECT CodeAddress from ADDRESS");
+                                if (rs.last()) {
+                                     address.setCodeAddress(rs.getInt(1));
+                                     al.set(i, (T) address);
+                                }
                             }
                             break;
                         case "Suspect":
@@ -335,6 +342,11 @@ public class Query {
                                 Car_Registration cr=(Car_Registration) al.get(i);
                                 s.executeUpdate("INSERT into CAR_REGISTRATION (CodeSuspect,Registration_number) "
                                         + "values (" + code + ",'" + cr.getRegistration() + "')");
+                                rs = s.executeQuery("SELECT CodeRegistration from CAR_REGISTRATION");
+                                if (rs.last()) {
+                                     cr.setCodeRegistration(rs.getInt(1));
+                                     al.set(i, (T) cr);
+                                }
                             }
                             break;
                     }
@@ -411,10 +423,10 @@ public class Query {
 
             String last = findLast();
             correct = Query.<Phone>addAtrivute(last, suspect.getPhone(), "Phone");
-            correct = Query.addAtrivute(last, suspect.getEmail(), "Email");
-            correct = Query.addAtrivute(last, suspect.getAddress(), "Address");
-            correct = Query.addAtrivute(last, suspect.getSuspect(), "Suspect");
-            correct = Query.addAtrivute(last, suspect.getCar_registration(), "Car_Registration");
+            correct = Query.<Email>addAtrivute(last, suspect.getEmail(), "Email");
+            correct = Query.<Address>addAtrivute(last, suspect.getAddress(), "Address");
+            correct = Query.<Suspect>addAtrivute(last, suspect.getSuspect(), "Suspect");
+            correct = Query.<Car_Registration>addAtrivute(last, suspect.getCar_registration(), "Car_Registration");
             correct = Query.addImage(last, suspect.getImages());
             s.close();
             rs.close();
