@@ -152,9 +152,15 @@ public class Query {
                     c = Connect.getMyConnection();
                     Statement s = c.createStatement();
                     for (int i = 0; i < sus.getPhone().size(); i++) {
-                        System.out.println(preUpdate.getPhone().get(i).getCodePhone());
-                        s.executeUpdate("Update PHONE set PhoneNumber = " + sus.getPhone().get(i).getPhoneNumber() + " where "
-                        + "CodePhone=" + preUpdate.getPhone().get(i).getCodePhone());
+                        if(i<preUpdate.getPhone().size()){
+                            System.out.println(preUpdate.getPhone().get(i).getCodePhone());
+                            s.executeUpdate("Update PHONE set PhoneNumber = " + sus.getPhone().get(i).getPhoneNumber() + " where "
+                            + "CodePhone=" + preUpdate.getPhone().get(i).getCodePhone());
+                        }else{
+                            ArrayList<Phone> phones=new ArrayList<>();
+                            phones.add(sus.getPhone().get(i));
+                            Query.<Phone>addAtrivute(preUpdate.getCodeSuspect().toString(), phones, "Phone");
+                        }
                     }
                     s.close();
                     rs.close();
@@ -169,12 +175,18 @@ public class Query {
                     c = Connect.getMyConnection();
                     Statement s = c.createStatement();
                     for (int i = 0; i < sus.getEmail().size(); i++) {
-                        if (sus.getEmail().get(i).getEmail().equals("")) {
-                            s.executeUpdate("Update E_MAIL set Email = null where "
-                                    + "CodeE_mail=" + preUpdate.getEmail().get(i).getCodeEmail());
-                        } else {
-                            s.executeUpdate("Update E_MAIL set Email = '" + sus.getEmail().get(i).getEmail() + "' where "
-                                    + "CodeE_mail=" + preUpdate.getEmail().get(i).getCodeEmail());
+                        if(i<preUpdate.getEmail().size()){
+                            if (sus.getEmail().get(i).getEmail().equals("")) {
+                                s.executeUpdate("Update E_MAIL set Email = null where "
+                                        + "CodeE_mail=" + preUpdate.getEmail().get(i).getCodeEmail());
+                            } else {
+                                s.executeUpdate("Update E_MAIL set Email = '" + sus.getEmail().get(i).getEmail() + "' where "
+                                        + "CodeE_mail=" + preUpdate.getEmail().get(i).getCodeEmail());
+                            }
+                        }else{
+                            ArrayList<Email> emails=new ArrayList<>();
+                            emails.add(sus.getEmail().get(i));
+                            Query.<Email>addAtrivute(preUpdate.getCodeSuspect().toString(), emails, "Email");
                         }
                     }
                     s.close();
@@ -190,12 +202,18 @@ public class Query {
                     c = Connect.getMyConnection();
                     Statement s = c.createStatement();
                     for (int i = 0; i < sus.getAddress().size(); i++) {
-                        if (sus.getAddress().get(i).getAddress().equals("")) {
-                            s.executeUpdate("Update ADDRESS set Address = null where "
-                                    + "CodeAddress=" + preUpdate.getAddress().get(i).getCodeAddress());
-                        } else {
-                            s.executeUpdate("Update ADDRESS set Address = '" + sus.getAddress().get(i).getAddress() + "' where "
-                                    + "CodeAddress=" + preUpdate.getAddress().get(i).getCodeAddress());
+                        if(i<preUpdate.getAddress().size()){
+                            if (sus.getAddress().get(i).getAddress().equals("")) {
+                                s.executeUpdate("Update ADDRESS set Address = null where "
+                                        + "CodeAddress=" + preUpdate.getAddress().get(i).getCodeAddress());
+                            } else {
+                                s.executeUpdate("Update ADDRESS set Address = '" + sus.getAddress().get(i).getAddress() + "' where "
+                                        + "CodeAddress=" + preUpdate.getAddress().get(i).getCodeAddress());
+                            }
+                        }else{
+                            ArrayList<Address> address=new ArrayList<>();
+                            address.add(sus.getAddress().get(i));
+                            Query.<Address>addAtrivute(preUpdate.getCodeSuspect().toString(), address, "Address");
                         }
                     }
                     s.close();
@@ -211,13 +229,19 @@ public class Query {
                     c = Connect.getMyConnection();
                     Statement s = c.createStatement();
                     for (int i = 0; i < sus.getCar_registration().size(); i++) {
-                        if (sus.getCar_registration().get(i).getRegistration().equals("")) {
-                            s.executeUpdate("Update CAR_REGISTRATION set Registration_number = null where "
-                                    + "CodeRegistration=" + sus.getCar_registration().get(i).getCodeRegistration());
-                        } else {
-                            s.executeUpdate("Update CAR_REGISTRATION set Registration_number = '" 
-                                    + sus.getCar_registration().get(i).getRegistration() + "' where "
-                                    + "CodeRegistration=" + sus.getCar_registration().get(i).getCodeRegistration());
+                        if(i<preUpdate.getCar_registration().size()){
+                            if (sus.getCar_registration().get(i).getRegistration().equals("")) {
+                                s.executeUpdate("Update CAR_REGISTRATION set Registration_number = null where "
+                                        + "CodeRegistration=" + sus.getCar_registration().get(i).getCodeRegistration());
+                            } else {
+                                s.executeUpdate("Update CAR_REGISTRATION set Registration_number = '" 
+                                        + sus.getCar_registration().get(i).getRegistration() + "' where "
+                                        + "CodeRegistration=" + sus.getCar_registration().get(i).getCodeRegistration());
+                            }
+                        }else{
+                            ArrayList<Car_Registration> cr=new ArrayList<>();
+                            cr.add(sus.getCar_registration().get(i));
+                            Query.<Car_Registration>addAtrivute(preUpdate.getCodeSuspect().toString(), cr, "Car_Registration");
                         }
                     }
                     s.close();
@@ -696,7 +720,7 @@ public class Query {
         //name,lastname1,lastname2,phone,email,address,registration,suspect
         als = searchBy("lastname1", sus.getName());
         for (int i = 0; i < als.size(); i++) {
-
+            
         }
         return coincidences;
     }
