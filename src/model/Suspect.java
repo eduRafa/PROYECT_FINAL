@@ -74,37 +74,59 @@ public class Suspect {
     public Blob getFacts() {
         return Facts;
     }
-
-    public ArrayList<Phone> getPhone() {
+    
+    public void setFacts(Blob Facts){
+        this.Facts=Facts;
+    }
+    
+    public ArrayList<Phone> getPhone(){
         return Phone;
     }
-
-    public ArrayList<Email> getEmail() {
+    
+    public ArrayList<Email> getEmail(){
         return Email;
+    } 
+    
+    public void setEmail(ArrayList<Email> Email){
+        this.Email=Email;
     }
+    
 
     public ArrayList<Address> getAddress() {
         return Address;
     }
+    
+    public void setAddress(ArrayList<Address> address){
+        this.Address=Address;
+    }
+    
 
     public ArrayList<Car_Registration> getCar_registration() {
         return Car_registration;
     }
+    
+    public void setCar_Registration(ArrayList<Car_Registration> car_Registration){
+        this.Car_registration=Car_registration;
+    }
+   
+
 
     public ArrayList<Images> getImages() {
         return Images;
     }
-
+    
+    public void setImages(ArrayList<Images> img){
+        this.Images=img;
+    }
+    
     public ArrayList<Suspect> getSuspect() {
         return Suspect;
     }
+    
+    public void setSuspect(ArrayList<Suspect> Suspect){
+        this.Suspect=Suspect;
 
-    public void setCodeSuspect(Integer CodeSuspect) {
-        this.CodeSuspect = CodeSuspect;
-    }
 
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void setLastname1(String lastname1) {
@@ -119,33 +141,13 @@ public class Suspect {
         this.Record = Record;
     }
 
-    public void setFacts(Blob Facts) {
-        this.Facts = Facts;
-    }
 
     public void setPhone(ArrayList<Phone> Phone) {
         this.Phone = Phone;
-    }
-
-    public void setEmail(ArrayList<Email> Email) {
-        this.Email = Email;
-    }
-
-    public void setAddress(ArrayList<Address> Address) {
-        this.Address = Address;
     }
 
     public void setCar_registration(ArrayList<Car_Registration> Car_registration) {
         this.Car_registration = Car_registration;
     }
 
-    public void setImages(ArrayList<Images> Images) {
-        this.Images = Images;
-    }
-
-    public void setSuspect(ArrayList<Suspect> Suspect) {
-        this.Suspect = Suspect;
-    }
-    
-    
 }

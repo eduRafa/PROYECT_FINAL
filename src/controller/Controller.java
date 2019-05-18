@@ -78,7 +78,6 @@ public class Controller implements ActionListener {
                 try {
                     Query.Update(myUI.getModifySuspect());
                     CreateAndFillTables.fillMainTable();
-
                 } catch (SQLException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }

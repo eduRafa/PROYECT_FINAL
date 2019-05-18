@@ -51,36 +51,52 @@ public class UiUtils {
         return myValues;
     }
 
-    public static String transformArrayListToString(ArrayList<Object> multipleText) {
+    public static String transformArrayListPhoneToString(ArrayList<Phone> multipleText) {
         StringBuilder miString = new StringBuilder();
 
         if (!multipleText.isEmpty()) {
-            if (multipleText.get(0) instanceof Phone) {
-                for (int i = 0; i < multipleText.size(); i++) {
-                    Phone p = (Phone) multipleText.get(i);
-                    miString.append(p.getPhoneNumber());
-                }
-            }
-            if (multipleText.get(0) instanceof Email) {
-                for (int i = 0; i < multipleText.size(); i++) {
-                    Email e = (Email) multipleText.get(i);
-                    miString.append(e.getEmail());
-                }
-            }
-            if (multipleText.get(0) instanceof Address) {
-                for (int i = 0; i < multipleText.size(); i++) {
-                    Address a = (Address) multipleText.get(i);
-                    miString.append(a.getAddress());
-                }
-            }
-            if (multipleText.get(0) instanceof Car_Registration) {
-                for (int i = 0; i < multipleText.size(); i++) {
-                    Car_Registration cr = (Car_Registration) multipleText.get(i);
-                    miString.append(cr.getRegistration());
-                }
+            for (int i = 0; i < multipleText.size(); i++) {
+                Phone p = (Phone) multipleText.get(i);
+                miString.append(p.getPhoneNumber());
             }
         }
+        return miString.toString();
 
+    }
+
+    public static String transformArrayListEmailToString(ArrayList<Email> multipleText) {
+        StringBuilder miString = new StringBuilder();
+
+        if (!multipleText.isEmpty()) {
+            for (int i = 0; i < multipleText.size(); i++) {
+                Email e = (Email) multipleText.get(i);
+                miString.append(e.getEmail());
+            }
+        }
+        return miString.toString();
+    }
+
+    public static String transformArrayListAddressToString(ArrayList<Address> multipleText) {
+        StringBuilder miString = new StringBuilder();
+
+        if (!multipleText.isEmpty()) {
+            for (int i = 0; i < multipleText.size(); i++) {
+                Address a = (Address) multipleText.get(i);
+                miString.append(a.getAddress());
+            }
+        }
+        return miString.toString();
+    }
+
+    public static String transformArrayListCarRegToString(ArrayList<Car_Registration> multipleText) {
+        StringBuilder miString = new StringBuilder();
+
+        if (!multipleText.isEmpty()) {
+            for (int i = 0; i < multipleText.size(); i++) {
+                Car_Registration cr = (Car_Registration) multipleText.get(i);
+                miString.append(cr.getRegistration());
+            }
+        }
         return miString.toString();
     }
 
