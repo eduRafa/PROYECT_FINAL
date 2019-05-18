@@ -649,7 +649,7 @@ public class Query {
     /*
     *Este metode permite realizar una consulta en la base de datos buscando con por un valor dado de un paramatro concreto
     *@param key: Es tipo de campo por el cual se esta buscando (name,lastname1,lastname2,Phonenumber,Email,Registration_number,
-    Address,CodeSuspect2
+    Address,Companions
     *@param value: Es el valor por el que se realiza la busqueda
     *@return sus: Es el arraylist de los sospechosos  resultado de la consulta
      */
@@ -699,7 +699,7 @@ public class Query {
                         sus.add(Query.findSuspect(rs.getInt(1)));
                     }
                     break;
-                case "CodeSuspect2":
+                case "Companions":
                     rs = s.executeQuery("Select CodeSuspect from COMPANIONS "
                             + "where " + key + "='" + value + "'");
                     while (rs.next()) {
@@ -718,17 +718,101 @@ public class Query {
         return sus;
     }
 
-    public HashMap<Suspect, HashMap<String, Boolean>> findCoincidences(Suspect sus) {
-        HashMap<Suspect, HashMap<String, Boolean>> coincidences = null;
-        //HashMap<String, Boolean> attributes
-        Boolean[] matchs = new Boolean[8];
+    public HashMap<Suspect, ArrayList<String>> findCoincidences(Suspect sus) {
+        HashMap<Suspect, ArrayList<String>> coincidences = new HashMap<>();
+        ArrayList<Suspect> suspects=new ArrayList<>();
+        ArrayList<String> atributtes=new ArrayList<>();
         String code = sus.getCodeSuspect().toString();
-        ArrayList<Suspect> als = new ArrayList<>();
-        //name,lastname1,lastname2,phone,email,address,registration,suspect
-        als = searchBy("lastname1", sus.getName());
-        for (int i = 0; i < als.size(); i++) {
-            
+        //lastname1,lastname2,phone,email,address,registration,suspect
+        ArrayList<Suspect> fln= Query.searchBy("lastname1", sus.getName());
+        for(int i=0;i<fln.size();i++){
+            coincidences.put(fln.get(i),atributtes);
+            coincidences.get(fln.get(i)).add("lastname1");
+        }
+        ArrayList<Suspect> sln= Query.searchBy("lastname2", sus.getLastname2());
+        Query.add(sln,suspects);
+        for(int i=0;i<suspects.size();i++){
+            if(coincidences.containsKey(suspects.get(i))){
+                coincidences.get(fln.get(i)).add("lastname2");
+            }else{
+                coincidences.put(suspects.get(i),atributtes);
+                coincidences.get(fln.get(i)).add("lastname2");
+            }
+        }
+        for(int i=0;i<sus.getPhone().size();i++){
+            ArrayList<Suspect> ph=Query.searchBy("PhoneNumber", sus.getPhone().get(i).getPhoneNumber().toString());
+            Query.add(ph, suspects);
+            for(int j=0;j<suspects.size();j++){
+                if(coincidences.containsKey(suspects.get(j))){
+                    coincidences.get(fln.get(j)).add("PhoneNumber");
+                }else{
+                    coincidences.put(suspects.get(j),atributtes);
+                    coincidences.get(fln.get(j)).add("PhoneNumber");
+                }
+            }
+        }
+        for(int i=0;i<sus.getEmail().size();i++){
+            ArrayList<Suspect> em=Query.searchBy("Email", sus.getEmail().get(i).getEmail());
+            Query.add(em, suspects);
+            for(int j=0;j<suspects.size();j++){
+                if(coincidences.containsKey(suspects.get(j))){
+                    coincidences.get(fln.get(j)).add("Email");
+                }else{
+                    coincidences.put(suspects.get(j),atributtes);
+                    coincidences.get(fln.get(j)).add("Email");
+                }
+            }
+        }
+        for(int i=0;i<sus.getCar_registration().size();i++){
+            ArrayList<Suspect> cr=Query.searchBy("Registration_number", sus.getCar_registration().get(i).getRegistration());
+            Query.add(cr, suspects);
+            for(int j=0;j<suspects.size();j++){
+                if(coincidences.containsKey(suspects.get(j))){
+                    coincidences.get(fln.get(j)).add("Registration_number");
+                }else{
+                    coincidences.put(suspects.get(j),atributtes);
+                    coincidences.get(fln.get(j)).add("Registration_number");
+                }
+            }
+        }
+        for(int i=0;i<sus.getAddress().size();i++){
+            ArrayList<Suspect> ad=Query.searchBy("Address", sus.getAddress().get(i).getAddress());
+            Query.add(ad, suspects);
+            for(int j=0;j<suspects.size();j++){
+                if(coincidences.containsKey(suspects.get(j))){
+                    coincidences.get(fln.get(j)).add("Address");
+                }else{
+                    coincidences.put(suspects.get(j),atributtes);
+                    coincidences.get(fln.get(j)).add("Address");
+                }
+            }
+        }
+        for(int i=0;i<sus.getSuspect().size();i++){
+            ArrayList<Suspect> com=Query.searchBy("Companions", sus.getSuspect().get(i).getCodeSuspect().toString());
+            Query.add(com, suspects);
+            for(int j=0;j<suspects.size();j++){
+                if(coincidences.containsKey(suspects.get(j))){
+                    coincidences.get(fln.get(j)).add("Companions");
+                }else{
+                    coincidences.put(suspects.get(j),atributtes);
+                    coincidences.get(fln.get(j)).add("Companions");
+                }
+            }
         }
         return coincidences;
+    }
+    private static void add(ArrayList<Suspect> toCheck,ArrayList<Suspect> saved){
+        Boolean added=false;
+        for(int i=0;i<toCheck.size();i++){
+            for(int j=0;j<saved.size()&&!added;j++){
+                if(toCheck.get(i).getCodeSuspect()==saved.get(j).getCodeSuspect()){
+                    added=true;
+                }
+            }
+            if(!added){
+                toCheck.add(saved.get(i));
+                added=true;
+            }
+        }
     }
 }
