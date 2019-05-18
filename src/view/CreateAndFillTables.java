@@ -46,24 +46,23 @@ public class CreateAndFillTables {
 
         String[] head = {"Nombre", "Apellido 1", "Apellido 2", "Sospechosos",
             "Antecedentes", "Hechos", "Telefono", "E-mail", "Direcciones", "Matriculas",
-            "Fotos", "Perfil", "Eliminar"
+            "Perfil", "Eliminar"
         };
 
         for (int i = 0; i < registros.length; i++) {
-            for (int j = 0; j < registros[i].length - 3; j++) {
+            for (int j = 0; j < registros[i].length - 2; j++) {
                 registros[i][j] = "";
             }
-            registros[i][registros[i].length - 3] = new PhotoJButton();
+
             registros[i][registros[i].length - 2] = new ProfileJButton();
             registros[i][registros[i].length - 1] = new TrashJButton();
         }
 
         final Class[] tiposColumnas = new Class[modelo.getColumnCount()];
-        for (int i = 0; i < tiposColumnas.length - 3; i++) {
+        for (int i = 0; i < tiposColumnas.length - 2; i++) {
             tiposColumnas[i] = java.lang.String.class;
         }
 
-        tiposColumnas[tiposColumnas.length - 3] = PhotoJButton.class;
         tiposColumnas[tiposColumnas.length - 2] = ProfileJButton.class;
         tiposColumnas[tiposColumnas.length - 1] = TrashJButton.class;
 
@@ -87,10 +86,10 @@ public class CreateAndFillTables {
             }
         };
 
-        //En esta parte cambiamos de tamaño las columnas menos las tres últimas
+        //En esta parte cambiamos de tamaño las columnas menos las dos últimas
         tblMain.setModel(model);
         TableColumnModel defModel = tblMain.getColumnModel();
-        for (int i = 0; i < defModel.getColumnCount() - 3; i++) {
+        for (int i = 0; i < defModel.getColumnCount() - 2; i++) {
             defModel.getColumn(i).setMinWidth(150);
 
         }
@@ -128,23 +127,11 @@ public class CreateAndFillTables {
                     Controller.deleteSuspect(getValue(tblMain.getSelectedRow() + 1));
                     fillMainTable();
 
-                } else if (tblMain.getModel().getColumnClass(columna).equals(PhotoJButton.class
-                )) {
-                    try {
-                        Integer suspectCode = getValue(tblMain.getSelectedRow() + 1);
-                        if (suspectCode != null) {
-                            UI.getModifySuspectImageManager().showSuspect(Controller.findSuspect(suspectCode));
-                            UI.getModifySuspectImageManager().setVisible(true);
-                        }
-                    } catch (Exception ex) {
-                        Logger.getLogger(CreateAndFillTables.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
                 } else if (tblMain.getModel().getColumnClass(columna).equals(ProfileJButton.class
                 )) {
                     if (getValue(tblMain.getSelectedRow() + 1) != null) {
-                        Suspect suspectToUpdate = Controller.findSuspect(getValue(tblMain.getSelectedRow() + 1));                        
-                        
+                        Suspect suspectToUpdate = Controller.findSuspect(getValue(tblMain.getSelectedRow() + 1));
+
                         if (suspectToUpdate != null) {
                             UI myUI = UI.getInstance();
                             myUI.setSuspectBeenModified(suspectToUpdate);
@@ -202,7 +189,7 @@ public class CreateAndFillTables {
                         case 6:
                             if (s[i].getPhone() != null) {
                                 if (!s[i].getPhone().isEmpty()) {
-                                    myModel.setValueAt(UiUtils.transformArrayListToString(s[i].getPhone()), i, j);
+                                    myModel.setValueAt(UiUtils.transformArrayListPhoneToString(s[i].getPhone()), i, j);
                                 }
                             }
                             ;
@@ -210,7 +197,7 @@ public class CreateAndFillTables {
                         case 7:
                             if (s[i].getEmail() != null) {
                                 if (!s[i].getEmail().isEmpty()) {
-                                    myModel.setValueAt(UiUtils.transformArrayListToString(s[i].getEmail()), i, j);
+                                    myModel.setValueAt(UiUtils.transformArrayListEmailToString(s[i].getEmail()), i, j);
                                 }
                             }
                             ;
@@ -218,15 +205,15 @@ public class CreateAndFillTables {
                         case 8:
                             if (s[i].getAddress() != null) {
                                 if (!s[i].getAddress().isEmpty()) {
-                                    myModel.setValueAt(UiUtils.transformArrayListToString(s[i].getAddress()), i, j);
+                                    myModel.setValueAt(UiUtils.transformArrayListAddressToString(s[i].getAddress()), i, j);
                                 }
                             }
                             ;
                             break;
                         case 9:
-                            if (s[i].getCar_Resgistration()!= null) {
+                            if (s[i].getCar_Resgistration() != null) {
                                 if (!s[i].getCar_Resgistration().isEmpty()) {
-                                    myModel.setValueAt(UiUtils.transformArrayListToString(s[i].getCar_Resgistration()), i, j);
+                                    myModel.setValueAt(UiUtils.transformArrayListCarRegToString(s[i].getCar_Resgistration()), i, j);
                                 }
                             }
                             ;

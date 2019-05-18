@@ -5,22 +5,12 @@
  */
 package view;
 
-import controller.Controller;
-import java.awt.Frame;
 import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.io.File;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.ImageIcon;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import model.Images;
 import model.Suspect;
 
@@ -63,11 +53,13 @@ public class ImageManager extends javax.swing.JDialog {
 
     public void showSuspect(Suspect s) {
         resetImageManager();
+        suspectToModify = s;
+
         ArrayList<Images> suspectImages = s.getImages();
         if (!suspectImages.isEmpty()) {
             for (int i = 0; i < suspectImages.size(); i++) {
                 if (suspectImages.get(i) != null) {
-                    photos[i].setImageIcon(suspectImages.get(i).getImage());
+                    photos[i] = suspectImages.get(i);
                     insertedPhotos++;
                 }
             }
@@ -415,7 +407,6 @@ public class ImageManager extends javax.swing.JDialog {
                 insertedImages.add(photos[i]);
             }
         }
-
         return insertedImages;
     }
 

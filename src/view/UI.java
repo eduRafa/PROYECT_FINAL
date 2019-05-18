@@ -12,6 +12,7 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.rowset.serial.SerialBlob;
@@ -149,16 +150,17 @@ public class UI extends javax.swing.JFrame {
                 new SerialBlob(values[4].getBytes()), new SerialBlob(values[5].getBytes()),
                 UiUtils.transformStringToArrayList(values[6]), UiUtils.transformStringToArrayList(values[7]),
                 UiUtils.transformStringToArrayList(values[8]), UiUtils.transformStringToArrayList(values[9]),
-                modifySuspectImageManager.getPhotos());
+                suspectBeenModified.getImages());
+        
         return mySuspect;
     }
-    
-    public Suspect getSupectBennModified(){
+
+    public Suspect getSupectBennModified() {
         return suspectBeenModified;
     }
-    
-    public void setSuspectBeenModified(Suspect s){
-        suspectBeenModified=s;
+
+    public void setSuspectBeenModified(Suspect s) {
+        suspectBeenModified = s;
     }
 
     public ImageManager getAddSuspectImageManager() {
@@ -246,28 +248,28 @@ public class UI extends javax.swing.JFrame {
                     break;
                 case 6:
                     if (s.getPhone() != null) {
-                        modifySuspectFields[i].setText(UiUtils.transformArrayListToString(s.getPhone()));
+                        modifySuspectFields[i].setText(UiUtils.transformArrayListPhoneToString(s.getPhone()));
                     } else {
                         modifySuspectFields[i].setText("");
                     }
                     break;
                 case 7:
                     if (s.getEmail() != null) {
-                        modifySuspectFields[i].setText(UiUtils.transformArrayListToString(s.getEmail()));
+                        modifySuspectFields[i].setText(UiUtils.transformArrayListEmailToString(s.getEmail()));
                     } else {
                         modifySuspectFields[i].setText("");
                     }
                     break;
                 case 8:
                     if (s.getAddress() != null) {
-                        modifySuspectFields[i].setText(UiUtils.transformArrayListToString(s.getAddress()));
+                        modifySuspectFields[i].setText(UiUtils.transformArrayListAddressToString(s.getAddress()));
                     } else {
                         modifySuspectFields[i].setText("");
                     }
                     break;
                 case 9:
                     if (s.getCar_Resgistration() != null) {
-                        modifySuspectFields[i].setText(UiUtils.transformArrayListToString(s.getCar_Resgistration()));
+                        modifySuspectFields[i].setText(UiUtils.transformArrayListCarRegToString(s.getCar_Resgistration()));
                     } else {
                         modifySuspectFields[i].setText("");
                     }
@@ -1313,23 +1315,23 @@ public class UI extends javax.swing.JFrame {
 
         tblMain.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"", null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null}
+                {"", null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nombre", "Apellido 1", "Apellido 2", "Sospechosos", "Antecedentes", "Hechos", "Telefono", "E-mail", "Direcciones", "Matriculas", "Fotos", "", ""
+                "Nombre", "Apellido 1", "Apellido 2", "Sospechosos", "Antecedentes", "Hechos", "Telefono", "E-mail", "Direcciones", "Matriculas", "", ""
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, true, true, true, true, true, true, true, true, true, false, false, false
+                true, true, true, true, true, true, true, true, true, true, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

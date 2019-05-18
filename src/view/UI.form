@@ -1423,7 +1423,7 @@
                     <Component class="javax.swing.JTable" name="tblMain">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="13" rowCount="10">
+                          <Table columnCount="12" rowCount="10">
                             <Column editable="true" title="Nombre" type="java.lang.Object">
                               <Data value=""/>
                               <Data value="null"/>
@@ -1445,7 +1445,6 @@
                             <Column editable="true" title="E-mail" type="java.lang.Object"/>
                             <Column editable="true" title="Direcciones" type="java.lang.Object"/>
                             <Column editable="true" title="Matriculas" type="java.lang.Object"/>
-                            <Column editable="false" title="Fotos" type="java.lang.Object"/>
                             <Column editable="false" title="" type="java.lang.Object"/>
                             <Column editable="false" title="" type="java.lang.Object"/>
                           </Table>

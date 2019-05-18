@@ -99,7 +99,7 @@ public class Suspect {
         this.Facts=Facts;
     }
     
-    public ArrayList getPhone(){
+    public ArrayList<Phone> getPhone(){
         return Phone;
     }
     
@@ -107,27 +107,27 @@ public class Suspect {
         this.Phone=Phone;
     }
     
-    public ArrayList getEmail(){
+    public ArrayList<Email> getEmail(){
         return Email;
     } 
     
-    public void setEmail(ArrayList Email){
+    public void setEmail(ArrayList<Email> Email){
         this.Email=Email;
     }
     
-    public ArrayList getAddress(){
+    public ArrayList<Address> getAddress(){
         return Address;
     }
     
-    public void setAddress(ArrayList Address){
+    public void setAddress(ArrayList<Address> address){
         this.Address=Address;
     }
     
-    public ArrayList getCar_Resgistration(){
+    public ArrayList<Car_Registration> getCar_Resgistration(){
         return Car_registration;
     }
     
-    public void setCar_Registration(ArrayList Car_registration){
+    public void setCar_Registration(ArrayList<Car_Registration> car_Registration){
         this.Car_registration=Car_registration;
     }
    
@@ -139,11 +139,11 @@ public class Suspect {
         this.Images=img;
     }
     
-      public ArrayList getSuspect(){
+      public ArrayList<Suspect> getSuspect(){
         return Suspect;
     }
     
-    public void setSuspect(ArrayList Suspect){
+    public void setSuspect(ArrayList<Suspect> Suspect){
         this.Suspect=Suspect;
     }
     
