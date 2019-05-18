@@ -42,8 +42,12 @@ public class UiUtils {
         String[] eachValue = allTheValues.split("\\n");
         ArrayList<Phone> myPhones = new ArrayList<>();
 
-        for (String string : eachValue) {
-            myPhones.add(new Phone(Integer.valueOf(string),suspetCode));
+        if (eachValue.length > 0) {
+            for (String string : eachValue) {
+                if (string != null) {
+                    myPhones.add(new Phone(Integer.valueOf(string), suspetCode));
+                }
+            }
         }
 
         return myPhones;
@@ -53,8 +57,12 @@ public class UiUtils {
         String[] eachValue = allTheValues.split("\\n");
         ArrayList<Email> myEmails = new ArrayList<>();
 
-        for (String string : eachValue) {
-            myEmails.add(new Email(string,suspetCode));
+        if (eachValue.length > 0) {
+            for (String string : eachValue) {
+                if (string != null) {
+                    myEmails.add(new Email(string, suspetCode));
+                }
+            }
         }
 
         return myEmails;
@@ -64,8 +72,12 @@ public class UiUtils {
         String[] eachValue = allTheValues.split("\\n");
         ArrayList<Address> myAddresses = new ArrayList<>();
 
-        for (String string : eachValue) {
-            myAddresses.add(new Address(string,suspetCode));
+        if (eachValue.length > 0) {
+            for (String string : eachValue) {
+                if (string != null) {
+                    myAddresses.add(new Address(string, suspetCode));
+                }
+            }
         }
 
         return myAddresses;
@@ -75,8 +87,13 @@ public class UiUtils {
         String[] eachValue = allTheValues.split("\\n");
         ArrayList<Car_Registration> myAddresses = new ArrayList<>();
 
-        for (String string : eachValue) {
-            myAddresses.add(new Car_Registration(string,suspetCode));
+        if (eachValue.length > 0) {
+            for (String string : eachValue) {
+                if (string != null) {
+                    myAddresses.add(new Car_Registration(string, suspetCode));
+
+                }
+            }
         }
 
         return myAddresses;
