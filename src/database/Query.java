@@ -272,13 +272,12 @@ public class Query {
         }
         return added;
     }
-
     /*
     *Este metodo se encarga de almacenar en la base de datos una informacion dada de un atributo dado para un sospechosos en concreto
     *@param code: Es el codigo del sospechosos al que se le desean añadir los atributos
     *@param al:Es el arraylist con los valores que se desean añadir
      */
-    public static boolean addAtrivute(String code, ArrayList al, String type) {
+    public static <T> boolean addAtrivute(String code, ArrayList<T> al, String type) {
         boolean added = false;
         if (al != null) {
             try {
@@ -291,42 +290,51 @@ public class Query {
                     switch (type) {
                         case "Phone":
                             for (int i = 0; i < al.size(); i++) {
-                                al.add(i, (Phone) al.get(i));
+                                Phone phone=(Phone) al.get(i);
+                                System.out.println(phone.getCodePhone());
                                 if (al.get(i).equals("")) {
                                     s.executeUpdate("INSERT into PHONE (CodeSuspect,PhoneNumber) "
                                             + "values (" + code + ",null)");
                                 } else {
                                     s.executeUpdate("INSERT into PHONE (CodeSuspect,PhoneNumber) "
-                                            + "values (" + code + "," + al.get(i).getPhoneNumber() + ")");
+                                            + "values (" + code + "," + phone.getPhoneNumber() + ")");
                                 }
+                                
                                 rs = s.executeQuery("SELECT CodePhone from PHONE");
                                 if (rs.last()) {
-                                     al.get(i).getC= rs.getInt(1);
+                                     phone.setCodePhone(rs.getInt(1));
+                                     Object obj=(Object)phone;
+                                     al.set(i, (T) phone);
                                 }
+                                
                             }
                             break;
                         case "Email":
                             for (int i = 0; i < al.size(); i++) {
+                                Email email=(Email) al.get(i);
                                 s.executeUpdate("INSERT into E_MAIL (CodeSuspect,Email) "
-                                        + "values (" + code + ",'" + al.get(i) + "')");
+                                        + "values (" + code + ",'" + email.getEmail() + "')");
                             }
                             break;
                         case "Address":
                             for (int i = 0; i < al.size(); i++) {
+                                Address address=(Address) al.get(i);
                                 s.executeUpdate("INSERT into ADDRESS (CodeSuspect,Address) "
-                                        + "values (" + code + ",'" + al.get(i) + "')");
+                                        + "values (" + code + ",'" + address.getAddress() + "')");
                             }
                             break;
                         case "Suspect":
                             for (int i = 0; i < al.size(); i++) {
+                                Suspect suspect=(Suspect) al.get(i);
                                 s.executeUpdate("INSERT into COMPANIONS (CodeSuspect,CodeSuspect2) "
-                                        + "values (" + code + "," + al.get(i) + ")");
+                                        + "values (" + code + "," + suspect.getCodeSuspect() + ")");
                             }
                             break;
                         case "Car_Registration":
                             for (int i = 0; i < al.size(); i++) {
+                                Car_Registration cr=(Car_Registration) al.get(i);
                                 s.executeUpdate("INSERT into CAR_REGISTRATION (CodeSuspect,Registration_number) "
-                                        + "values (" + code + ",'" + al.get(i) + "')");
+                                        + "values (" + code + ",'" + cr.getRegistration() + "')");
                             }
                             break;
                     }
@@ -402,7 +410,7 @@ public class Query {
                             + suspect.getLastname2() + "','" + suspect.getRecord() + "','" + suspect.getFacts() + "')");
 
             String last = findLast();
-            correct = Query.addAtrivute(last, suspect.getPhone(), "Phone");
+            correct = Query.<Phone>addAtrivute(last, suspect.getPhone(), "Phone");
             correct = Query.addAtrivute(last, suspect.getEmail(), "Email");
             correct = Query.addAtrivute(last, suspect.getAddress(), "Address");
             correct = Query.addAtrivute(last, suspect.getSuspect(), "Suspect");
