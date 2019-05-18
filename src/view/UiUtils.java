@@ -44,7 +44,9 @@ public class UiUtils {
 
         if (eachValue.length > 0) {
             for (String string : eachValue) {
-                myPhones.add(new Phone(Integer.valueOf(string), suspetCode));
+                if (string != null) {
+                    myPhones.add(new Phone(Integer.valueOf(string), suspetCode));
+                }
             }
         }
 
@@ -57,7 +59,9 @@ public class UiUtils {
 
         if (eachValue.length > 0) {
             for (String string : eachValue) {
-                myEmails.add(new Email(string, suspetCode));
+                if (string != null) {
+                    myEmails.add(new Email(string, suspetCode));
+                }
             }
         }
 
@@ -70,7 +74,9 @@ public class UiUtils {
 
         if (eachValue.length > 0) {
             for (String string : eachValue) {
-                myAddresses.add(new Address(string, suspetCode));
+                if (string != null) {
+                    myAddresses.add(new Address(string, suspetCode));
+                }
             }
         }
 
@@ -83,7 +89,10 @@ public class UiUtils {
 
         if (eachValue.length > 0) {
             for (String string : eachValue) {
-                myAddresses.add(new Car_Registration(string, suspetCode));
+                if (string != null) {
+                    myAddresses.add(new Car_Registration(string, suspetCode));
+
+                }
             }
         }
 
