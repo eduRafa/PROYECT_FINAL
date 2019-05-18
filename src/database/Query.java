@@ -254,7 +254,7 @@ public class Query {
             if (sus.getImages() != null) {
                 for (int i = 0; i < sus.getImages().size(); i++) {
                     if (sus.getImages().get(i) != null) {
-                        if(i<sus.getImages().size()){
+                        if(i<preUpdate.getImages().size()){
                             updateImage(preUpdate.getImages().get(i).getCodeImage().toString(), sus.getImages().get(i));
                         }else{
                             ArrayList<Images> img=new ArrayList<>();
@@ -720,6 +720,7 @@ public class Query {
 
     public HashMap<Suspect, HashMap<String, Boolean>> findCoincidences(Suspect sus) {
         HashMap<Suspect, HashMap<String, Boolean>> coincidences = null;
+        //HashMap<String, Boolean> attributes
         Boolean[] matchs = new Boolean[8];
         String code = sus.getCodeSuspect().toString();
         ArrayList<Suspect> als = new ArrayList<>();
