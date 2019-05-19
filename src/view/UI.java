@@ -126,12 +126,17 @@ public class UI extends javax.swing.JFrame {
             }
         }
         
-        Suspect mySuspect = new Suspect(null, values[0].trim(), values[1].trim(), values[2].trim(), null/*companions*/,
-                values[4],values[5], UiUtils.transformStringToArrayListPhone(values[6],null),
-                UiUtils.transformStringToArrayListEmail(values[7],null),
-                UiUtils.transformStringToArrayListAddress(values[8],null),
-                UiUtils.transformStringToArrayListCar_Registration(values[9],null),
-                addSuspectImageManager.getPhotos()); 
+        Suspect mySuspect=null;
+        try {
+            mySuspect = new Suspect(null, values[0].trim(), values[1].trim(), values[2].trim(), null/*companions*/,
+                    values[4],values[5], UiUtils.transformStringToArrayListPhone(values[6],null),
+                    UiUtils.transformStringToArrayListEmail(values[7],null),
+                    UiUtils.transformStringToArrayListAddress(values[8],null), 
+                    UiUtils.transformStringToArrayListCar_Registration(values[9],null),
+                    addSuspectImageManager.getPhotos());
+        } catch (Exception ex) {
+            Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         return mySuspect;
     }
@@ -148,12 +153,17 @@ public class UI extends javax.swing.JFrame {
             }
         }
         
-        Suspect mySuspect = new Suspect(null, values[0].trim(), values[1].trim(), values[2].trim(), null/*companions*/,
-               values[4],values[5],UiUtils.transformStringToArrayListPhone(values[6],null),
-                UiUtils.transformStringToArrayListEmail(values[7],null),
-                UiUtils.transformStringToArrayListAddress(values[8],null),
-                UiUtils.transformStringToArrayListCar_Registration(values[9],null),
-                null); 
+        Suspect mySuspect=null;
+        try {
+            mySuspect = new Suspect(null, values[0].trim(), values[1].trim(), values[2].trim(), null/*companions*/,
+                    values[4],values[5],UiUtils.transformStringToArrayListPhone(values[6],null),
+                    UiUtils.transformStringToArrayListEmail(values[7],null),
+                    UiUtils.transformStringToArrayListAddress(values[8],null), 
+                    UiUtils.transformStringToArrayListCar_Registration(values[9],null),
+                    null);
+        } catch (Exception ex) {
+            Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         return mySuspect;
     }
@@ -170,10 +180,15 @@ public class UI extends javax.swing.JFrame {
             }
         }
         
-        Suspect mySuspect = new Suspect(suspectBeenModified.getCodeSuspect(), values[0].trim(), values[1].trim(), values[2].trim(), null/*companions*/,
-               values[4],values[5], UiUtils.transformStringToArrayListPhone(values[6],suspectBeenModified.getCodeSuspect()), UiUtils.transformStringToArrayListEmail(values[7],suspectBeenModified.getCodeSuspect()),
-                UiUtils.transformStringToArrayListAddress(values[8],suspectBeenModified.getCodeSuspect()), UiUtils.transformStringToArrayListCar_Registration(values[9],suspectBeenModified.getCodeSuspect()),
-                suspectBeenModified.getImages());
+        Suspect mySuspect=null;
+        try {
+            mySuspect = new Suspect(suspectBeenModified.getCodeSuspect(), values[0].trim(), values[1].trim(), values[2].trim(), null/*companions*/,
+                    values[4],values[5], UiUtils.transformStringToArrayListPhone(values[6],suspectBeenModified.getCodeSuspect()), UiUtils.transformStringToArrayListEmail(values[7],suspectBeenModified.getCodeSuspect()),
+                    UiUtils.transformStringToArrayListAddress(values[8],suspectBeenModified.getCodeSuspect()), UiUtils.transformStringToArrayListCar_Registration(values[9],suspectBeenModified.getCodeSuspect()),
+                    suspectBeenModified.getImages());
+        } catch (Exception ex) {
+            System.out.println("hola");
+        }
         
         return mySuspect;
     }

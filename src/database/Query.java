@@ -64,7 +64,6 @@ public class Query {
         return last;
     }
 
-   
     /*
     *Este metodo borrar un sospechoso
     *@param sus: Es el sospechoso que se desea eliminar
@@ -122,8 +121,8 @@ public class Query {
      */
     public static boolean Update(Suspect sus) {
         boolean updated = false;
-        Suspect preUpdate = Query.findSuspect(sus.getCodeSuspect());
         if (sus != null) {
+            Suspect preUpdate = Query.findSuspect(sus.getCodeSuspect());
             if (!sus.getName().equals(preUpdate.getName())) {
                 updated = updateAttribute("Name", sus.getCodeSuspect().toString(), sus.getName(), "Suspect", "CodeSuspect");
             }
@@ -152,12 +151,12 @@ public class Query {
                     c = Connect.getMyConnection();
                     Statement s = c.createStatement();
                     for (int i = 0; i < sus.getPhone().size(); i++) {
-                        if(i<preUpdate.getPhone().size()){
+                        if (i < preUpdate.getPhone().size()) {
                             System.out.println(preUpdate.getPhone().get(i).getCodePhone());
                             s.executeUpdate("Update PHONE set PhoneNumber = " + sus.getPhone().get(i).getPhoneNumber() + " where "
-                            + "CodePhone=" + preUpdate.getPhone().get(i).getCodePhone());
-                        }else{
-                            ArrayList<Phone> phones=new ArrayList<>();
+                                    + "CodePhone=" + preUpdate.getPhone().get(i).getCodePhone());
+                        } else {
+                            ArrayList<Phone> phones = new ArrayList<>();
                             phones.add(sus.getPhone().get(i));
                             Query.<Phone>addAtrivute(preUpdate.getCodeSuspect().toString(), phones, "Phone");
                         }
@@ -175,7 +174,7 @@ public class Query {
                     c = Connect.getMyConnection();
                     Statement s = c.createStatement();
                     for (int i = 0; i < sus.getEmail().size(); i++) {
-                        if(i<preUpdate.getEmail().size()){
+                        if (i < preUpdate.getEmail().size()) {
                             if (sus.getEmail().get(i).getEmail().equals("")) {
                                 s.executeUpdate("Update E_MAIL set Email = null where "
                                         + "CodeE_mail=" + preUpdate.getEmail().get(i).getCodeEmail());
@@ -183,8 +182,8 @@ public class Query {
                                 s.executeUpdate("Update E_MAIL set Email = '" + sus.getEmail().get(i).getEmail() + "' where "
                                         + "CodeE_mail=" + preUpdate.getEmail().get(i).getCodeEmail());
                             }
-                        }else{
-                            ArrayList<Email> emails=new ArrayList<>();
+                        } else {
+                            ArrayList<Email> emails = new ArrayList<>();
                             emails.add(sus.getEmail().get(i));
                             Query.<Email>addAtrivute(preUpdate.getCodeSuspect().toString(), emails, "Email");
                         }
@@ -202,7 +201,7 @@ public class Query {
                     c = Connect.getMyConnection();
                     Statement s = c.createStatement();
                     for (int i = 0; i < sus.getAddress().size(); i++) {
-                        if(i<preUpdate.getAddress().size()){
+                        if (i < preUpdate.getAddress().size()) {
                             if (sus.getAddress().get(i).getAddress().equals("")) {
                                 s.executeUpdate("Update ADDRESS set Address = null where "
                                         + "CodeAddress=" + preUpdate.getAddress().get(i).getCodeAddress());
@@ -210,8 +209,8 @@ public class Query {
                                 s.executeUpdate("Update ADDRESS set Address = '" + sus.getAddress().get(i).getAddress() + "' where "
                                         + "CodeAddress=" + preUpdate.getAddress().get(i).getCodeAddress());
                             }
-                        }else{
-                            ArrayList<Address> address=new ArrayList<>();
+                        } else {
+                            ArrayList<Address> address = new ArrayList<>();
                             address.add(sus.getAddress().get(i));
                             Query.<Address>addAtrivute(preUpdate.getCodeSuspect().toString(), address, "Address");
                         }
@@ -229,17 +228,17 @@ public class Query {
                     c = Connect.getMyConnection();
                     Statement s = c.createStatement();
                     for (int i = 0; i < sus.getCar_registration().size(); i++) {
-                        if(i<preUpdate.getCar_registration().size()){
+                        if (i < preUpdate.getCar_registration().size()) {
                             if (sus.getCar_registration().get(i).getRegistration().equals("")) {
                                 s.executeUpdate("Update CAR_REGISTRATION set Registration_number = null where "
                                         + "CodeRegistration=" + sus.getCar_registration().get(i).getCodeRegistration());
                             } else {
-                                s.executeUpdate("Update CAR_REGISTRATION set Registration_number = '" 
+                                s.executeUpdate("Update CAR_REGISTRATION set Registration_number = '"
                                         + sus.getCar_registration().get(i).getRegistration() + "' where "
                                         + "CodeRegistration=" + sus.getCar_registration().get(i).getCodeRegistration());
                             }
-                        }else{
-                            ArrayList<Car_Registration> cr=new ArrayList<>();
+                        } else {
+                            ArrayList<Car_Registration> cr = new ArrayList<>();
                             cr.add(sus.getCar_registration().get(i));
                             Query.<Car_Registration>addAtrivute(preUpdate.getCodeSuspect().toString(), cr, "Car_Registration");
                         }
@@ -254,12 +253,12 @@ public class Query {
             if (sus.getImages() != null) {
                 for (int i = 0; i < sus.getImages().size(); i++) {
                     if (sus.getImages().get(i) != null) {
-                        if(i<preUpdate.getImages().size()){
+                        if (i < preUpdate.getImages().size()) {
                             updateImage(preUpdate.getImages().get(i).getCodeImage().toString(), sus.getImages().get(i));
-                        }else{
-                            ArrayList<Images> img=new ArrayList<>();
+                        } else {
+                            ArrayList<Images> img = new ArrayList<>();
                             img.add(sus.getImages().get(i));
-                            Query.addImage(preUpdate.getCodeSuspect().toString(),img);
+                            Query.addImage(preUpdate.getCodeSuspect().toString(), img);
                         }
                     }
                 }
@@ -290,9 +289,9 @@ public class Query {
                 ps.setString(2, img.getDescription());
                 ps.execute();
                 c.close();
-            }else{
-                Statement s=c.createStatement();
-                s.execute("Delete from IMAGES where CodeImage="+code.toString());
+            } else {
+                Statement s = c.createStatement();
+                s.execute("Delete from IMAGES where CodeImage=" + code.toString());
                 s.close();
                 c.close();
             }
@@ -307,6 +306,7 @@ public class Query {
         }
         return added;
     }
+
     /*
     *Este metodo se encarga de almacenar en la base de datos una informacion dada de un atributo dado para un sospechosos en concreto
     *@param code: Es el codigo del sospechosos al que se le desean añadir los atributos
@@ -325,7 +325,7 @@ public class Query {
                     switch (type) {
                         case "Phone":
                             for (int i = 0; i < al.size(); i++) {
-                                Phone phone=(Phone) al.get(i);
+                                Phone phone = (Phone) al.get(i);
                                 if (al.get(i).equals("")) {
                                     s.executeUpdate("INSERT into PHONE (CodeSuspect,PhoneNumber) "
                                             + "values (" + code + ",null)");
@@ -333,54 +333,54 @@ public class Query {
                                     s.executeUpdate("INSERT into PHONE (CodeSuspect,PhoneNumber) "
                                             + "values (" + code + "," + phone.getPhoneNumber() + ")");
                                 }
-                                
+
                                 rs = s.executeQuery("SELECT CodePhone from PHONE");
                                 if (rs.last()) {
-                                     phone.setCodePhone(rs.getInt(1));
-                                     al.set(i, (T) phone);
+                                    phone.setCodePhone(rs.getInt(1));
+                                    al.set(i, (T) phone);
                                 }
                             }
                             break;
                         case "Email":
                             for (int i = 0; i < al.size(); i++) {
-                                Email email=(Email) al.get(i);
+                                Email email = (Email) al.get(i);
                                 s.executeUpdate("INSERT into E_MAIL (CodeSuspect,Email) "
                                         + "values (" + code + ",'" + email.getEmail() + "')");
                                 rs = s.executeQuery("SELECT CodeE_mail from E_MAIL");
                                 if (rs.last()) {
-                                     email.setCodeEmail(rs.getInt(1));
-                                     al.set(i, (T) email);
+                                    email.setCodeEmail(rs.getInt(1));
+                                    al.set(i, (T) email);
                                 }
                             }
                             break;
                         case "Address":
                             for (int i = 0; i < al.size(); i++) {
-                                Address address=(Address) al.get(i);
+                                Address address = (Address) al.get(i);
                                 s.executeUpdate("INSERT into ADDRESS (CodeSuspect,Address) "
                                         + "values (" + code + ",'" + address.getAddress() + "')");
                                 rs = s.executeQuery("SELECT CodeAddress from ADDRESS");
                                 if (rs.last()) {
-                                     address.setCodeAddress(rs.getInt(1));
-                                     al.set(i, (T) address);
+                                    address.setCodeAddress(rs.getInt(1));
+                                    al.set(i, (T) address);
                                 }
                             }
                             break;
                         case "Suspect":
                             for (int i = 0; i < al.size(); i++) {
-                                Suspect suspect=(Suspect) al.get(i);
+                                Suspect suspect = (Suspect) al.get(i);
                                 s.executeUpdate("INSERT into COMPANIONS (CodeSuspect,CodeSuspect2) "
                                         + "values (" + code + "," + suspect.getCodeSuspect() + ")");
                             }
                             break;
                         case "Car_Registration":
                             for (int i = 0; i < al.size(); i++) {
-                                Car_Registration cr=(Car_Registration) al.get(i);
+                                Car_Registration cr = (Car_Registration) al.get(i);
                                 s.executeUpdate("INSERT into CAR_REGISTRATION (CodeSuspect,Registration_number) "
                                         + "values (" + code + ",'" + cr.getRegistration() + "')");
                                 rs = s.executeQuery("SELECT CodeRegistration from CAR_REGISTRATION");
                                 if (rs.last()) {
-                                     cr.setCodeRegistration(rs.getInt(1));
-                                     al.set(i, (T) cr);
+                                    cr.setCodeRegistration(rs.getInt(1));
+                                    al.set(i, (T) cr);
                                 }
                             }
                             break;
@@ -454,7 +454,7 @@ public class Query {
             Statement s = c.createStatement();
             s.executeUpdate("INSERT INTO SUSPECT (name,lastname1, lastname2, Record,Facts) "
                     + "values ('" + suspect.getName() + "','" + suspect.getLastname1() + "','"
-                            + suspect.getLastname2() + "','" + suspect.getRecord() + "','" + suspect.getFacts() + "')");
+                    + suspect.getLastname2() + "','" + suspect.getRecord() + "','" + suspect.getFacts() + "')");
 
             String last = findLast();
             correct = Query.<Phone>addAtrivute(last, suspect.getPhone(), "Phone");
@@ -728,100 +728,101 @@ public class Query {
 
     public static HashMap<Suspect, ArrayList<String>> findCoincidences(Suspect sus) {
         HashMap<Suspect, ArrayList<String>> coincidences = new HashMap<>();
-        ArrayList<Suspect> suspects=new ArrayList<>();
-        ArrayList<String> atributtes=new ArrayList<>();
+        ArrayList<Suspect> suspects = new ArrayList<>();
+        ArrayList<String> atributtes = new ArrayList<>();
         //String code = sus.getCodeSuspect().toString();
         //lastname1,lastname2,phone,email,address,registration,suspect
-        ArrayList<Suspect> fln= Query.searchBy("lastname1", sus.getName());
-        for(int i=0;i<fln.size();i++){
-            coincidences.put(fln.get(i),atributtes);
+        ArrayList<Suspect> fln = Query.searchBy("lastname1", sus.getName());
+        for (int i = 0; i < fln.size(); i++) {
+            coincidences.put(fln.get(i), atributtes);
             coincidences.get(fln.get(i)).add("lastname1");
         }
-        ArrayList<Suspect> sln= Query.searchBy("lastname2", sus.getLastname2());
+        ArrayList<Suspect> sln = Query.searchBy("lastname2", sus.getLastname2());
 
-        Query.add(sln,suspects);
-        for(int i=0;i<suspects.size();i++){
-            if(coincidences.containsKey(suspects.get(i))){
+        Query.add(sln, suspects);
+        for (int i = 0; i < suspects.size(); i++) {
+            if (coincidences.containsKey(suspects.get(i))) {
                 coincidences.get(fln.get(i)).add("lastname2");
-            }else{
-                coincidences.put(suspects.get(i),atributtes);
+            } else {
+                coincidences.put(suspects.get(i), atributtes);
                 coincidences.get(fln.get(i)).add("lastname2");
             }
         }
-        for(int i=0;i<sus.getPhone().size();i++){
+        for (int i = 0; i < sus.getPhone().size(); i++) {
             ///////////////////////////////
-            ArrayList<Suspect> ph=Query.searchBy("PhoneNumber", sus.getPhone().get(i).getPhoneNumber().toString());
+            ArrayList<Suspect> ph = Query.searchBy("PhoneNumber", sus.getPhone().get(i).getPhoneNumber().toString());
             Query.add(ph, suspects);
-            for(int j=0;j<suspects.size();j++){
-                if(coincidences.containsKey(suspects.get(j))){
+            for (int j = 0; j < suspects.size(); j++) {
+                if (coincidences.containsKey(suspects.get(j))) {
                     coincidences.get(fln.get(j)).add("PhoneNumber");
-                }else{
-                    coincidences.put(suspects.get(j),atributtes);
+                } else {
+                    coincidences.put(suspects.get(j), atributtes);
                     coincidences.get(fln.get(j)).add("PhoneNumber");
                 }
             }
         }
-        for(int i=0;i<sus.getEmail().size();i++){
-            ArrayList<Suspect> em=Query.searchBy("Email", sus.getEmail().get(i).getEmail());
+        for (int i = 0; i < sus.getEmail().size(); i++) {
+            ArrayList<Suspect> em = Query.searchBy("Email", sus.getEmail().get(i).getEmail());
             Query.add(em, suspects);
-            for(int j=0;j<suspects.size();j++){
-                if(coincidences.containsKey(suspects.get(j))){
+            for (int j = 0; j < suspects.size(); j++) {
+                if (coincidences.containsKey(suspects.get(j))) {
                     coincidences.get(fln.get(j)).add("Email");
-                }else{
-                    coincidences.put(suspects.get(j),atributtes);
+                } else {
+                    coincidences.put(suspects.get(j), atributtes);
                     coincidences.get(fln.get(j)).add("Email");
                 }
             }
         }
-        for(int i=0;i<sus.getCar_registration().size();i++){
-            ArrayList<Suspect> cr=Query.searchBy("Registration_number", sus.getCar_registration().get(i).getRegistration());
+        for (int i = 0; i < sus.getCar_registration().size(); i++) {
+            ArrayList<Suspect> cr = Query.searchBy("Registration_number", sus.getCar_registration().get(i).getRegistration());
             Query.add(cr, suspects);
-            for(int j=0;j<suspects.size();j++){
-                if(coincidences.containsKey(suspects.get(j))){
+            for (int j = 0; j < suspects.size(); j++) {
+                if (coincidences.containsKey(suspects.get(j))) {
                     coincidences.get(fln.get(j)).add("Registration_number");
-                }else{
-                    coincidences.put(suspects.get(j),atributtes);
+                } else {
+                    coincidences.put(suspects.get(j), atributtes);
                     coincidences.get(fln.get(j)).add("Registration_number");
                 }
             }
         }
-        for(int i=0;i<sus.getAddress().size();i++){
-            ArrayList<Suspect> ad=Query.searchBy("Address", sus.getAddress().get(i).getAddress());
+        for (int i = 0; i < sus.getAddress().size(); i++) {
+            ArrayList<Suspect> ad = Query.searchBy("Address", sus.getAddress().get(i).getAddress());
             Query.add(ad, suspects);
-            for(int j=0;j<suspects.size();j++){
-                if(coincidences.containsKey(suspects.get(j))){
+            for (int j = 0; j < suspects.size(); j++) {
+                if (coincidences.containsKey(suspects.get(j))) {
                     coincidences.get(fln.get(j)).add("Address");
-                }else{
-                    coincidences.put(suspects.get(j),atributtes);
+                } else {
+                    coincidences.put(suspects.get(j), atributtes);
                     coincidences.get(fln.get(j)).add("Address");
                 }
             }
         }
-        for(int i=0;i<sus.getSuspect().size();i++){
-            ArrayList<Suspect> com=Query.searchBy("Companions", sus.getSuspect().get(i).getCodeSuspect().toString());
+        for (int i = 0; i < sus.getSuspect().size(); i++) {
+            ArrayList<Suspect> com = Query.searchBy("Companions", sus.getSuspect().get(i).getCodeSuspect().toString());
             Query.add(com, suspects);
-            for(int j=0;j<suspects.size();j++){
-                if(coincidences.containsKey(suspects.get(j))){
+            for (int j = 0; j < suspects.size(); j++) {
+                if (coincidences.containsKey(suspects.get(j))) {
                     coincidences.get(fln.get(j)).add("Companions");
-                }else{
-                    coincidences.put(suspects.get(j),atributtes);
+                } else {
+                    coincidences.put(suspects.get(j), atributtes);
                     coincidences.get(fln.get(j)).add("Companions");
                 }
             }
         }
         return coincidences;
     }
-    private static void add(ArrayList<Suspect> toCheck,ArrayList<Suspect> saved){
-        Boolean added=false;
-        for(int i=0;i<toCheck.size();i++){
-            for(int j=0;j<saved.size()&&!added;j++){
-                if(toCheck.get(i).getCodeSuspect()==saved.get(j).getCodeSuspect()){
-                    added=true;
+
+    private static void add(ArrayList<Suspect> toCheck, ArrayList<Suspect> saved) {
+        Boolean added = false;
+        for (int i = 0; i < toCheck.size(); i++) {
+            for (int j = 0; j < saved.size() && !added; j++) {
+                if (toCheck.get(i).getCodeSuspect() == saved.get(j).getCodeSuspect()) {
+                    added = true;
                 }
             }
-            if(!added){
+            if (!added) {
                 toCheck.add(saved.get(i));
-                added=true;
+                added = true;
             }
         }
     }

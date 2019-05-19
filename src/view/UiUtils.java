@@ -38,14 +38,22 @@ public class UiUtils {
         return compList;
     }
 
-    public static ArrayList<Phone> transformStringToArrayListPhone(String allTheValues, Integer suspetCode) {
+    public static ArrayList<Phone> transformStringToArrayListPhone(String allTheValues, Integer suspetCode) throws Exception {
         String[] eachValue = allTheValues.split("\\n");
         ArrayList<Phone> myPhones = new ArrayList<>();
 
         if (eachValue.length > 0) {
             for (String string : eachValue) {
                 if (string != null) {
-                    myPhones.add(new Phone(Integer.valueOf(string), suspetCode));
+                    if (string.equals("")) {
+                        myPhones.add(null);
+                    } else {
+                        if (string.matches("\\d{9}")) {
+                            myPhones.add(new Phone(Integer.valueOf(string), suspetCode));
+                        }else{
+                            throw new Exception("Telefono no valido");
+                        }
+                    }
                 }
             }
         }
