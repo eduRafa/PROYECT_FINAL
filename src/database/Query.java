@@ -480,8 +480,8 @@ public class Query {
             String name = null;
             String lastname1 = null;
             String lastname2 = null;
-            Blob Record = null;
-            Blob Facts = null;
+            String Record = null;
+            String Facts = null;
             ArrayList<Phone> ph = new ArrayList<>();
             Phone p;
             ArrayList<Suspect> as = new ArrayList<>();
@@ -505,8 +505,8 @@ public class Query {
                 name = rs.getString(1);
                 lastname1 = rs.getString(2);
                 lastname2 = rs.getString(3);
-                Record = rs.getBlob(4);
-                Facts = rs.getBlob(5);
+                Record = rs.getString(4);
+                Facts = rs.getString(5);
             }
             rs = s.executeQuery("Select CodePhone,PhoneNumber from PHONE "
                     + "where CodeSuspect=" + code);
@@ -675,7 +675,7 @@ public class Query {
                     }
                     break;
                 case "PhoneNumber":
-
+                    System.out.println("entra");
                     rs = s.executeQuery("Select CodeSuspect from PHONE "
                             + "where " + key + "='" + value + "'");
                     while (rs.next()) {
@@ -722,11 +722,11 @@ public class Query {
         return sus;
     }
 
-    public HashMap<Suspect, ArrayList<String>> findCoincidences(Suspect sus) {
+    public static HashMap<Suspect, ArrayList<String>> findCoincidences(Suspect sus) {
         HashMap<Suspect, ArrayList<String>> coincidences = new HashMap<>();
         ArrayList<Suspect> suspects=new ArrayList<>();
         ArrayList<String> atributtes=new ArrayList<>();
-        String code = sus.getCodeSuspect().toString();
+        //String code = sus.getCodeSuspect().toString();
         //lastname1,lastname2,phone,email,address,registration,suspect
         ArrayList<Suspect> fln= Query.searchBy("lastname1", sus.getName());
         for(int i=0;i<fln.size();i++){
@@ -734,6 +734,7 @@ public class Query {
             coincidences.get(fln.get(i)).add("lastname1");
         }
         ArrayList<Suspect> sln= Query.searchBy("lastname2", sus.getLastname2());
+
         Query.add(sln,suspects);
         for(int i=0;i<suspects.size();i++){
             if(coincidences.containsKey(suspects.get(i))){
@@ -744,6 +745,7 @@ public class Query {
             }
         }
         for(int i=0;i<sus.getPhone().size();i++){
+            ///////////////////////////////
             ArrayList<Suspect> ph=Query.searchBy("PhoneNumber", sus.getPhone().get(i).getPhoneNumber().toString());
             Query.add(ph, suspects);
             for(int j=0;j<suspects.size();j++){

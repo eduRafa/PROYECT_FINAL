@@ -10,6 +10,8 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Communication;
@@ -74,10 +76,20 @@ public class Controller implements ActionListener {
             case "remove":
                 ;
                 break;
-            case "modify": {
+            case "modify":
                 try {
                     Query.Update(myUI.getModifySuspect());
                     CreateAndFillTables.fillMainTable();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
+            case "search": {
+                try {
+                    HashMap<Suspect,ArrayList<String>> coincidences=Query.findCoincidences(myUI.getSearchSuspect());
+                    
+                    System.out.println(coincidences.size());
+                    
                 } catch (SQLException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }

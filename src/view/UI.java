@@ -125,12 +125,36 @@ public class UI extends javax.swing.JFrame {
                 values[i] = null;
             }
         }
-
+        
         Suspect mySuspect = new Suspect(null, values[0].trim(), values[1].trim(), values[2].trim(), null/*companions*/,
-                new SerialBlob(values[4].getBytes()), new SerialBlob(values[5].getBytes()),
-                UiUtils.transformStringToArrayListPhone(values[6],null), UiUtils.transformStringToArrayListEmail(values[7],null),
-                UiUtils.transformStringToArrayListAddress(values[8],null), UiUtils.transformStringToArrayListCar_Registration(values[9],null),
-                addSuspectImageManager.getPhotos());
+                values[4],values[5], UiUtils.transformStringToArrayListPhone(values[6],null),
+                UiUtils.transformStringToArrayListEmail(values[7],null),
+                UiUtils.transformStringToArrayListAddress(values[8],null),
+                UiUtils.transformStringToArrayListCar_Registration(values[9],null),
+                addSuspectImageManager.getPhotos()); 
+        
+        return mySuspect;
+    }
+    
+    public Suspect getSearchSuspect() throws SQLException{
+        String values[] = new String[10];
+
+        for (int i = 0; i < searchSuspectFields.length; i++) {
+
+            if (searchSuspectFields[i] != null) {
+                values[i] = searchSuspectFields[i].getText();
+            } else {
+                values[i] = null;
+            }
+        }
+        
+        Suspect mySuspect = new Suspect(null, values[0].trim(), values[1].trim(), values[2].trim(), null/*companions*/,
+               values[4],values[5],UiUtils.transformStringToArrayListPhone(values[6],null),
+                UiUtils.transformStringToArrayListEmail(values[7],null),
+                UiUtils.transformStringToArrayListAddress(values[8],null),
+                UiUtils.transformStringToArrayListCar_Registration(values[9],null),
+                null); 
+        
         return mySuspect;
     }
 
@@ -145,10 +169,9 @@ public class UI extends javax.swing.JFrame {
                 values[i] = null;
             }
         }
-
+        
         Suspect mySuspect = new Suspect(suspectBeenModified.getCodeSuspect(), values[0].trim(), values[1].trim(), values[2].trim(), null/*companions*/,
-                new SerialBlob(values[4].getBytes()), new SerialBlob(values[5].getBytes()),
-                UiUtils.transformStringToArrayListPhone(values[6],suspectBeenModified.getCodeSuspect()), UiUtils.transformStringToArrayListEmail(values[7],suspectBeenModified.getCodeSuspect()),
+               values[4],values[5], UiUtils.transformStringToArrayListPhone(values[6],suspectBeenModified.getCodeSuspect()), UiUtils.transformStringToArrayListEmail(values[7],suspectBeenModified.getCodeSuspect()),
                 UiUtils.transformStringToArrayListAddress(values[8],suspectBeenModified.getCodeSuspect()), UiUtils.transformStringToArrayListCar_Registration(values[9],suspectBeenModified.getCodeSuspect()),
                 suspectBeenModified.getImages());
         
@@ -1127,6 +1150,19 @@ public class UI extends javax.swing.JFrame {
                             .addComponent(jLabel52))
                         .addGap(127, 127, 127)
                         .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlModifySuspectLayout.createSequentialGroup()
+                                .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane24)
+                                    .addComponent(jScrollPane27))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton27, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(82, 82, 82))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlModifySuspectLayout.createSequentialGroup()
+                                .addGap(0, 3, Short.MAX_VALUE)
+                                .addComponent(jLabel46)
+                                .addGap(222, 222, 222))
                             .addGroup(pnlModifySuspectLayout.createSequentialGroup()
                                 .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(pnlModifySuspectLayout.createSequentialGroup()
@@ -1134,36 +1170,20 @@ public class UI extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jButton25, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel37)
-                                    .addGroup(pnlModifySuspectLayout.createSequentialGroup()
-                                        .addGap(3, 3, 3)
-                                        .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel49)
-                                            .addGroup(pnlModifySuspectLayout.createSequentialGroup()
-                                                .addGap(33, 33, 33)
-                                                .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(jLabel50)
-                                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addComponent(jLabel43)
                                     .addGroup(pnlModifySuspectLayout.createSequentialGroup()
                                         .addComponent(jScrollPane30, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton31, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(85, 85, 85))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlModifySuspectLayout.createSequentialGroup()
-                                    .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jScrollPane24)
-                                        .addComponent(jScrollPane27))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jButton27, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(82, 82, 82))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlModifySuspectLayout.createSequentialGroup()
-                                    .addComponent(jLabel46)
-                                    .addGap(222, 222, 222)))))
+                                        .addComponent(jButton31, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel49)
+                                    .addGroup(pnlModifySuspectLayout.createSequentialGroup()
+                                        .addComponent(jLabel50)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(pnlModifySuspectLayout.createSequentialGroup()
-                        .addComponent(jScrollPane31, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane31, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton29, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
@@ -1214,7 +1234,7 @@ public class UI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlModifySuspectLayout.createSequentialGroup()
-                                .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(pnlModifySuspectLayout.createSequentialGroup()
                                         .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jScrollPane28, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1223,24 +1243,27 @@ public class UI extends javax.swing.JFrame {
                                         .addComponent(jLabel48)
                                         .addGap(7, 7, 7)
                                         .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jScrollPane29, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jScrollPane29, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(pnlModifySuspectLayout.createSequentialGroup()
                                         .addComponent(jScrollPane30, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel50)
-                                            .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel50))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel52)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane31, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton29, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                                .addComponent(jButton30, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(pnlModifySuspectLayout.createSequentialGroup()
+                                        .addComponent(jScrollPane31, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                                        .addComponent(jButton30, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(pnlModifySuspectLayout.createSequentialGroup()
+                                        .addComponent(jButton29, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE)))
                                 .addContainerGap())
                             .addComponent(jButton31, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pnlModifySuspectLayout.createSequentialGroup()
@@ -1369,7 +1392,7 @@ public class UI extends javax.swing.JFrame {
         pnlMainLayout.setHorizontalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
-                .addContainerGap(63, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(51, 51, 51))
             .addGroup(pnlMainLayout.createSequentialGroup()
@@ -1417,7 +1440,8 @@ public class UI extends javax.swing.JFrame {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
-        jTextArea11.getAccessibleContext().setAccessibleName("$");
+        jTextArea11.getAccessibleContext().setAccessibleName("");
+        searchSuspectFields[0]=jTextArea11;
 
         jLabel33.setText("Telefonos (varios)");
 
@@ -1435,12 +1459,13 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
-        jTextArea21.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTextArea12.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
-        jTextArea12.getAccessibleContext().setAccessibleName("$");
+        jTextArea12.getAccessibleContext().setAccessibleName("");
+        searchSuspectFields[6]=jTextArea12;
 
         jButton17.setBackground(primaryColor
         );
@@ -1474,7 +1499,8 @@ public class UI extends javax.swing.JFrame {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
-        jTextArea13.getAccessibleContext().setAccessibleName("$");
+        jTextArea13.getAccessibleContext().setAccessibleName("");
+        searchSuspectFields[7]=jTextArea13;
 
         jButton19.setBackground(primaryColor);
         jButton19.setForeground(secundaryColor);
@@ -1501,7 +1527,8 @@ public class UI extends javax.swing.JFrame {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
-        jTextArea14.getAccessibleContext().setAccessibleName("$");
+        jTextArea14.getAccessibleContext().setAccessibleName("");
+        searchSuspectFields[8]=jTextArea14;
 
         jButton20.setBackground(primaryColor);
         jButton20.setForeground(secundaryColor);
@@ -1528,7 +1555,8 @@ public class UI extends javax.swing.JFrame {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
-        jTextArea15.getAccessibleContext().setAccessibleName("$");
+        jTextArea15.getAccessibleContext().setAccessibleName("");
+        searchSuspectFields[9]=jTextArea15;
 
         jLabel34.setText("Direcciones (Varios)");
 
@@ -1555,7 +1583,8 @@ public class UI extends javax.swing.JFrame {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
-        jTextArea16.getAccessibleContext().setAccessibleName("$");
+        jTextArea16.getAccessibleContext().setAccessibleName("");
+        searchSuspectFields[1]=jTextArea16;
 
         jLabel38.setText("Apellido 1");
 
@@ -1581,7 +1610,8 @@ public class UI extends javax.swing.JFrame {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
-        jTextArea17.getAccessibleContext().setAccessibleName("$");
+        jTextArea17.getAccessibleContext().setAccessibleName("");
+        searchSuspectFields[2]=jTextArea17;
 
         jLabel40.setText("Acompañantes (Varios)");
 
@@ -1604,7 +1634,8 @@ public class UI extends javax.swing.JFrame {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
-        jTextArea18.getAccessibleContext().setAccessibleName("$");
+        jTextArea18.getAccessibleContext().setAccessibleName("");
+        searchSuspectFields[3]=jTextArea18;
 
         jButton21.setBackground(primaryColor);
         jButton21.setForeground(secundaryColor
@@ -1639,7 +1670,8 @@ public class UI extends javax.swing.JFrame {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
-        jTextArea19.getAccessibleContext().setAccessibleName("$");
+        jTextArea19.getAccessibleContext().setAccessibleName("");
+        searchSuspectFields[4]=jTextArea19;
 
         jLabel41.setText("Antecedentes (Varios)");
 
@@ -1664,7 +1696,8 @@ public class UI extends javax.swing.JFrame {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
-        jTextArea20.getAccessibleContext().setAccessibleName("$");
+        jTextArea20.getAccessibleContext().setAccessibleName("");
+        searchSuspectFields[5]=jTextArea20;
 
         jButton23.setBackground(primaryColor);
         jButton23.setForeground(secundaryColor);
@@ -1955,6 +1988,11 @@ public class UI extends javax.swing.JFrame {
         jButton24.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        jButton24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myController.actionPerformed(evt);
             }
         });
 
@@ -3964,5 +4002,6 @@ public class UI extends javax.swing.JFrame {
     private static ImageManager modifySuspectImageManager;
     private static JTextComponent[] addSuspectFields = new JTextComponent[10];
     private JTextComponent[] modifySuspectFields = new JTextComponent[10];
+    private JTextComponent[] searchSuspectFields = new JTextComponent[10];
     private Suspect suspectBeenModified;
 }

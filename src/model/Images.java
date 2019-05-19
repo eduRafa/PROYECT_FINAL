@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
  */
 public class Images {
 
+    private Image myImage;
     private ImageIcon image;
     private Integer codeImage;
     private String description;
@@ -26,15 +27,16 @@ public class Images {
 
     /*Constructor para cuando obtengas info de la bd*/
     public Images(Integer CodeImage, String Description,
-            Integer CodeSuspect,ImageIcon img) {
+            Integer CodeSuspect, ImageIcon img) {
 
         this.codeImage = CodeImage;
         this.description = Description;
         this.codeSuspect = CodeSuspect;
-        this.image=img;
+        this.image = img;
     }
 
     public Images(Image image, String path) {
+        myImage=image;
         transformImage(image);
         if (path != null) {
             this.f = new File(path);
@@ -44,13 +46,23 @@ public class Images {
     public File getFile() {
         return f;
     }
-
-    public void transformImage(Image image) {
-        this.image = new ImageIcon(image);
+    
+    public void setFile(File f){
+        this.f=f;
     }
 
-    public ImageIcon getImage() {
+    public void transformImage(Image image) {
+        if (image != null) {
+            this.image = new ImageIcon(image);
+        }
+    }
+
+    public ImageIcon getImageIcon() {
         return image;
+    }
+    
+    public Image getImage(){
+        return myImage;
     }
 
     public void setImage(Image Image, String path) {
@@ -59,9 +71,9 @@ public class Images {
         }
         transformImage(Image);
     }
-    
-    public void setImageIcon(ImageIcon image){
-        this.image=image;
+
+    public void setImageIcon(ImageIcon image) {
+        this.image = image;
     }
 
     public Integer getCodeImage() {
@@ -87,4 +99,6 @@ public class Images {
     public void setCodeSuspect(Integer CodeSuspect) {
         this.codeSuspect = CodeSuspect;
     }
+    
+    
 }

@@ -49,6 +49,9 @@ public class UiUtils {
                 }
             }
         }
+        if (eachValue.length == 0 && !(allTheValues.trim()).isEmpty()) {
+            myPhones.add(new Phone(Integer.valueOf(allTheValues), suspetCode));
+        }
 
         return myPhones;
     }
@@ -105,7 +108,11 @@ public class UiUtils {
         if (!multipleText.isEmpty()) {
             for (int i = 0; i < multipleText.size(); i++) {
                 Phone p = (Phone) multipleText.get(i);
-                miString.append(p.getPhoneNumber());
+                if (p.getPhoneNumber() == null) {
+                    miString.append(" ");
+                } else {
+                    miString.append(p.getPhoneNumber());
+                }
             }
         }
         return miString.toString();
@@ -118,7 +125,11 @@ public class UiUtils {
         if (!multipleText.isEmpty()) {
             for (int i = 0; i < multipleText.size(); i++) {
                 Email e = (Email) multipleText.get(i);
-                miString.append(e.getEmail());
+                if (e.getEmail() == null) {
+                    miString.append(" ");
+                } else {
+                    miString.append(e.getEmail());
+                }
             }
         }
         return miString.toString();
@@ -130,7 +141,11 @@ public class UiUtils {
         if (!multipleText.isEmpty()) {
             for (int i = 0; i < multipleText.size(); i++) {
                 Address a = (Address) multipleText.get(i);
-                miString.append(a.getAddress());
+                if (a.getAddress() != null) {
+                    miString.append(" ");
+                } else {
+                    miString.append(a.getAddress());
+                }
             }
         }
         return miString.toString();
@@ -142,7 +157,11 @@ public class UiUtils {
         if (!multipleText.isEmpty()) {
             for (int i = 0; i < multipleText.size(); i++) {
                 Car_Registration cr = (Car_Registration) multipleText.get(i);
-                miString.append(cr.getRegistration());
+                if (cr.getRegistration() != null) {
+                    miString.append(" ");
+                } else {
+                    miString.append(cr.getRegistration());
+                }
             }
         }
         return miString.toString();

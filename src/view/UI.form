@@ -570,7 +570,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
+                              <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="jScrollPane28" min="-2" pref="199" max="-2" attributes="0"/>
@@ -596,7 +596,24 @@
                                   </Group>
                                   <EmptySpace min="-2" pref="127" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jScrollPane24" max="32767" attributes="0"/>
+                                              <Component id="jScrollPane27" max="32767" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jButton26" min="-2" pref="28" max="-2" attributes="0"/>
+                                              <Component id="jButton27" min="-2" pref="28" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <EmptySpace min="0" pref="3" max="32767" attributes="0"/>
+                                          <Component id="jLabel46" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="222" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Component id="jScrollPane23" min="-2" pref="200" max="-2" attributes="0"/>
@@ -604,49 +621,26 @@
                                                   <Component id="jButton25" min="-2" pref="28" max="-2" attributes="0"/>
                                               </Group>
                                               <Component id="jLabel37" min="-2" max="-2" attributes="0"/>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="jLabel49" min="-2" max="-2" attributes="0"/>
-                                                      <Group type="102" alignment="0" attributes="0">
-                                                          <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                                                          <Component id="jLabel51" min="-2" pref="28" max="-2" attributes="0"/>
-                                                      </Group>
-                                                      <Component id="jLabel50" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jButton2" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                                                  </Group>
-                                              </Group>
                                               <Component id="jLabel43" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Component id="jScrollPane30" min="-2" pref="204" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Component id="jButton31" min="-2" pref="24" max="-2" attributes="0"/>
                                               </Group>
-                                          </Group>
-                                          <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="jScrollPane24" max="32767" attributes="0"/>
-                                                  <Component id="jScrollPane27" max="32767" attributes="0"/>
+                                              <Component id="jLabel49" min="-2" max="-2" attributes="0"/>
+                                              <Group type="102" attributes="0">
+                                                  <Component id="jLabel50" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="jLabel51" min="-2" pref="28" max="-2" attributes="0"/>
                                               </Group>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="jButton26" min="-2" pref="28" max="-2" attributes="0"/>
-                                                  <Component id="jButton27" min="-2" pref="28" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
+                                              <Component id="jButton2" min="-2" pref="200" max="-2" attributes="0"/>
                                           </Group>
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Component id="jLabel46" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="222" max="-2" attributes="0"/>
-                                          </Group>
+                                          <EmptySpace max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
                               <Group type="102" attributes="0">
-                                  <Component id="jScrollPane31" min="-2" pref="202" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane31" min="-2" pref="199" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jButton29" min="-2" pref="28" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
@@ -708,7 +702,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Group type="103" groupAlignment="0" attributes="0">
                                                       <Component id="jScrollPane28" min="-2" pref="23" max="-2" attributes="0"/>
@@ -718,16 +712,16 @@
                                                   <Component id="jLabel48" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="jScrollPane29" min="-2" pref="24" max="-2" attributes="0"/>
                                                       <Component id="jButton28" min="-2" pref="14" max="-2" attributes="0"/>
+                                                      <Component id="jScrollPane29" min="-2" pref="24" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Component id="jScrollPane30" min="-2" pref="23" max="-2" attributes="0"/>
                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="jLabel50" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jLabel51" min="-2" pref="14" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="3" attributes="0">
+                                                      <Component id="jLabel51" alignment="3" min="-2" pref="14" max="-2" attributes="0"/>
+                                                      <Component id="jLabel50" alignment="3" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Component id="jButton2" max="32767" attributes="0"/>
@@ -737,11 +731,16 @@
                                           <Component id="jLabel52" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jScrollPane31" min="-2" pref="25" max="-2" attributes="0"/>
-                                              <Component id="jButton29" min="-2" pref="14" max="-2" attributes="0"/>
+                                              <Group type="102" attributes="0">
+                                                  <Component id="jScrollPane31" min="-2" pref="24" max="-2" attributes="0"/>
+                                                  <EmptySpace pref="43" max="32767" attributes="0"/>
+                                                  <Component id="jButton30" min="-2" pref="34" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" attributes="0">
+                                                  <Component id="jButton29" min="-2" pref="14" max="-2" attributes="0"/>
+                                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                              </Group>
                                           </Group>
-                                          <EmptySpace pref="42" max="32767" attributes="0"/>
-                                          <Component id="jButton30" min="-2" pref="34" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                       </Group>
                                       <Component id="jButton31" min="-2" pref="14" max="-2" attributes="0"/>
@@ -1396,7 +1395,7 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace pref="63" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="jScrollPane11" min="-2" pref="650" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                       </Group>
@@ -1801,7 +1800,7 @@
                         </Property>
                       </Properties>
                       <AccessibilityProperties>
-                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="$"/>
+                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="" postCode="searchSuspectFields[0]=jTextArea11;"/>
                       </AccessibilityProperties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextArea11.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});&#xa;&#xa;jTextArea11.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});"/>
@@ -1841,10 +1840,10 @@
                         </Property>
                       </Properties>
                       <AccessibilityProperties>
-                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="$"/>
+                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="" postCode="searchSuspectFields[6]=jTextArea12;"/>
                       </AccessibilityProperties>
                       <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextArea12.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});&#xa;&#xa;jTextArea21.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});"/>
+                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextArea12.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});&#xa;&#xa;jTextArea12.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});"/>
                       </AuxValues>
                     </Component>
                   </SubComponents>
@@ -1926,7 +1925,7 @@
                         </Property>
                       </Properties>
                       <AccessibilityProperties>
-                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="$"/>
+                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="" postCode="searchSuspectFields[7]=jTextArea13;"/>
                       </AccessibilityProperties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextArea13.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});&#xa;&#xa;jTextArea13.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});"/>
@@ -1986,7 +1985,7 @@
                         </Property>
                       </Properties>
                       <AccessibilityProperties>
-                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="$"/>
+                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="" postCode="searchSuspectFields[8]=jTextArea14;"/>
                       </AccessibilityProperties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextArea14.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});&#xa;&#xa;jTextArea14.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});"/>
@@ -2046,7 +2045,7 @@
                         </Property>
                       </Properties>
                       <AccessibilityProperties>
-                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="$"/>
+                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="" postCode="searchSuspectFields[9]=jTextArea15;"/>
                       </AccessibilityProperties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextArea15.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});&#xa;&#xa;jTextArea15.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});"/>
@@ -2096,7 +2095,7 @@
                         </Property>
                       </Properties>
                       <AccessibilityProperties>
-                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="$"/>
+                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="" postCode="searchSuspectFields[1]=jTextArea16;"/>
                       </AccessibilityProperties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextArea16.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});&#xa;&#xa;jTextArea16.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});"/>
@@ -2142,7 +2141,7 @@
                         </Property>
                       </Properties>
                       <AccessibilityProperties>
-                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="$"/>
+                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="" postCode="searchSuspectFields[2]=jTextArea17;"/>
                       </AccessibilityProperties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextArea17.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});&#xa;&#xa;jTextArea17.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});"/>
@@ -2182,7 +2181,7 @@
                         </Property>
                       </Properties>
                       <AccessibilityProperties>
-                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="$"/>
+                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="" postCode="searchSuspectFields[3]=jTextArea18;"/>
                       </AccessibilityProperties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextArea18.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});&#xa;&#xa;jTextArea18.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});"/>
@@ -2268,7 +2267,7 @@
                         </Property>
                       </Properties>
                       <AccessibilityProperties>
-                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="$"/>
+                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="" postCode="searchSuspectFields[4]=jTextArea19;"/>
                       </AccessibilityProperties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextArea19.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});&#xa;&#xa;jTextArea21.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});"/>
@@ -2313,7 +2312,7 @@
                         </Property>
                       </Properties>
                       <AccessibilityProperties>
-                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="$"/>
+                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="" postCode="searchSuspectFields[5]=jTextArea20;"/>
                       </AccessibilityProperties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextArea20.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});&#xa;&#xa;jTextArea20.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});"/>
@@ -2366,7 +2365,7 @@
                     <Property name="focusable" type="boolean" value="false"/>
                   </Properties>
                   <AccessibilityProperties>
-                    <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="1$0$0" postCode="jButton24.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});&#xa;&#xa;jButton24.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});"/>
+                    <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="1$0$0" postCode="jButton24.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});&#xa;&#xa;jButton24.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        view.EnteredExited.mouseComponentEffect(evt);&#xa;    }&#xa;});&#xa;jButton24.addActionListener(new java.awt.event.ActionListener() {&#xa;    public void actionPerformed(java.awt.event.ActionEvent evt) {&#xa;    myController.actionPerformed(evt);&#xa;    }&#xa;});"/>
                   </AccessibilityProperties>
                 </Component>
               </SubComponents>

@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Images;
 import model.Phone;
 
 /**
@@ -131,6 +132,10 @@ public class CreateAndFillTables {
                 )) {
                     if (getValue(tblMain.getSelectedRow() + 1) != null) {
                         Suspect suspectToUpdate = Controller.findSuspect(getValue(tblMain.getSelectedRow() + 1));
+                        
+                        for (Images image : suspectToUpdate.getImages()) {
+                            System.out.println(image.getFile());
+                        }
 
                         if (suspectToUpdate != null) {
                             UI myUI = UI.getInstance();
@@ -189,15 +194,21 @@ public class CreateAndFillTables {
                         case 6:
                             if (s[i].getPhone() != null) {
                                 if (!s[i].getPhone().isEmpty()) {
-                                    myModel.setValueAt(UiUtils.transformArrayListPhoneToString(s[i].getPhone()), i, j);
+                                    if (s[i].getPhone().size() < 2) {
+                                        myModel.setValueAt(UiUtils.transformArrayListPhoneToString(s[i].getPhone()), i, j);
+                                    }
                                 }
+                            }else{
+                                 myModel.setValueAt(" ", i, j);
                             }
                             ;
                             break;
                         case 7:
                             if (s[i].getEmail() != null) {
                                 if (!s[i].getEmail().isEmpty()) {
-                                    myModel.setValueAt(UiUtils.transformArrayListEmailToString(s[i].getEmail()), i, j);
+                                    if (s[i].getEmail().size() < 2) {
+                                        myModel.setValueAt(UiUtils.transformArrayListEmailToString(s[i].getEmail()), i, j);
+                                    }
                                 }
                             }
                             ;
@@ -205,15 +216,23 @@ public class CreateAndFillTables {
                         case 8:
                             if (s[i].getAddress() != null) {
                                 if (!s[i].getAddress().isEmpty()) {
-                                    myModel.setValueAt(UiUtils.transformArrayListAddressToString(s[i].getAddress()), i, j);
+                                    if (s[i].getAddress().size() < 2) {
+                                        myModel.setValueAt(UiUtils.transformArrayListAddressToString(s[i].getAddress()), i, j);
+                                    } else {
+                                        myModel.setValueAt("Ver en Perfil", i, j);
+                                    }
                                 }
                             }
                             ;
                             break;
                         case 9:
-                            if (s[i].getCar_registration()!= null) {
+                            if (s[i].getCar_registration() != null) {
                                 if (!s[i].getCar_registration().isEmpty()) {
-                                    myModel.setValueAt(UiUtils.transformArrayListCarRegToString(s[i].getCar_registration()), i, j);
+                                    if (s[i].getAddress().size() < 2) {
+                                        myModel.setValueAt(UiUtils.transformArrayListCarRegToString(s[i].getCar_registration()), i, j);
+                                    } else {
+                                        myModel.setValueAt("Ver en Perfil", i, j);
+                                    }
                                 }
                             }
                             ;

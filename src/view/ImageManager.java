@@ -11,6 +11,7 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javax.swing.ImageIcon;
 import model.Images;
 import model.Suspect;
 
@@ -56,16 +57,20 @@ public class ImageManager extends javax.swing.JDialog {
         suspectToModify = s;
 
         ArrayList<Images> suspectImages = s.getImages();
+
         if (!suspectImages.isEmpty()) {
             for (int i = 0; i < suspectImages.size(); i++) {
                 if (suspectImages.get(i) != null) {
+                    System.out.println("image de suspect no nula");
                     photos[i] = suspectImages.get(i);
-                    insertedPhotos++;
                 }
             }
+            insertedPhotos = suspectImages.size();
             if (suspectImages.size() < NPHOTOS) {
                 for (int i = suspectImages.size(); i < NPHOTOS; i++) {
-                    photos[i].setImage(myImage, null);
+                    if (photos[i] != null) {
+                        photos[i].setImage(myImage, null);
+                    }
                 }
             }
         }
@@ -79,7 +84,7 @@ public class ImageManager extends javax.swing.JDialog {
 
     /*Encargada de ue aparezcan o no, las flechas, ademas de poer photo y coment*/
     public void putPhoto() {
-        jLabel1.setIcon(photos[selectedPhoto - 1].getImage());
+        jLabel1.setIcon(photos[selectedPhoto - 1].getImageIcon());
     }
 
     public void putDescription() {
@@ -342,8 +347,24 @@ public class ImageManager extends javax.swing.JDialog {
             parent.jLabel30.setText(getInsertedPhotos() + " / "
                     + NPHOTOS);
         } else {
-            ArrayList<Images> x = new ArrayList<>(Arrays.asList(photos));
-            suspectToModify.setImages(x);
+            for (int i = 0; i < suspectToModify.getImages().size(); i++) {
+                if (photos[i].getImage() == myImage) {//a borrar
+                    System.out.println("la borre");
+                    photos[i].setFile(null);
+                    photos[i].setImageIcon(null);
+                    suspectToModify.getImages().set(i, photos[i]);
+                } else {// a modificar
+                    suspectToModify.getImages().set(i, photos[i]);
+                }
+            }
+            for (int i = 0; i < insertedPhotos - suspectToModify.getImages().size(); i++) {
+                if (suspectToModify.getImages().size() != NPHOTOS) {//nuevas
+                    suspectToModify.getImages().add(photos[suspectToModify.getImages().size() + i]);
+                }
+            }
+
+            selectedPhoto = 1;
+            insertedPhotos = 0;
             parent.setSuspectBeenModified(suspectToModify);
         }
         super.dispose();
@@ -389,9 +410,10 @@ public class ImageManager extends javax.swing.JDialog {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         if (insertedPhotos > 0) {
-            photos[selectedPhoto - 1].setImage(myImage, null);
-            photos[selectedPhoto - 1].setDescription("");
+            suspectToModify.getImages().get(selectedPhoto - 1).setImageIcon(null);
             insertedPhotos--;
+            photos[selectedPhoto - 1].setImage(myImage, imageDefPath);
+            photos[selectedPhoto - 1].setDescription("");
             putDescription();
             putPhoto();
         }
@@ -401,7 +423,7 @@ public class ImageManager extends javax.swing.JDialog {
         ArrayList<Images> insertedImages = new ArrayList<>();
 
         for (int i = 0; i < photos.length; i++) {
-            if (photos[i].getImage().getImage() != myImage) {
+            if (photos[i].getImage() != myImage) {
                 if (i == selectedPhoto - 1) {
                     photos[i].setDescription(jTextArea1.getText());
                 }
@@ -415,14 +437,12 @@ public class ImageManager extends javax.swing.JDialog {
         Images aImage = new Images(image, path);
         boolean added = false;
 
-        if (insertedPhotos != NPHOTOS) {
-            for (int i = 0; i < photos.length && !added; i++) {
-                if (i + 1 == selectedPhoto) {
-                    photos[i].setImage(image, path);
-                    insertedPhotos++;
-                    putPhoto();
-                    added = true;
-                }
+        for (int i = 0; i < photos.length && !added; i++) {
+            if (i + 1 == selectedPhoto) {
+                System.out.println("add");
+                photos[i].setImage(image, path);
+                insertedPhotos++;
+                added = true;
             }
         }
 
