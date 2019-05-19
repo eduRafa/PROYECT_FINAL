@@ -279,7 +279,6 @@ public class Query {
             PreparedStatement ps = null;
             if (img.getFile() != null) {
                 fis = new FileInputStream(img.getFile());
-                Statement s;
                 ps = c.prepareStatement(update);
                 ps.setString(1, "Image");
                 ps.setString(2, "null");
@@ -290,6 +289,11 @@ public class Query {
                 ps.setString(1, "Description");
                 ps.setString(2, img.getDescription());
                 ps.execute();
+                c.close();
+            }else{
+                Statement s=c.createStatement();
+                s.execute("Delete from IMAGES where CodeImage="+code.toString());
+                s.close();
                 c.close();
             }
             if (ps != null) {
