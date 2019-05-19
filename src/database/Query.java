@@ -279,7 +279,11 @@ public class Query {
             PreparedStatement ps = null;
             if (img.getFile() != null) {
                 fis = new FileInputStream(img.getFile());
+                Statement s;
                 ps = c.prepareStatement(update);
+                ps.setString(1, "Image");
+                ps.setString(2, "null");
+                ps.execute();
                 ps.setString(1, "Image");
                 ps.setBinaryStream(2, fis, img.getFile().length());
                 ps.execute();
