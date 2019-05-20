@@ -9,11 +9,8 @@ import database.Query;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Communication;
 import model.Suspect;
 import view.CreateAndFillTables;
@@ -74,11 +71,10 @@ public class Controller implements ActionListener {
                 CreateAndFillTables.fillMainTable();
                 break;
             case "search":
-                //try {
-                //Query.searchBy(myUI.getAddSuspect());
-                //} catch (SQLException ex) {
-                //  Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                //}
+                System.out.println(myUI.getSearchSuspect().getName());
+                ArrayList<Suspect> coincidences = Query.search(myUI.getSearchSuspect());
+                System.out.println("resultado = "+coincidences.size());
+                System.out.println(coincidences.get(0).getName());
                 break;
         }
     }

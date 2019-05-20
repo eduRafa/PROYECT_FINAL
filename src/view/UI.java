@@ -128,7 +128,6 @@ public class UI extends javax.swing.JFrame {
         String values[] = new String[10];
 
         for (int i = 0; i < addSuspectFields.length; i++) {
-
             if (addSuspectFields[i] != null) {
                 values[i] = addSuspectFields[i].getText();
             } else {

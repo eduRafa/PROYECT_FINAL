@@ -653,99 +653,105 @@ public class Query {
         }
         return rs;
     }
-   /*
+
+    /*
     Este metodo busca ene la base de datos sospechosos que coincidan con lo que se introduzca en la interfaz
     *@param sus:Es el sospechoso que guarda los parametros buscados
     @return coincidenes: Es un ArrayList de sospechosos que coinciden con los buscado
-    */
-    public static ArrayList<Suspect> search(Suspect sus){
-        ArrayList<Suspect> coincidences=new ArrayList<>();
-        coincidences.addAll(Query.searchBy("lastName1",sus.getLastname1()));
-        ArrayList<Suspect> newCoincidences=new ArrayList<>();
-        newCoincidences=Query.searchBy("lastname2", sus.getLastname2());
-        if(coincidences.size()>0){
-            for(int i=0;i<coincidences.size();i++){
-                for(int j=0;j<newCoincidences.size();j++){
-                    if(coincidences.get(i).getCodeSuspect()==newCoincidences.get(j).getCodeSuspect()){
+     */
+    public static ArrayList<Suspect> search(Suspect sus) {
+        ArrayList<Suspect> coincidences = new ArrayList<>();
+        coincidences.addAll(Query.searchBy("lastName1", sus.getLastname1()));
+        ArrayList<Suspect> newCoincidences = new ArrayList<>();
+        newCoincidences = Query.searchBy("lastname2", sus.getLastname2());
+        if (coincidences.size() > 0) {
+            for (int i = 0; i < coincidences.size(); i++) {
+                for (int j = 0; j < newCoincidences.size(); j++) {
+                    if (coincidences.get(i).getCodeSuspect() == newCoincidences.get(j).getCodeSuspect()) {
                         coincidences.add(newCoincidences.get(j));
                     }
                 }
             }
-        }else{
+        } else {
             coincidences.addAll(newCoincidences);
         }
-        for(int i=0;i<sus.getPhone().size();i++){
-            newCoincidences=Query.searchBy("PhoneNumber", sus.getPhone().get(i).getPhoneNumber().toString());
-            if(coincidences.size()>0){
-                for(int j=0;j<coincidences.size();j++){
-                    for(int k=0;k<newCoincidences.size();k++){
-                        if(coincidences.get(i).getCodeSuspect().equals(newCoincidences.get(j).getCodeSuspect())){
+        for (int i = 0; i < sus.getPhone().size(); i++) {
+            newCoincidences = Query.searchBy("PhoneNumber", sus.getPhone().get(i).getPhoneNumber().toString());
+            if (coincidences.size() > 0) {
+                for (int j = 0; j < coincidences.size(); j++) {
+                    for (int k = 0; k < newCoincidences.size(); k++) {
+                        if (coincidences.get(i).getCodeSuspect().equals(newCoincidences.get(j).getCodeSuspect())) {
                             coincidences.add(newCoincidences.get(j));
                         }
                     }
                 }
-            }else{
+            } else {
                 coincidences.addAll(newCoincidences);
             }
         }
-        for(int i=0;i<sus.getEmail().size();i++){
-            newCoincidences=Query.searchBy("Email", sus.getEmail().get(i).getEmail());
-            if(coincidences.size()>0){
-                for(int j=0;j<coincidences.size();j++){
-                    for(int k=0;k<newCoincidences.size();k++){
-                        if(coincidences.get(i).getCodeSuspect().equals(newCoincidences.get(j).getCodeSuspect())){
+        for (int i = 0; i < sus.getEmail().size(); i++) {
+            newCoincidences = Query.searchBy("Email", sus.getEmail().get(i).getEmail());
+            if (coincidences.size() > 0) {
+                for (int j = 0; j < coincidences.size(); j++) {
+                    for (int k = 0; k < newCoincidences.size(); k++) {
+                        if (coincidences.get(i).getCodeSuspect().equals(newCoincidences.get(j).getCodeSuspect())) {
                             coincidences.add(newCoincidences.get(j));
                         }
                     }
                 }
-            }else{
+            } else {
                 coincidences.addAll(newCoincidences);
             }
         }
-        for(int i=0;i<sus.getAddress().size();i++){
-            newCoincidences=Query.searchBy("Address", sus.getAddress().get(i).getAddress());
-            if(coincidences.size()>0){
-                for(int j=0;j<coincidences.size();j++){
-                    for(int k=0;k<newCoincidences.size();k++){
-                        if(coincidences.get(i).getCodeSuspect().equals(newCoincidences.get(j).getCodeSuspect())){
+        for (int i = 0; i < sus.getAddress().size(); i++) {
+            newCoincidences = Query.searchBy("Address", sus.getAddress().get(i).getAddress());
+            if (coincidences.size() > 0) {
+                for (int j = 0; j < coincidences.size(); j++) {
+                    for (int k = 0; k < newCoincidences.size(); k++) {
+                        if (coincidences.get(i).getCodeSuspect().equals(newCoincidences.get(j).getCodeSuspect())) {
                             coincidences.add(newCoincidences.get(j));
                         }
                     }
                 }
-            }else{
+            } else {
                 coincidences.addAll(newCoincidences);
             }
         }
-        for(int i=0;i<sus.getCar_registration().size();i++){
-            newCoincidences=Query.searchBy("Registration_number", sus.getCar_registration().get(i).getRegistration());
-            if(coincidences.size()>0){
-                for(int j=0;j<coincidences.size();j++){
-                    for(int k=0;k<newCoincidences.size();k++){
-                        if(coincidences.get(i).getCodeSuspect().equals(newCoincidences.get(j).getCodeSuspect())){
+        for (int i = 0; i < sus.getCar_registration().size(); i++) {
+            newCoincidences = Query.searchBy("Registration_number", sus.getCar_registration().get(i).getRegistration());
+            if (coincidences.size() > 0) {
+                for (int j = 0; j < coincidences.size(); j++) {
+                    for (int k = 0; k < newCoincidences.size(); k++) {
+                        if (coincidences.get(i).getCodeSuspect().equals(newCoincidences.get(j).getCodeSuspect())) {
                             coincidences.add(newCoincidences.get(j));
                         }
                     }
                 }
-            }else{
+            } else {
                 coincidences.addAll(newCoincidences);
             }
         }
-        for(int i=0;i<sus.getSuspect().size();i++){
-            newCoincidences=Query.searchBy("Companions", sus.getSuspect().get(i).getCodeSuspect().toString());
-            if(coincidences.size()>0){
-                for(int j=0;j<coincidences.size();j++){
-                    for(int k=0;k<newCoincidences.size();k++){
-                        if(coincidences.get(i).getCodeSuspect().equals(newCoincidences.get(j).getCodeSuspect())){
-                            coincidences.add(newCoincidences.get(j));
+        if (sus.getSuspect() != null) {
+            if (!sus.getSuspect().isEmpty()) {
+                for (int i = 0; i < sus.getSuspect().size(); i++) {
+                    newCoincidences = Query.searchBy("Companions", sus.getSuspect().get(i).getCodeSuspect().toString());
+                    if (coincidences.size() > 0) {
+                        for (int j = 0; j < coincidences.size(); j++) {
+                            for (int k = 0; k < newCoincidences.size(); k++) {
+                                if (coincidences.get(i).getCodeSuspect().equals(newCoincidences.get(j).getCodeSuspect())) {
+                                    coincidences.add(newCoincidences.get(j));
+                                }
+                            }
                         }
+                    } else {
+                        coincidences.addAll(newCoincidences);
                     }
                 }
-            }else{
-                coincidences.addAll(newCoincidences);
             }
         }
         return coincidences;
     }
+
     /*
     *Este metode permite realizar una consulta en la base de datos buscando con por un valor dado de un paramatro concreto
     *@param key: Es tipo de campo por el cual se esta buscando (name,lastname1,lastname2,Phonenumber,Email,Registration_number,
@@ -756,18 +762,21 @@ public class Query {
     public static ArrayList<Suspect> searchBy(String key, String value) {
         ArrayList<Suspect> sus = new ArrayList<>();
         try {
-            if(!value.equals("")||value!=null){
+            if (!value.equals("") || value != null) {
                 Connect.startConnection();
                 c = Connect.getMyConnection();
-                Statement s=c.createStatement();
+                Statement s = c.createStatement();
                 switch (key) {
                     case "name":
                     case "lastname1":
                     case "lastname2":
+                        System.out.println("RESULTSET LASTNAME 2 ");
+                        
                         rs = s.executeQuery("Select CodeSuspect from Suspect "
                                 + "where " + key + "='" + value + "'");
+                        
                         while (rs.next()) {
-                            sus.add(Query.findSuspect(rs.getInt(1)));
+                            sus.add(Query.findSuspect(rs.getInt(1)));//lo cierra
                         }
                         break;
                     case "PhoneNumber":
@@ -786,6 +795,7 @@ public class Query {
                         }
                         break;
                     case "Registration_number":
+
                         rs = s.executeQuery("Select CodeSuspect from CAR_REGISTRATION "
                                 + "where " + key + "='" + value + "'");
                         while (rs.next()) {

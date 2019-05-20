@@ -24,6 +24,7 @@ public class Images {
     private String description;
     private Integer codeSuspect;
     private File f;
+    String path;
 
     /*Constructor para cuando obtengas info de la bd*/
     public Images(Integer CodeImage, String Description,
@@ -40,10 +41,15 @@ public class Images {
         if (path != null) {
             this.f = new File(path);
         }
+        this.path=path;
     }
 
     public File getFile() {
         return f;
+    }
+    
+    public String getPath(){
+        return path;
     }
     
     public void setFile(File f){
@@ -62,6 +68,7 @@ public class Images {
         if (path != null) {
             f = new File(path);
         }
+        this.path=path;
     }
 
     public void setImageIcon(ImageIcon imag) {
