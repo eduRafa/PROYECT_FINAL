@@ -37,7 +37,6 @@ public class Images {
 
     public Images(Image image, String path) {
         myImage=image;
-        transformImage(image);
         if (path != null) {
             this.f = new File(path);
         }
@@ -49,12 +48,6 @@ public class Images {
     
     public void setFile(File f){
         this.f=f;
-    }
-
-    public void transformImage(Image image) {
-        if (image != null) {
-            this.image = new ImageIcon(image);
-        }
     }
 
     public ImageIcon getImageIcon() {
@@ -69,11 +62,10 @@ public class Images {
         if (path != null) {
             f = new File(path);
         }
-        transformImage(Image);
     }
 
-    public void setImageIcon(ImageIcon image) {
-        this.image = image;
+    public void setImageIcon(ImageIcon imag) {
+        image = imag;
     }
 
     public Integer getCodeImage() {

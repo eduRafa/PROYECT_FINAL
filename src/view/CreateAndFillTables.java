@@ -132,10 +132,6 @@ public class CreateAndFillTables {
                 )) {
                     if (getValue(tblMain.getSelectedRow() + 1) != null) {
                         Suspect suspectToUpdate = Controller.findSuspect(getValue(tblMain.getSelectedRow() + 1));
-                        
-                        for (Images image : suspectToUpdate.getImages()) {
-                            System.out.println(image.getFile());
-                        }
 
                         if (suspectToUpdate != null) {
                             UI myUI = UI.getInstance();

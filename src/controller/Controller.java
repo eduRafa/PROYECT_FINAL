@@ -62,23 +62,24 @@ public class Controller implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         switch (e.getActionCommand()) {
-            case "add": 
+            case "add":
                 Query.addSuspect(myUI.getAddSuspect());
                 myUI.removeAddSuspectsFields();
                 myUI.getAddSuspectImageManager().resetImageManager();
                 CreateAndFillTables.fillMainTable();
-            break;
+                break;
             case "modify":
+                System.out.println("imag" + myUI.getModifySuspect().getImages().size());
                 Query.Update(myUI.getModifySuspect());
                 CreateAndFillTables.fillMainTable();
                 break;
-            case "search": 
+            case "search":
                 //try {
                 //Query.searchBy(myUI.getAddSuspect());
                 //} catch (SQLException ex) {
                 //  Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 //}
-            break;
+                break;
         }
     }
 

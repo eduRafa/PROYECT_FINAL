@@ -215,10 +215,6 @@ public class UI extends javax.swing.JFrame {
         } catch (Exception ex) {
             new WarningDialog(me, true, ex.getMessage()).setVisible(true);
         }
-
-        for (String value : values) {
-            System.out.println(value);
-        }
         
         return mySuspect;
     }

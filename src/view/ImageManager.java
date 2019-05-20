@@ -31,6 +31,7 @@ public class ImageManager extends javax.swing.JDialog {
     private static int selectedPhoto = 1;
     public static String imageDefPath = "view/images/icons8-añadir-imagen-100.png";
     private static Image myImage = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource(imageDefPath));
+    private static ImageIcon myIcon = new ImageIcon(myImage);
     private Suspect suspectToModify;
 
     public ImageManager(UI parent, boolean modal) {
@@ -47,6 +48,7 @@ public class ImageManager extends javax.swing.JDialog {
 
         for (int i = 0; i < photos.length; i++) {
             photos[i] = new Images(myImage, null);
+            photos[i].setImageIcon(myIcon);
             photos[i].setDescription("");
 
         }
@@ -54,27 +56,23 @@ public class ImageManager extends javax.swing.JDialog {
 
     public void showSuspect(Suspect s) {
         resetImageManager();
-        suspectToModify = s;
 
-        ArrayList<Images> suspectImages = s.getImages();
+        if (s != null) {
+            suspectToModify = s;
 
-        if (!suspectImages.isEmpty()) {
-            for (int i = 0; i < suspectImages.size(); i++) {
-                if (suspectImages.get(i) != null) {
-                    System.out.println("image de suspect no nula");
-                    photos[i] = suspectImages.get(i);
-                }
-            }
-            insertedPhotos = suspectImages.size();
-            if (suspectImages.size() < NPHOTOS) {
-                for (int i = suspectImages.size(); i < NPHOTOS; i++) {
-                    if (photos[i] != null) {
-                        photos[i].setImage(myImage, null);
+            ArrayList<Images> suspectImages = s.getImages();
+            int countSuspectImages = suspectImages.size();
+            insertedPhotos = countSuspectImages;
+
+            if (countSuspectImages > 0) {
+                for (int i = 0; i < countSuspectImages; i++) {
+                    if (suspectImages.get(i) != null && suspectImages.get(i).getImageIcon() != null) {
+                        photos[i] = suspectImages.get(i);
                     }
                 }
             }
         }
-        
+
         putPhoto();
         putDescription();
     }
@@ -137,6 +135,8 @@ public class ImageManager extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -253,6 +253,10 @@ public class ImageManager extends javax.swing.JDialog {
         jSeparator2.setForeground(UI.getPrimaryColor());
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
+        jLabel5.setText("jLabel5");
+
+        jLabel6.setText("jLabel6");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -267,14 +271,25 @@ public class ImageManager extends javax.swing.JDialog {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(98, 98, 98)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(52, 52, 52)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(147, 147, 147)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(70, 70, 70)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(52, 52, 52)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(101, 101, 101)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(62, 62, 62)
                 .addComponent(jLabel3)
@@ -293,7 +308,23 @@ public class ImageManager extends javax.swing.JDialog {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(39, 39, 39)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(91, 91, 91))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(46, 46, 46)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -309,18 +340,8 @@ public class ImageManager extends javax.swing.JDialog {
                                     .addGap(49, 49, 49)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(127, 127, 127)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(97, 97, 97)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(31, 31, 31)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(31, 31, 31)))
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE))
@@ -348,25 +369,26 @@ public class ImageManager extends javax.swing.JDialog {
             parent.jLabel30.setText(getInsertedPhotos() + " / "
                     + NPHOTOS);
         } else {
-            for (int i = 0; i < suspectToModify.getImages().size(); i++) {
-                if (photos[i].getImage() == myImage) {//a borrar
+            int countSuspectImages = suspectToModify.getImages().size();
+
+            for (int i = 0; i < countSuspectImages; i++) {
+                if (photos[i].getImageIcon() == myIcon || photos[i].getImage()==myImage) {
+                    photos[i].setImage(null, null);
                     photos[i].setFile(null);
                     photos[i].setImageIcon(null);
-                    suspectToModify.getImages().set(i, photos[i]);
+                    suspectToModify.getImages().remove(i);
                 } else {
-                    suspectToModify.getImages().set(i, photos[i]);
+                    suspectToModify.getImages().set(i, photos[i]);//Si el sospechoso modifico una imagen
                 }
             }
-            for (int i = 0; i < insertedPhotos - suspectToModify.getImages().size(); i++) {
-                if (suspectToModify.getImages().size() != NPHOTOS) {//nuevas
-                    suspectToModify.getImages().add(photos[suspectToModify.getImages().size() + i]);
+            for (int i = 0; i < insertedPhotos - countSuspectImages; i++) {
+                if (countSuspectImages != NPHOTOS) {//nuevas
+                    suspectToModify.getImages().add(photos[countSuspectImages+ i]);
                 }
-            }
-            
-            for (Images photo : suspectToModify.getImages()) {
-                System.out.println(photo);
             }
 
+            System.out.println(suspectToModify.getImages().size());
+            
             selectedPhoto = 1;
             insertedPhotos = 0;
             parent.setSuspectBeenModified(suspectToModify);
@@ -414,10 +436,10 @@ public class ImageManager extends javax.swing.JDialog {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         if (insertedPhotos > 0) {
-            suspectToModify.getImages().get(selectedPhoto - 1).setImageIcon(null);
-            insertedPhotos--;
             photos[selectedPhoto - 1].setImage(myImage, imageDefPath);
+            photos[selectedPhoto - 1].setImageIcon(myIcon);
             photos[selectedPhoto - 1].setDescription("");
+            insertedPhotos--;
             putDescription();
             putPhoto();
         }
@@ -427,28 +449,31 @@ public class ImageManager extends javax.swing.JDialog {
         ArrayList<Images> insertedImages = new ArrayList<>();
 
         for (int i = 0; i < photos.length; i++) {
-            if (photos[i].getImage() != myImage) {
+            if (photos[i].getImageIcon() != myIcon) {
                 if (i == selectedPhoto - 1) {
-                    photos[i].setDescription(jTextArea1.getText());
+                    photos[i].setDescription(jTextArea1.getText());// ya que la desc
+                    //se guarda al cambiar la imagen 
                 }
                 insertedImages.add(photos[i]);
             }
         }
+
         return insertedImages;
     }
 
     public void addPhoto(Image image, String path) {
         Images aImage = new Images(image, path);
+        aImage.setImageIcon(new ImageIcon(image));
         boolean added = false;
 
         for (int i = 0; i < photos.length && !added; i++) {
             if (i + 1 == selectedPhoto) {
                 photos[i].setImage(image, path);
+                photos[i].setImageIcon(new ImageIcon(image));
                 insertedPhotos++;
                 added = true;
             }
         }
-
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -461,6 +486,8 @@ public class ImageManager extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
