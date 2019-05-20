@@ -44,15 +44,12 @@ public class UiUtils {
 
         if (eachValue.length > 0) {
             for (String string : eachValue) {
-                if (string != null) {
-                    if (string.equals("")) {
-                        myPhones.add(null);
+                if (string.equals("")) {
+                } else {
+                    if (string.matches("\\d{9}")) {
+                        myPhones.add(new Phone(Integer.valueOf(string), suspetCode));
                     } else {
-                        if (string.matches("\\d{9}")) {
-                            myPhones.add(new Phone(Integer.valueOf(string), suspetCode));
-                        }else{
-                            throw new Exception("Telefono no valido");
-                        }
+                        throw new Exception("Telefono no valido");
                     }
                 }
             }

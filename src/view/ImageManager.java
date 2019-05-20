@@ -74,6 +74,7 @@ public class ImageManager extends javax.swing.JDialog {
                 }
             }
         }
+        
         putPhoto();
         putDescription();
     }
@@ -349,11 +350,10 @@ public class ImageManager extends javax.swing.JDialog {
         } else {
             for (int i = 0; i < suspectToModify.getImages().size(); i++) {
                 if (photos[i].getImage() == myImage) {//a borrar
-                    System.out.println("la borre");
                     photos[i].setFile(null);
                     photos[i].setImageIcon(null);
                     suspectToModify.getImages().set(i, photos[i]);
-                } else {// a modificar
+                } else {
                     suspectToModify.getImages().set(i, photos[i]);
                 }
             }
@@ -361,6 +361,10 @@ public class ImageManager extends javax.swing.JDialog {
                 if (suspectToModify.getImages().size() != NPHOTOS) {//nuevas
                     suspectToModify.getImages().add(photos[suspectToModify.getImages().size() + i]);
                 }
+            }
+            
+            for (Images photo : suspectToModify.getImages()) {
+                System.out.println(photo);
             }
 
             selectedPhoto = 1;
@@ -439,7 +443,6 @@ public class ImageManager extends javax.swing.JDialog {
 
         for (int i = 0; i < photos.length && !added; i++) {
             if (i + 1 == selectedPhoto) {
-                System.out.println("add");
                 photos[i].setImage(image, path);
                 insertedPhotos++;
                 added = true;

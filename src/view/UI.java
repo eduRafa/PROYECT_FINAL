@@ -92,6 +92,9 @@ public class UI extends javax.swing.JFrame {
         pnlSearch.setVisible(true);
     }
 
+    /**
+     * Inicialia los colores de los temas de la aplicación
+     */
     private void setThemeColors() {
         themeColor = new Color[6];
         themeColor[0] = new Color(255, 190, 113);
@@ -114,7 +117,14 @@ public class UI extends javax.swing.JFrame {
         return tblMain;
     }
 
-    public Suspect getAddSuspect() throws SQLException {
+    /**
+     * Metodo encargado de coger los valores del sospechoso a añadir y
+     * convertirlos en sospechoso.
+     *
+     * @return el sospechoso a añadir, los valores en los campos vacios se
+     * representan como "" no como nulos.
+     */
+    public Suspect getAddSuspect(){
         String values[] = new String[10];
 
         for (int i = 0; i < addSuspectFields.length; i++) {
@@ -125,23 +135,31 @@ public class UI extends javax.swing.JFrame {
                 values[i] = null;
             }
         }
-        
-        Suspect mySuspect=null;
+
+        Suspect mySuspect = null;
         try {
             mySuspect = new Suspect(null, values[0].trim(), values[1].trim(), values[2].trim(), null/*companions*/,
-                    values[4],values[5], UiUtils.transformStringToArrayListPhone(values[6],null),
-                    UiUtils.transformStringToArrayListEmail(values[7],null),
-                    UiUtils.transformStringToArrayListAddress(values[8],null), 
-                    UiUtils.transformStringToArrayListCar_Registration(values[9],null),
+                    values[4], values[5], UiUtils.transformStringToArrayListPhone(values[6], null),
+                    UiUtils.transformStringToArrayListEmail(values[7], null),
+                    UiUtils.transformStringToArrayListAddress(values[8], null),
+                    UiUtils.transformStringToArrayListCar_Registration(values[9], null),
                     addSuspectImageManager.getPhotos());
         } catch (Exception ex) {
+            new WarningDialog(me, true, ex.getMessage()).setVisible(true);
             Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return mySuspect;
     }
-    
-    public Suspect getSearchSuspect() throws SQLException{
+
+    /**
+     * Metodo encargado de coger los valores del sospechoso a añadir y
+     * convertirlos en sospechoso.
+     *
+     * @return el sospechoso a añadir, los valores en los campos vacios se
+     * representan como "" no como nulos.
+     */
+    public Suspect getSearchSuspect() {
         String values[] = new String[10];
 
         for (int i = 0; i < searchSuspectFields.length; i++) {
@@ -152,23 +170,31 @@ public class UI extends javax.swing.JFrame {
                 values[i] = null;
             }
         }
-        
-        Suspect mySuspect=null;
+
+        Suspect mySuspect = null;
         try {
             mySuspect = new Suspect(null, values[0].trim(), values[1].trim(), values[2].trim(), null/*companions*/,
-                    values[4],values[5],UiUtils.transformStringToArrayListPhone(values[6],null),
-                    UiUtils.transformStringToArrayListEmail(values[7],null),
-                    UiUtils.transformStringToArrayListAddress(values[8],null), 
-                    UiUtils.transformStringToArrayListCar_Registration(values[9],null),
+                    values[4], values[5], UiUtils.transformStringToArrayListPhone(values[6], null),
+                    UiUtils.transformStringToArrayListEmail(values[7], null),
+                    UiUtils.transformStringToArrayListAddress(values[8], null),
+                    UiUtils.transformStringToArrayListCar_Registration(values[9], null),
                     null);
         } catch (Exception ex) {
+            new WarningDialog(me, true, ex.getMessage()).setVisible(true);
             Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return mySuspect;
     }
-
-    public Suspect getModifySuspect() throws SQLException {
+    
+    /**
+     * Metodo encargado de coger los valores del sospechoso a añadir y
+     * convertirlos en sospechoso.
+     *
+     * @return el sospechoso a añadir, los valores en los campos vacios se
+     * representan como "" no como nulos.
+     */
+    public Suspect getModifySuspect() {
         String values[] = new String[10];
 
         for (int i = 0; i < modifySuspectFields.length; i++) {
@@ -179,15 +205,19 @@ public class UI extends javax.swing.JFrame {
                 values[i] = null;
             }
         }
-        
-        Suspect mySuspect=null;
+
+        Suspect mySuspect = null;
         try {
             mySuspect = new Suspect(suspectBeenModified.getCodeSuspect(), values[0].trim(), values[1].trim(), values[2].trim(), null/*companions*/,
-                    values[4],values[5], UiUtils.transformStringToArrayListPhone(values[6],suspectBeenModified.getCodeSuspect()), UiUtils.transformStringToArrayListEmail(values[7],suspectBeenModified.getCodeSuspect()),
-                    UiUtils.transformStringToArrayListAddress(values[8],suspectBeenModified.getCodeSuspect()), UiUtils.transformStringToArrayListCar_Registration(values[9],suspectBeenModified.getCodeSuspect()),
+                    values[4], values[5], UiUtils.transformStringToArrayListPhone(values[6], suspectBeenModified.getCodeSuspect()), UiUtils.transformStringToArrayListEmail(values[7], suspectBeenModified.getCodeSuspect()),
+                    UiUtils.transformStringToArrayListAddress(values[8], suspectBeenModified.getCodeSuspect()), UiUtils.transformStringToArrayListCar_Registration(values[9], suspectBeenModified.getCodeSuspect()),
                     suspectBeenModified.getImages());
         } catch (Exception ex) {
-            System.out.println("hola");
+            new WarningDialog(me, true, ex.getMessage()).setVisible(true);
+        }
+
+        for (String value : values) {
+            System.out.println(value);
         }
         
         return mySuspect;
@@ -217,6 +247,12 @@ public class UI extends javax.swing.JFrame {
         return photos;
     }
 
+    /**
+     * Encargada de abrir un dialogo el para que el usuario escriba.
+     * @param evt accion de boton
+     * @param x jTextArea el cual una vez cambiado el texto en el dialogo,
+     * se setteara en el componente.
+     */
     public void compCallingMouseClicked(java.awt.event.ActionEvent evt, JTextComponent x) {
         new TextDialog(this, true, x);
     }
@@ -237,6 +273,11 @@ public class UI extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Cambia los jTextComponent del panel pnlModifySuspect con los datos
+     * del sospechoso.
+     * @param s Sospechoso a cambiar.
+     */
     public void setModifySuspectFields(Suspect s) {
         for (int i = 0; i < modifySuspectFields.length; i++) {
             switch (i) {
@@ -306,7 +347,7 @@ public class UI extends javax.swing.JFrame {
                     }
                     break;
                 case 9:
-                    if (s.getCar_registration()!= null) {
+                    if (s.getCar_registration() != null) {
                         modifySuspectFields[i].setText(UiUtils.transformArrayListCarRegToString(s.getCar_registration()));
                     } else {
                         modifySuspectFields[i].setText("");
@@ -314,10 +355,6 @@ public class UI extends javax.swing.JFrame {
                     break;
             }
         }
-    }
-
-    public JPanel getPanelModifySuspect() {
-        return pnlModifySuspect;
     }
 
     /**
@@ -347,6 +384,9 @@ public class UI extends javax.swing.JFrame {
         pnlFormDecoratedCloseWindow = new javax.swing.JButton();
         pnlFormDecoratedMinimizeWindow = new javax.swing.JButton();
         layeredConfMain = new javax.swing.JLayeredPane();
+        pnlSelectCompanion = new javax.swing.JPanel();
+        jScrollPane32 = new javax.swing.JScrollPane();
+        tableSelectCompanion = new javax.swing.JTable();
         pnlModifySuspect = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
         jScrollPane22 = new javax.swing.JScrollPane();
@@ -392,9 +432,6 @@ public class UI extends javax.swing.JFrame {
         pnlMain = new javax.swing.JPanel();
         jScrollPane11 = new javax.swing.JScrollPane();
         tblMain = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         pnlSearch = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane12 = new javax.swing.JScrollPane();
@@ -825,6 +862,55 @@ public class UI extends javax.swing.JFrame {
 
         pnlFormDecoratedCloseWindow.setFocusable(false);
         pnlFormDecoratedMinimizeWindow.setFocusable(false);
+
+        pnlSelectCompanion.setBackground(new java.awt.Color(255, 255, 255));
+
+        tableSelectCompanion.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Nombre", "Apellido 1", "Apellido 2", "Teléfono", "Correo", "Direcciones", "Matrículas", ""
+            }
+        ));
+        jScrollPane32.setViewportView(tableSelectCompanion);
+        tableSelectCompanion.getTableHeader().setBackground(primaryColor);
+        tableSelectCompanion.getTableHeader().setForeground(secundaryColor);
+        tableSelectCompanion.getTableHeader().setBorder(javax.swing.BorderFactory.createLineBorder(primaryColor));
+        TableColumnModel tblSelectCompanionColumnModel = tableSelectCompanion.getColumnModel();
+
+        for (int i = 0; i < tblSelectCompanionColumnModel.getColumnCount(); i++) {
+            tblSelectCompanionColumnModel.getColumn(i).setMinWidth(200);
+        }
+        tableSelectCompanion.getAccessibleContext().setAccessibleName("1$1$0");
+
+        javax.swing.GroupLayout pnlSelectCompanionLayout = new javax.swing.GroupLayout(pnlSelectCompanion);
+        pnlSelectCompanion.setLayout(pnlSelectCompanionLayout);
+        pnlSelectCompanionLayout.setHorizontalGroup(
+            pnlSelectCompanionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSelectCompanionLayout.createSequentialGroup()
+                .addGap(90, 90, 90)
+                .addComponent(jScrollPane32, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(92, Short.MAX_VALUE))
+        );
+        pnlSelectCompanionLayout.setVerticalGroup(
+            pnlSelectCompanionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSelectCompanionLayout.createSequentialGroup()
+                .addGap(99, 99, 99)
+                .addComponent(jScrollPane32, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(159, Short.MAX_VALUE))
+        );
 
         pnlModifySuspect.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1396,40 +1482,21 @@ public class UI extends javax.swing.JFrame {
         }
         tblMain.getAccessibleContext().setAccessibleName("1$1$0");
 
-        jLabel1.setText("jLabel1");
-
-        jButton4.setText("jButton4");
-
-        jButton5.setText("jButton5");
-
         javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
         pnlMain.setLayout(pnlMainLayout);
         pnlMainLayout.setHorizontalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(63, Short.MAX_VALUE)
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(51, 51, 51))
-            .addGroup(pnlMainLayout.createSequentialGroup()
-                .addGap(261, 261, 261)
-                .addComponent(jButton4)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jButton5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlMainLayout.setVerticalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
                 .addContainerGap(44, Short.MAX_VALUE)
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
-                .addGap(31, 31, 31))
+                .addGap(93, 93, 93))
         );
 
         pnlSearch.setBackground(new java.awt.Color(255, 255, 255));
@@ -3502,6 +3569,7 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
+        layeredConfMain.setLayer(pnlSelectCompanion, javax.swing.JLayeredPane.DEFAULT_LAYER);
         layeredConfMain.setLayer(pnlModifySuspect, javax.swing.JLayeredPane.DEFAULT_LAYER);
         layeredConfMain.setLayer(pnlMain, javax.swing.JLayeredPane.DEFAULT_LAYER);
         layeredConfMain.setLayer(pnlSearch, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -3521,6 +3589,8 @@ public class UI extends javax.swing.JFrame {
                 .addComponent(pnlAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layeredConfMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(pnlModifySuspect, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layeredConfMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(pnlSelectCompanion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layeredConfMainLayout.setVerticalGroup(
             layeredConfMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3541,6 +3611,10 @@ public class UI extends javax.swing.JFrame {
                 .addGroup(layeredConfMainLayout.createSequentialGroup()
                     .addComponent(pnlModifySuspect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 66, Short.MAX_VALUE)))
+            .addGroup(layeredConfMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layeredConfMainLayout.createSequentialGroup()
+                    .addComponent(pnlSelectCompanion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 61, Short.MAX_VALUE)))
         );
 
         pnlModifySuspect.getAccessibleContext().setAccessibleName("-$-$-");
@@ -3825,11 +3899,8 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton30;
     private javax.swing.JButton jButton31;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -3916,6 +3987,7 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane30;
     private javax.swing.JScrollPane jScrollPane31;
+    private javax.swing.JScrollPane jScrollPane32;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
@@ -4000,7 +4072,9 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JPanel pnlMenu4;
     private javax.swing.JPanel pnlModifySuspect;
     private javax.swing.JPanel pnlSearch;
+    private javax.swing.JPanel pnlSelectCompanion;
     private javax.swing.JScrollPane scrollTblConfSuspectView;
+    private javax.swing.JTable tableSelectCompanion;
     private javax.swing.JTable tblConfSuspectView;
     private static javax.swing.JTable tblMain;
     // End of variables declaration//GEN-END:variables

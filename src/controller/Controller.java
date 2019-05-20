@@ -62,38 +62,22 @@ public class Controller implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         switch (e.getActionCommand()) {
-            case "add": {
-                try {
-                    Query.addSuspect(myUI.getAddSuspect());
-                    myUI.removeAddSuspectsFields();
-                    myUI.getAddSuspectImageManager().resetImageManager();
-                    CreateAndFillTables.fillMainTable();
-                } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            case "add": 
+                Query.addSuspect(myUI.getAddSuspect());
+                myUI.removeAddSuspectsFields();
+                myUI.getAddSuspectImageManager().resetImageManager();
+                CreateAndFillTables.fillMainTable();
             break;
-            case "remove":
-                ;
-                break;
             case "modify":
-                try {
-                    Query.Update(myUI.getModifySuspect());
-                    CreateAndFillTables.fillMainTable();
-                } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                Query.Update(myUI.getModifySuspect());
+                CreateAndFillTables.fillMainTable();
                 break;
-            case "search": {
-                try {
-                    HashMap<Suspect,ArrayList<String>> coincidences=Query.findCoincidences(myUI.getSearchSuspect());
-                    
-                    System.out.println(coincidences.size());
-                    
-                } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            case "search": 
+                //try {
+                //Query.searchBy(myUI.getAddSuspect());
+                //} catch (SQLException ex) {
+                //  Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                //}
             break;
         }
     }
