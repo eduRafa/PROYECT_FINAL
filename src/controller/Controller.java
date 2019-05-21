@@ -92,4 +92,8 @@ public class Controller implements ActionListener{
         Query.deleteSuspect(id);
     }
 
+    public Suspect[] getPreviousTen() {
+        return Query.showPrevious();
+    }
+
 }

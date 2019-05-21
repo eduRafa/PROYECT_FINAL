@@ -124,12 +124,12 @@ public class CreateAndFillTables {
                  * botón, si tuviéramos más de un botón por fila tendríamos que
                  * además preguntar por el contenido del botón o el nombre de la
                  * columna
-                 */         
-                if (columna==11) {
+                 */
+                if (columna == 11) {
                     Controller.deleteSuspect(getValue(tblMain.getSelectedRow() + 1));
                     fillMainTable(null);
 
-                } else if (columna==10) {
+                } else if (columna == 10) {
                     if (getValue(tblMain.getSelectedRow() + 1) != null) {
                         Suspect suspectToUpdate = Controller.getInstance().findSuspect(getValue(tblMain.getSelectedRow() + 1));
 
@@ -155,12 +155,11 @@ public class CreateAndFillTables {
      */
     public static void fillMainTable(Suspect[] s) {
         removeMainDataTable();
-        
-        System.out.println(s==null);
-        if(s==null){
-            s=Controller.getInstance().getSuspects();
+
+        if (s == null) {
+            s = Controller.getInstance().getSuspects();
         }
-         
+
         setHashMap(s);
         JTable tblMain = UI.getMainTable();
 
@@ -168,9 +167,10 @@ public class CreateAndFillTables {
         int col = myModel.getColumnCount();
         int row = myModel.getRowCount();
         int k = 0;
+        boolean lastOne=false;
 
-        for (int i = 0; i < col - 3; i++) {
-            for (int j = 0; j < row; j++) {
+        for (int i = 0; i < col - 2 &&!lastOne; i++) {
+            for (int j = 0; j < row && !lastOne; j++) {
                 if (s[i] != null) {
                     switch (k) {
                         case 0:
@@ -214,7 +214,7 @@ public class CreateAndFillTables {
                                 if (!s[i].getPhone().isEmpty()) {
                                     if (s[i].getPhone().size() < 2) {
                                         myModel.setValueAt(UiUtils.transformArrayListPhoneToString(s[i].getPhone()), i, j);
-                                    }else {
+                                    } else {
                                         myModel.setValueAt("Ver en Perfil", i, j);
                                     }
                                 }
@@ -228,7 +228,7 @@ public class CreateAndFillTables {
                                 if (!s[i].getEmail().isEmpty()) {
                                     if (s[i].getEmail().size() < 2) {
                                         myModel.setValueAt(UiUtils.transformArrayListEmailToString(s[i].getEmail()), i, j);
-                                    }else {
+                                    } else {
                                         myModel.setValueAt("Ver en Perfil", i, j);
                                     }
                                 }
@@ -260,6 +260,8 @@ public class CreateAndFillTables {
                             ;
                             break;
                     }
+                }else{
+                    lastOne=true;
                 }
                 k++;
             }
@@ -274,7 +276,7 @@ public class CreateAndFillTables {
         int col = myModel.getColumnCount();
         int row = myModel.getRowCount();
 
-        for (int i = 0; i < col - 3; i++) {
+        for (int i = 0; i < col - 2; i++) {
             for (int j = 0; j < row; j++) {
                 myModel.setValueAt(" ", i, j);
             }
