@@ -582,10 +582,12 @@ public class Query {
             c = Connect.getMyConnection();
             Statement s = c.createStatement();
             rs2 = s.executeQuery("Select CodeSuspect from SUSPECT");
+            int j=0;
             if (rs2 != null) {
                 for (int i = 0; i < maxPosition && rs2.next(); i++) {
                     if(i>=currentPosition){
-                        show[i] = findSuspect(rs2.getInt(1));
+                        show[j] = findSuspect(rs2.getInt(1));
+                        j++;
                     }
                 }
             }
