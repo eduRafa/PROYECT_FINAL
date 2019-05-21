@@ -37,6 +37,7 @@ public class Query {
     static int maxPosition = 10;
     static int currentPosition = 0;
     static int numberOfSuspects = 10;
+    static Suspect[] lastTen=new Suspect[numberOfSuspects];
 
     /*
     *@return last: es un String que contiene el codigo de sospechoso del ultimo 
@@ -596,7 +597,11 @@ public class Query {
             s.close();
             rs2.close();
             c.close();
-            System.out.println(show[9].getName());
+            if(show[0]!=null){
+                lastTen=show;
+            }else{
+                show=lastTen;
+            }
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
