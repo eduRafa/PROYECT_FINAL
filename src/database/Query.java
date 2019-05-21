@@ -64,6 +64,10 @@ public class Query {
         return last;
     }
 
+    public static int getCurrentPosition() {
+        return currentPosition;
+    }
+
     /*
     *Este metodo borrar un sospechoso
     *@param sus: Es el sospechoso que se desea eliminar
@@ -580,8 +584,10 @@ public class Query {
             rs2 = s.executeQuery("Select CodeSuspect from SUSPECT");
             if (rs2 != null) {
                 int j = 0;
-                for (int i = currentPosition; i < maxPosition && rs2.next(); i++, j++) {
-                    show[j] = findSuspect(rs2.getInt(1));
+                for (int i = 0; i < maxPosition && rs2.next(); i++, j++) {
+                    if(i<=currentPosition){
+                        show[j] = findSuspect(rs2.getInt(1));
+                    }
                 }
             }
             s.close();
