@@ -13,7 +13,7 @@ import java.awt.Point;
  * @author rafa0
  */
 public class WarningDialog extends javax.swing.JDialog {
-
+    
     /**
      * Creates new form WarningDialog
      */

@@ -8,7 +8,6 @@ package view;
 import java.awt.Frame;
 import java.awt.MouseInfo;
 import java.awt.Point;
-import java.util.Hashtable;
 import javax.swing.text.JTextComponent;
 
 /**
@@ -20,7 +19,7 @@ public class TextDialog extends javax.swing.JDialog {
     /**
      * Creates new form TextDialog
      */
-    public TextDialog(java.awt.Frame parent, boolean modal, JTextComponent comp) {
+    public TextDialog(UI parent, boolean modal, JTextComponent comp) {
         super(parent, modal);
         initComponents();
         this.parent = parent;

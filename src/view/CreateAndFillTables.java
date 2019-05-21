@@ -7,6 +7,8 @@ package view;
 
 import controller.Controller;
 import java.awt.Component;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
@@ -18,6 +20,7 @@ import model.Suspect;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -29,6 +32,18 @@ public class CreateAndFillTables {
 
     public static void setMainTable(JTable tblMain) {
         DefaultTableModel modelo = (DefaultTableModel) tblMain.getModel();
+        Image profile = Toolkit.getDefaultToolkit().getImage(ClassLoader.
+                getSystemResource("view/images/icons8-usuario-de-genero-neutro-20.png"));
+        Image trash = Toolkit.getDefaultToolkit().getImage(ClassLoader.
+                getSystemResource("view/images/icons8-papelera-vacia-20.png"));
+
+        JButton profileButton = new JButton(new ImageIcon(profile));
+        JButton trashButton = new JButton(new ImageIcon(trash));
+
+        profileButton.setBorderPainted(false);
+        profileButton.setContentAreaFilled(false);
+        trashButton.setContentAreaFilled(false);
+        trashButton.setBorderPainted(false);
 
         Object[][] registros = new Object[modelo.getRowCount()][modelo.getColumnCount()];
 
@@ -42,8 +57,8 @@ public class CreateAndFillTables {
                 registros[i][j] = "";
             }
 
-            registros[i][registros[i].length - 2] = new ProfileJButton();
-            registros[i][registros[i].length - 1] = new TrashJButton();
+            registros[i][registros[i].length - 2] = profileButton;
+            registros[i][registros[i].length - 1] = trashButton;
         }
 
         final Class[] tiposColumnas = new Class[modelo.getColumnCount()];
@@ -51,8 +66,8 @@ public class CreateAndFillTables {
             tiposColumnas[i] = java.lang.String.class;
         }
 
-        tiposColumnas[tiposColumnas.length - 2] = ProfileJButton.class;
-        tiposColumnas[tiposColumnas.length - 1] = TrashJButton.class;
+        tiposColumnas[tiposColumnas.length - 2] = JButton.class;
+        tiposColumnas[tiposColumnas.length - 1] = JButton.class;
 
         DefaultTableModel model = new DefaultTableModel(registros, head) {
             Class[] tipos = tiposColumnas;
@@ -111,12 +126,12 @@ public class CreateAndFillTables {
                  * columna
                  */
                 if (columna == 11) {
-                    Controller.deleteSuspect(getValue(tblMain.getSelectedRow() + 1));
+                    Controller.getInstance().deleteSuspect(getValue(tblMain.getSelectedRow() + 1));
                     fillMainTable();
 
                 } else if (columna == 10) {
                     if (getValue(tblMain.getSelectedRow() + 1) != null) {
-                        Suspect suspectToUpdate = Controller.findSuspect(getValue(tblMain.getSelectedRow() + 1));
+                        Suspect suspectToUpdate = Controller.getInstance().findSuspect(getValue(tblMain.getSelectedRow() + 1));
 
                         if (suspectToUpdate != null) {
                             UI myUI = UI.getInstance();
@@ -133,15 +148,14 @@ public class CreateAndFillTables {
 
     }
 
-    
     /**
-     * Metodo que rellena la tabla principaln con los datos de los sospechosos, 
-     * y modifica los valores de Hashmap de esta clase cambiar el valor del mismo
-     * a el codigo de los sospechosos.
+     * Metodo que rellena la tabla principaln con los datos de los sospechosos,
+     * y modifica los valores de Hashmap de esta clase cambiar el valor del
+     * mismo a el codigo de los sospechosos.
      */
     public static void fillMainTable() {
         removeMainDataTable();
-        Suspect[] s = Controller.getSuspects();
+        Suspect[] s = Controller.getInstance().getSuspects();
         setHashMap(s);
         JTable tblMain = UI.getMainTable();
 
@@ -179,11 +193,15 @@ public class CreateAndFillTables {
                             ;
                             break;
                         case 4:
-                            myModel.setValueAt(s[i].getRecord(), i, j);
+                            if (!s[i].getRecord().isEmpty()) {
+                                myModel.setValueAt(s[i].getRecord(), i, j);
+                            }
                             ;
                             break;
                         case 5:
-                            myModel.setValueAt(s[i].getFacts(), i, j);
+                            if (!s[i].getFacts().isEmpty()) {
+                                myModel.setValueAt(s[i].getFacts(), i, j);
+                            }
                             ;
                             break;
                         case 6:
@@ -191,6 +209,8 @@ public class CreateAndFillTables {
                                 if (!s[i].getPhone().isEmpty()) {
                                     if (s[i].getPhone().size() < 2) {
                                         myModel.setValueAt(UiUtils.transformArrayListPhoneToString(s[i].getPhone()), i, j);
+                                    }else {
+                                        myModel.setValueAt("Ver en Perfil", i, j);
                                     }
                                 }
                             } else {
@@ -203,6 +223,8 @@ public class CreateAndFillTables {
                                 if (!s[i].getEmail().isEmpty()) {
                                     if (s[i].getEmail().size() < 2) {
                                         myModel.setValueAt(UiUtils.transformArrayListEmailToString(s[i].getEmail()), i, j);
+                                    }else {
+                                        myModel.setValueAt("Ver en Perfil", i, j);
                                     }
                                 }
                             }

@@ -553,6 +553,7 @@ public class Query {
                 images = new Images(rs.getInt(2), rs.getString(3), code, imageICON);
                 img.add(images);
             }
+
             s.close();
             rs.close();
             Connect.closeConnection();
@@ -589,6 +590,17 @@ public class Query {
             c.close();
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        for (Suspect suspect : show) {
+            if (suspect != null) {
+                if (suspect.getRecord() != null) {
+                    System.out.println(suspect.getRecord());
+                }
+                if (suspect.getFacts() != null) {
+                    System.out.println(suspect.getFacts());
+                }
+            }
         }
         return show;
     }
@@ -638,7 +650,7 @@ public class Query {
                     Blob blob = rs.getBlob("Image");
                     InputStream in = blob.getBinaryStream();
                     BufferedImage image = ImageIO.read(in);
-                    imgs[i]=new Images(image, null);
+                    imgs[i] = new Images(image, null);
                     imgs[i].setCodeImage(rs.getInt(2));
                     imgs[i].setDescription(rs.getString(3));
                     imgs[i].setCodeSuspect(rs.getInt(4));
@@ -772,10 +784,10 @@ public class Query {
                     case "lastname1":
                     case "lastname2":
                         System.out.println("RESULTSET LASTNAME 2 ");
-                        
+
                         rs = s.executeQuery("Select CodeSuspect from Suspect "
                                 + "where " + key + "='" + value + "'");
-                        
+
                         while (rs.next()) {
                             sus.add(Query.findSuspect(rs.getInt(1)));//lo cierra
                         }
