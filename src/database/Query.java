@@ -34,7 +34,7 @@ public class Query {
 
     static Connection c = Connect.getMyConnection();
     static ResultSet rs;
-    static int maxPosition = 11;
+    static int maxPosition = 10;
     static int currentPosition = 1;
     static int numberOfSuspects = 10;
 
@@ -583,10 +583,9 @@ public class Query {
             Statement s = c.createStatement();
             rs2 = s.executeQuery("Select CodeSuspect from SUSPECT");
             if (rs2 != null) {
-                int j = 0;
-                for (int i = 0; i < maxPosition && rs2.next(); i++, j++) {
+                for (int i = 0; i < maxPosition && rs2.next(); i++) {
                     if(i<=currentPosition){
-                        show[j] = findSuspect(rs2.getInt(1));
+                        show[i] = findSuspect(rs2.getInt(1));
                     }
                 }
             }
