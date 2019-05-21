@@ -6,6 +6,7 @@
 package view;
 
 import controller.Controller;
+import database.Query;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.MouseInfo;
@@ -215,11 +216,6 @@ public class UI extends javax.swing.JFrame {
                     modifySuspectImageManager.getPhotos());
         } catch (Exception ex) {
             new WarningDialog(me, true, ex.getMessage()).setVisible(true);
-        }
-
-        System.out.println(mySuspect.getImages().size());
-        for (Images image : mySuspect.getImages()) {
-            System.out.println(image == null);
         }
 
         return mySuspect;
@@ -1610,10 +1606,10 @@ public class UI extends javax.swing.JFrame {
                         .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(51, 51, 51))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(118, 118, 118)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(228, 228, 228))))
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(111, 111, 111)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(179, 179, 179))))
         );
         pnlMainLayout.setVerticalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3960,7 +3956,9 @@ public class UI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        CreateAndFillTables.fillMainTable(myController.getPreviousTen());
+        if(Query.getCurrentPosition()!=0){
+            CreateAndFillTables.fillMainTable(myController.getPreviousTen());
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     public static void start() {

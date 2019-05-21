@@ -292,11 +292,6 @@ public class CreateAndFillTables {
 
             }
         }
-        for (Suspect mySuspect : mySuspects) {
-            if (mySuspect != null) {
-                System.out.println(mySuspect.getCodeSuspect());
-            }
-        }
     }
 
     private static Integer getValue(Integer key) {
