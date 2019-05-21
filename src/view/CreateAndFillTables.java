@@ -129,7 +129,7 @@ public class CreateAndFillTables {
                     Controller.getInstance().deleteSuspect(getValue(tblMain.getSelectedRow() + 1));
                     fillMainTable();
 
-                } else if (columna == 10) {
+                } else if (columna==10) {
                     if (getValue(tblMain.getSelectedRow() + 1) != null) {
                         Suspect suspectToUpdate = Controller.getInstance().findSuspect(getValue(tblMain.getSelectedRow() + 1));
 
