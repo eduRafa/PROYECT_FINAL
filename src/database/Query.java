@@ -600,7 +600,7 @@ public class Query {
             if(show[0]!=null){
                 lastTen=show;
             }else{
-                show=lastTen;
+                show=Query.showPrevious();
             }
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
