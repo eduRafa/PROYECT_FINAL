@@ -38,6 +38,7 @@ public class Images {
 
     public Images(Image image, String path) {
         myImage=image;
+        this.image=new ImageIcon(image);
         if (path != null) {
             this.f = new File(path);
         }

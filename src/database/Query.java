@@ -623,13 +623,14 @@ public class Query {
     *@param sus: El sospechoso del que se desean las fotos
     *@return rs: es el resulset el cual contiene las fotografias del sospechosos junto a su descripcion
      */
-    public static ResultSet showImg(Integer sus) {
+    public static Images[] showImg(Integer sus) {
         Images[] imgs = new Images[5];
         try {
             Connect.startConnection();
             c = Connect.getMyConnection();
             Statement s = c.createStatement();
-            rs = s.executeQuery("SELECT Image, Description FROM IMAGES "
+            rs = s.executeQuery("SELECT Image,CodeImage, Description,"
+                    + "CodeDescription FROM IMAGES "
                     + "where CodeSuspect=" + sus.toString());
             if (rs != null) {
                 int j = 0;
@@ -637,7 +638,7 @@ public class Query {
                     Blob blob = rs.getBlob("Image");
                     InputStream in = blob.getBinaryStream();
                     BufferedImage image = ImageIO.read(in);
-                    imgs[i].setImage(image, null);
+                    imgs[i]=new Images(image, null);
                     imgs[i].setCodeImage(rs.getInt(2));
                     imgs[i].setDescription(rs.getString(3));//ES un blob
                     imgs[i].setCodeSuspect(rs.getInt(4));
@@ -651,7 +652,7 @@ public class Query {
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return rs;
+        return imgs;
     }
 
     /*

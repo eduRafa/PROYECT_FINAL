@@ -54,9 +54,6 @@ public class UiUtils {
                 }
             }
         }
-        if (eachValue.length == 0 && !(allTheValues.trim()).isEmpty()) {
-            myPhones.add(new Phone(Integer.valueOf(allTheValues), suspetCode));
-        }
 
         return myPhones;
     }
