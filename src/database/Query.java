@@ -814,9 +814,11 @@ public class Query {
                     case "Address":
                         rs = s.executeQuery("Select CodeSuspect from ADDRESS "
                                 + "where " + key + "='" + value + "'");
-                        if(!rs1.isClosed()){
-                            while (rs1.next()) {
-                                sus.add(Query.findSuspect(rs1.getInt(1)));
+                        if(rs1!=null){
+                            if(!rs1.isClosed()){
+                                while (rs1.next()) {
+                                    sus.add(Query.findSuspect(rs1.getInt(1)));
+                                }
                             }
                         }
                         break;
