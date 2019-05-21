@@ -120,8 +120,8 @@ public class Connect {
                     +"name                 varchar(30) DEFAULT 'desconocido',"
                     +"lastname1            varchar(30) DEFAULT 'desconocido',"
                     +"lastname2            varchar(30) DEFAULT 'desconocido',"
-                    +"Record               varchar (400) ,"
-                    +"Facts                varchar (400)"
+                    +"Record               text ,"
+                    +"Facts                text"
                     + ")ENGINE=INNODB";
                     
                     //conectamos la sentencia a la base de datos
