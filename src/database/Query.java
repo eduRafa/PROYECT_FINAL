@@ -587,6 +587,8 @@ public class Query {
                 for (int i = 0; i < maxPosition && rs2.next(); i++) {
                     if(i>=currentPosition){
                         show[j] = findSuspect(rs2.getInt(1));
+                        System.out.println(show[j].getName());
+                        System.out.println("holi");
                         j++;
                     }
                 }
@@ -594,6 +596,7 @@ public class Query {
             s.close();
             rs2.close();
             c.close();
+            System.out.println(show[9].getName());
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
