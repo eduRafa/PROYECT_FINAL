@@ -21,7 +21,12 @@ import javax.swing.text.JTextComponent;
  * @author rafa0
  */
 public class PrintComponents {
-
+    
+    /**
+     * 
+     * @param con Objeto contenedor, o no, de otros elementos.
+     * @param col Color el pintara a los diferentes componentes.
+     */
     public static void printAllComponents(Container con, Color col) {
         Component[] comps = con.getComponents();
         for (Component comp : comps) {
@@ -31,26 +36,30 @@ public class PrintComponents {
                 if (comp instanceof JTextComponent) {
                     JScrollPane tmp = (JScrollPane) comp.getParent().getParent();
                     tmp.setBorder(javax.swing.BorderFactory.createLineBorder(col));
+                    
                 } else if (comp instanceof JButton) {
                     JButton tmpButton = (JButton) comp;
                     applyBackgroundColor(comp, value[0], col);
                     applyButtonBorderColor(tmpButton, value[1], col);
                     applyForegroundColor(comp, value[2], col);
+                    
                 } else if (comp instanceof JLabel) {
-                    JLabel tmpLabel = (JLabel) comp;
                     applyBackgroundColor(comp, value[0], col);
                     applyForegroundColor(comp, value[2], col);
+                    
                 } else if (comp instanceof JTable) {
                     applyBackgroundTableHeaderColor((JTable) comp, value[0], col);
                     applyBorderTableHeaderColor((JTable) comp, value[1], col);
                     applyForegroundColor((JTable) comp, value[2], col);
                     ((JTable) comp).setSelectionBackground(col);
+                    
                 } else if (comp instanceof JPanel) {
                     applyBackgroundPanelColor((JPanel) comp, value[0], col);
                     applyBorderPanelColor((JPanel) comp, value[1], col);
                     applyForegroundColor(comp, value[2], col);
-                }else if(comp instanceof JSeparator){
-                    JSeparator tmpSeparator=(JSeparator) comp;
+                    
+                } else if (comp instanceof JSeparator) {
+                    JSeparator tmpSeparator = (JSeparator) comp;
                     tmpSeparator.setForeground(col);
                 }
             }
@@ -72,68 +81,27 @@ public class PrintComponents {
     }
 
     private static void applyButtonBorderColor(JButton btn, String borderColor, Color newPrimaryColor) {
-        switch (borderColor) {
-            /*case "0":
-                btn.setBorder(javax.swing.BorderFactory.createLineBorder(UI.getSecundaryColor()));
-                break;*/
-            case "1":
-                btn.setBorder(javax.swing.BorderFactory.createLineBorder(newPrimaryColor));
-                break;
-        }
+        btn.setBorder(javax.swing.BorderFactory.createLineBorder(newPrimaryColor));
     }
 
     private static void applyForegroundColor(Component c, String foregroundColor, Color newPrimaryColor) {
-        switch (foregroundColor) {
-            /*case "0":
-                c.setForeground(UI.getSecundaryColor());
-                break;*/
-            case "1":
-                c.setForeground(newPrimaryColor);
-                break;
-        }
+        c.setForeground(newPrimaryColor);
     }
 
     private static void applyBackgroundTableHeaderColor(JTable t, String value, Color newPrimaryColor) {
-        switch (value) {
-            /*case "0"://///////////////APLICADO CUANDO SE OBTENGA COLOR SECUNDARIO
-                c.setBackground(UI.getPrimaryColor());
-                break;*/
-            case "1":
-                t.getTableHeader().setBackground(newPrimaryColor);
-                break;
-        }
+        t.getTableHeader().setBackground(newPrimaryColor);
     }
 
     private static void applyBorderTableHeaderColor(JTable t, String borderColor, Color newPrimaryColor) {
-        switch (borderColor) {
-            /*case "0":
-                btn.setBorder(javax.swing.BorderFactory.createLineBorder(UI.getSecundaryColor()));
-                break;*/
-            case "1":
-                t.getTableHeader().setBorder(javax.swing.BorderFactory.createLineBorder(newPrimaryColor));
-                break;
-        }
+        t.getTableHeader().setBorder(javax.swing.BorderFactory.createLineBorder(newPrimaryColor));
     }
 
     private static void applyBackgroundPanelColor(JPanel pnl, String value, Color newPrimaryColor) {
-        switch (value) {
-            /*case "0"://///////////////APLICADO CUANDO SE OBTENGA COLOR SECUNDARIO
-                c.setBackground(UI.getPrimaryColor());
-                break;*/
-            case "1":
-                pnl.setBackground(newPrimaryColor);
-                break;
-        }
+        pnl.setBackground(newPrimaryColor);
     }
 
     private static void applyBorderPanelColor(JPanel pnl, String borderColor, Color newPrimaryColor) {
-        switch (borderColor) {
-            /*case "0":
-                btn.setBorder(javax.swing.BorderFactory.createLineBorder(UI.getSecundaryColor()));
-                break;*/
-            case "1":
-                pnl.setBorder(javax.swing.BorderFactory.createLineBorder(newPrimaryColor));
-                break;
-        }
+        pnl.setBorder(javax.swing.BorderFactory.createLineBorder(newPrimaryColor));
     }
+
 }

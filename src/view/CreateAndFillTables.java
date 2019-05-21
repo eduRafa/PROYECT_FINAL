@@ -133,6 +133,12 @@ public class CreateAndFillTables {
 
     }
 
+    
+    /**
+     * Metodo que rellena la tabla principaln con los datos de los sospechosos, 
+     * y modifica los valores de Hashmap de esta clase cambiar el valor del mismo
+     * a el codigo de los sospechosos.
+     */
     public static void fillMainTable() {
         removeMainDataTable();
         Suspect[] s = Controller.getSuspects();
@@ -161,7 +167,15 @@ public class CreateAndFillTables {
                             ;
                             break;
                         case 3:
-                            myModel.setValueAt(s[i].getSuspect(), i, j);
+                            if (s[i].getSuspect() != null) {
+                                if (!s[i].getSuspect().isEmpty()) {
+                                    myModel.setValueAt(s[i].getSuspect(), i, j);
+                                } else {
+                                    myModel.setValueAt(" ", i, j);
+                                }
+                            } else {
+                                myModel.setValueAt(" ", i, j);
+                            }
                             ;
                             break;
                         case 4:
@@ -179,8 +193,8 @@ public class CreateAndFillTables {
                                         myModel.setValueAt(UiUtils.transformArrayListPhoneToString(s[i].getPhone()), i, j);
                                     }
                                 }
-                            }else{
-                                 myModel.setValueAt(" ", i, j);
+                            } else {
+                                myModel.setValueAt(" ", i, j);
                             }
                             ;
                             break;
