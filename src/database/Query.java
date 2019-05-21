@@ -824,7 +824,7 @@ public class Query {
                         break;
                 }
                 s.close();
-                rs.close();
+                rs2.close();
                 Connect.closeConnection();
             }
         } catch (SQLException ex) {
