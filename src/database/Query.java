@@ -589,7 +589,7 @@ public class Query {
                     if(i>=currentPosition){
                         show[j] = findSuspect(rs2.getInt(1));
                         System.out.println(show[j].getName());
-                        System.out.println("holi");
+                        System.out.println(j);
                         j++;
                     }
                 }
@@ -600,7 +600,8 @@ public class Query {
             if(show[0]!=null){
                 lastTen=show;
             }else{
-                show=Query.showPrevious();
+                show=lastTen;
+                currentPosition-=10;
             }
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
