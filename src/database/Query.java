@@ -157,6 +157,7 @@ public class Query {
                     Statement s = c.createStatement();
                     for (int i = 0; i < sus.getPhone().size(); i++) {
                         if (i < preUpdate.getPhone().size()) {
+
                             s.executeUpdate("Update PHONE set PhoneNumber = " + sus.getPhone().get(i).getPhoneNumber() + " where "
                                     + "CodePhone=" + preUpdate.getPhone().get(i).getCodePhone());
                         } else {
@@ -589,7 +590,7 @@ public class Query {
                         show[j] = findSuspect(rs2.getInt(1));
                         j++;
                     }
-                }Tomas
+                }
             }
             s.close();
             rs2.close();
