@@ -32,50 +32,56 @@ public class ImageManager extends javax.swing.JDialog {
     public static String imageDefPath = "view/images/icons8-añadir-imagen-100.png";
     private static Image myImage = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource(imageDefPath));
     private static ImageIcon myIcon = new ImageIcon(myImage);
-    private Suspect suspectToModify;
+    private Images[] suspectBeenModifiedPhotos;
+    private boolean suspectBeenModifiedView;
 
-    public ImageManager(UI parent, boolean modal) {
+    public ImageManager(UI parent, boolean modal, boolean suspectBeenModifiedView) {
         super(parent, modal);
         this.parent = parent;
-        photos = new Images[NPHOTOS];
+        this.suspectBeenModifiedView = suspectBeenModifiedView;
         initComponents();
         setLocationRelativeTo(null);
         setDefaultImages();
     }
 
     private void setDefaultImages() {
-        photos = new Images[NPHOTOS];
+        if (suspectBeenModifiedView) {
+            suspectBeenModifiedPhotos = new Images[NPHOTOS];
+            for (int i = 0; i < NPHOTOS; i++) {
+                System.out.println("def");
+                suspectBeenModifiedPhotos[i] = new Images(myImage, null);
+                suspectBeenModifiedPhotos[i].setImageIcon(myIcon);
+                suspectBeenModifiedPhotos[i].setDescription("");
 
-        for (int i = 0; i < photos.length; i++) {
-            photos[i] = new Images(myImage, null);
-            photos[i].setImageIcon(myIcon);
-            photos[i].setDescription("");
-
+            }
+        } else {
+            photos = new Images[NPHOTOS];
+            for (int i = 0; i < NPHOTOS; i++) {
+                photos[i] = new Images(myImage, null);
+                photos[i].setImageIcon(myIcon);
+                photos[i].setDescription("");
+            }
         }
     }
 
-    public void showSuspect(Suspect s) {
+    public void showSuspect(Images[] suspectBeenModifiedPhotos) {
         resetImageManager();
+        setDefaultImages();
 
-        System.out.println(s.getImages().size() + "al entrar");
-        if (s != null) {
-            suspectToModify = s;
-
-            ArrayList<Images> suspectImages = s.getImages();
-            int countSuspectImages = suspectImages.size();
-            insertedPhotos = countSuspectImages;
-
-            if (countSuspectImages > 0) {
-                for (int i = 0; i < countSuspectImages; i++) {
-                    if (suspectImages.get(i) != null && suspectImages.get(i).getImageIcon() != null) {
-                        photos[i] = suspectImages.get(i);
-                    }
-                }
+        for (Images suspectBeenModifiedPhoto : suspectBeenModifiedPhotos) {
+            if (suspectBeenModifiedPhoto != null) {
+                insertedPhotos++;
             }
         }
 
-        putPhoto();
-        putDescription();
+        for (int i = 0; i < suspectBeenModifiedPhotos.length; i++) {
+            if (suspectBeenModifiedPhotos[i] != null) {
+                this.suspectBeenModifiedPhotos[i] = suspectBeenModifiedPhotos[i];
+            }
+        }
+
+        putSuspectBeenModifiedPhoto();
+        putSuspectBeenModifiedDescription();
     }
 
     public void refreshSelectedImage() {
@@ -83,12 +89,29 @@ public class ImageManager extends javax.swing.JDialog {
     }
 
     /*Encargada de ue aparezcan o no, las flechas, ademas de poer photo y coment*/
-    public void putPhoto() {
-        jLabel1.setIcon(photos[selectedPhoto - 1].getImageIcon());
+    public void putSuspectBeenModifiedPhoto() {
+        jLabel1.setIcon(suspectBeenModifiedPhotos[selectedPhoto - 1].getImageIcon());
     }
 
-    public void putDescription() {
-        String desc = photos[selectedPhoto - 1].getDescription();
+    public void putPhoto() {
+        if (suspectBeenModifiedView) {
+            if (suspectBeenModifiedPhotos[selectedPhoto - 1] == null) {
+                jLabel1.setIcon(myIcon);
+            } else {
+                jLabel1.setIcon(suspectBeenModifiedPhotos[selectedPhoto - 1].getImageIcon());
+
+            }
+        } else {
+            if (photos[selectedPhoto - 1] == null) {
+                jLabel1.setIcon(myIcon);
+            } else {
+                jLabel1.setIcon(photos[selectedPhoto - 1].getImageIcon());
+            }
+        }
+    }
+
+    public void putSuspectBeenModifiedDescription() {
+        String desc = suspectBeenModifiedPhotos[selectedPhoto - 1].getDescription();
         if (desc != null) {
             jTextArea1.setText(desc);
         } else {
@@ -96,8 +119,42 @@ public class ImageManager extends javax.swing.JDialog {
         }
     }
 
+    public void putDescription() {
+        if (suspectBeenModifiedView) {
+            if (suspectBeenModifiedPhotos[selectedPhoto - 1] == null) {
+                jTextArea1.setText("");
+            } else {
+                String desc = suspectBeenModifiedPhotos[selectedPhoto - 1].getDescription();
+                if (desc != null) {
+                    jTextArea1.setText(desc);
+                } else {
+                    jTextArea1.setText("");
+                }
+            }
+        } else {
+            if (photos[selectedPhoto - 1] == null) {
+                jTextArea1.setText("");
+            } else {
+                String desc = photos[selectedPhoto - 1].getDescription();
+                if (desc != null) {
+                    jTextArea1.setText(desc);
+                } else {
+                    jTextArea1.setText("");
+                }
+            }
+        }
+    }
+
     private void saveDesc() {
-        photos[selectedPhoto - 1].setDescription(jTextArea1.getText());
+        if (suspectBeenModifiedView) {
+            if (suspectBeenModifiedPhotos[selectedPhoto - 1] != null) {
+                suspectBeenModifiedPhotos[selectedPhoto - 1].setDescription(jTextArea1.getText());
+            }
+        } else {
+            if (suspectBeenModifiedPhotos[selectedPhoto - 1] != null) {
+                photos[selectedPhoto - 1].setDescription(jTextArea1.getText());
+            }
+        }
     }
 
     private int getInsertedPhotos() {
@@ -106,7 +163,7 @@ public class ImageManager extends javax.swing.JDialog {
 
     public void resetImageManager() {
         selectedPhoto = 1;
-        setDefaultImages();
+        insertedPhotos = 0;
         refreshSelectedImage();
         putPhoto();
         putDescription();
@@ -343,32 +400,12 @@ public class ImageManager extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if (suspectToModify == null) {
+        if (suspectBeenModifiedPhotos == null) {
             parent.jLabel30.setText(getInsertedPhotos() + " / "
                     + NPHOTOS);
         } else {
-            int countSuspectImages = suspectToModify.getImages().size();
-
-            for (int i = 1; i < countSuspectImages; i++) {
-                if (photos[i].getImageIcon() == myIcon || photos[i].getImage() == myImage) {
-                    suspectToModify.getImages().remove(i);
-                    System.out.println("elimina");
-                } else {
-                    suspectToModify.getImages().set(i, photos[i]);//Si el usuario modifico una imagen
-                    System.out.println("modifica");
-                }
-            }
-            for (int i = 0; i < insertedPhotos - countSuspectImages; i++) {
-                if (countSuspectImages != NPHOTOS) {//nuevas
-                    suspectToModify.getImages().add(photos[countSuspectImages + i]);
-                }
-            }
-
-            System.out.println(suspectToModify.getImages().size() + "al salir");
-
-            selectedPhoto = 1;
-            insertedPhotos = 0;
-            parent.setSuspectBeenModified(suspectToModify);
+            parent.jLabel51.setText(getInsertedPhotos() + " / "
+                    + NPHOTOS);
         }
         super.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -413,10 +450,13 @@ public class ImageManager extends javax.swing.JDialog {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         if (insertedPhotos > 0) {
-            photos[selectedPhoto - 1].setImage(myImage, imageDefPath);
-            photos[selectedPhoto - 1].setImageIcon(myIcon);
-            photos[selectedPhoto - 1].setDescription("");
+            if (suspectBeenModifiedView) {
+                suspectBeenModifiedPhotos[selectedPhoto - 1] = null;
+            } else {
+                photos[selectedPhoto - 1] = null;
+            }
             insertedPhotos--;
+
             putDescription();
             putPhoto();
         }
@@ -425,13 +465,33 @@ public class ImageManager extends javax.swing.JDialog {
     public ArrayList<Images> getPhotos() {
         ArrayList<Images> insertedImages = new ArrayList<>();
 
-        for (int i = 0; i < photos.length; i++) {
-            if (photos[i].getImageIcon() != myIcon) {
-                if (i == selectedPhoto - 1) {
-                    photos[i].setDescription(jTextArea1.getText());// ya que la desc
-                    //se guarda al cambiar la imagen 
+        if (suspectBeenModifiedView) {
+            for (int i = 0; i < NPHOTOS; i++) {
+                if (suspectBeenModifiedPhotos[i] != null) {
+                    if (suspectBeenModifiedPhotos[i].getImageIcon() != myIcon) {
+                        if (i == selectedPhoto - 1) {
+                            suspectBeenModifiedPhotos[i].setDescription(jTextArea1.getText());// ya que la desc
+                            //se guarda al cambiar la imagen 
+                        }
+                        insertedImages.add(suspectBeenModifiedPhotos[i]);
+                    }
+                } else {
+                    System.out.println("bien");
+                    insertedImages.add(null);
                 }
-                insertedImages.add(photos[i]);
+            }
+        } else {
+            for (int i = 0; i < NPHOTOS; i++) {
+                if (photos[i] != null) {
+
+                    if (photos[i].getImageIcon() != myIcon) {
+                        if (i == selectedPhoto - 1) {
+                            photos[i].setDescription(jTextArea1.getText());// ya que la desc
+                            //se guarda al cambiar la imagen 
+                        }
+                        insertedImages.add(photos[i]);
+                    }
+                }
             }
         }
 
@@ -443,16 +503,30 @@ public class ImageManager extends javax.swing.JDialog {
         aImage.setImageIcon(new ImageIcon(image));
         boolean added = false;
 
-        for (int i = 0; i < photos.length && !added; i++) {
+        for (int i = 0; i < NPHOTOS && !added; i++) {
             if (i + 1 == selectedPhoto) {
-                photos[i].setImage(image, path);
-                photos[i].setImageIcon(new ImageIcon(image));
-                insertedPhotos++;
-                added = true;
+                if (suspectBeenModifiedView) {
+                    if (suspectBeenModifiedPhotos[i] == null) {
+                        suspectBeenModifiedPhotos[i] = new Images(image, path);
+                    } else {
+                        suspectBeenModifiedPhotos[i].setImage(image, path);
+                        suspectBeenModifiedPhotos[i].setImageIcon(new ImageIcon(image));
+                    }
+                    insertedPhotos++;
+                    added = true;
+                } else {
+                    if (photos[i] == null) {
+                        photos[i] = new Images(image, path);
+                    } else {
+                        photos[i].setImage(image, path);
+                        photos[i].setImageIcon(new ImageIcon(image));
+                    }
+                    insertedPhotos++;
+                    added = true;
+                }
             }
         }
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

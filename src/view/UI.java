@@ -210,9 +210,14 @@ public class UI extends javax.swing.JFrame {
             mySuspect = new Suspect(suspectBeenModified.getCodeSuspect(), values[0].trim(), values[1].trim(), values[2].trim(), null/*companions*/,
                     values[4], values[5], UiUtils.transformStringToArrayListPhone(values[6], suspectBeenModified.getCodeSuspect()), UiUtils.transformStringToArrayListEmail(values[7], suspectBeenModified.getCodeSuspect()),
                     UiUtils.transformStringToArrayListAddress(values[8], suspectBeenModified.getCodeSuspect()), UiUtils.transformStringToArrayListCar_Registration(values[9], suspectBeenModified.getCodeSuspect()),
-                    suspectBeenModified.getImages());
+                    modifySuspectImageManager.getPhotos());
         } catch (Exception ex) {
             new WarningDialog(me, true, ex.getMessage()).setVisible(true);
+        }
+        
+        System.out.println(mySuspect.getImages().size());
+        for (Images image : mySuspect.getImages()) {
+            System.out.println(image==null);
         }
         
         return mySuspect;
@@ -1222,28 +1227,39 @@ public class UI extends javax.swing.JFrame {
         pnlModifySuspectLayout.setHorizontalGroup(
             pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlModifySuspectLayout.createSequentialGroup()
+                .addGap(310, 310, 310)
+                .addComponent(jButton30, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(pnlModifySuspectLayout.createSequentialGroup()
                 .addGap(85, 85, 85)
                 .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlModifySuspectLayout.createSequentialGroup()
-                        .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel52)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(pnlModifySuspectLayout.createSequentialGroup()
+                        .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(pnlModifySuspectLayout.createSequentialGroup()
-                                .addComponent(jScrollPane28, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane31, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel44, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jScrollPane25, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
-                                .addComponent(jScrollPane22))
-                            .addComponent(jLabel47)
-                            .addComponent(jLabel48)
-                            .addGroup(pnlModifySuspectLayout.createSequentialGroup()
-                                .addComponent(jScrollPane29, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel45)
-                            .addComponent(jScrollPane26, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel52))
+                                .addComponent(jButton29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(pnlModifySuspectLayout.createSequentialGroup()
+                                    .addComponent(jScrollPane28, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel44, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane25, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane22))
+                                .addComponent(jLabel47)
+                                .addComponent(jLabel48)
+                                .addGroup(pnlModifySuspectLayout.createSequentialGroup()
+                                    .addComponent(jScrollPane29, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel45)
+                                .addComponent(jScrollPane26, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(127, 127, 127)
                         .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlModifySuspectLayout.createSequentialGroup()
@@ -1277,16 +1293,7 @@ public class UI extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(pnlModifySuspectLayout.createSequentialGroup()
-                        .addComponent(jScrollPane31, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton29, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
-            .addGroup(pnlModifySuspectLayout.createSequentialGroup()
-                .addGap(310, 310, 310)
-                .addComponent(jButton30, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
         pnlModifySuspectLayout.setVerticalGroup(
             pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1330,7 +1337,7 @@ public class UI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlModifySuspectLayout.createSequentialGroup()
-                                .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(pnlModifySuspectLayout.createSequentialGroup()
                                         .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jScrollPane28, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1355,7 +1362,7 @@ public class UI extends javax.swing.JFrame {
                                 .addGroup(pnlModifySuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(pnlModifySuspectLayout.createSequentialGroup()
                                         .addComponent(jScrollPane31, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                                         .addComponent(jButton30, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(pnlModifySuspectLayout.createSequentialGroup()
                                         .addComponent(jButton29, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1482,7 +1489,7 @@ public class UI extends javax.swing.JFrame {
         pnlMainLayout.setHorizontalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
-                .addContainerGap(63, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(51, 51, 51))
         );
@@ -1517,7 +1524,7 @@ public class UI extends javax.swing.JFrame {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
-        jTextArea11.getAccessibleContext().setAccessibleName("");
+        jTextArea11.getAccessibleContext().setAccessibleName("$");
         searchSuspectFields[0]=jTextArea11;
 
         jLabel33.setText("Telefonos (varios)");
@@ -1541,7 +1548,7 @@ public class UI extends javax.swing.JFrame {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
-        jTextArea12.getAccessibleContext().setAccessibleName("");
+        jTextArea12.getAccessibleContext().setAccessibleName("$");
         searchSuspectFields[6]=jTextArea12;
 
         jButton17.setBackground(primaryColor
@@ -1576,7 +1583,7 @@ public class UI extends javax.swing.JFrame {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
-        jTextArea13.getAccessibleContext().setAccessibleName("");
+        jTextArea13.getAccessibleContext().setAccessibleName("$");
         searchSuspectFields[7]=jTextArea13;
 
         jButton19.setBackground(primaryColor);
@@ -1604,7 +1611,7 @@ public class UI extends javax.swing.JFrame {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
-        jTextArea14.getAccessibleContext().setAccessibleName("");
+        jTextArea14.getAccessibleContext().setAccessibleName("$");
         searchSuspectFields[8]=jTextArea14;
 
         jButton20.setBackground(primaryColor);
@@ -1632,7 +1639,7 @@ public class UI extends javax.swing.JFrame {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
-        jTextArea15.getAccessibleContext().setAccessibleName("");
+        jTextArea15.getAccessibleContext().setAccessibleName("$");
         searchSuspectFields[9]=jTextArea15;
 
         jLabel34.setText("Direcciones (Varios)");
@@ -1660,7 +1667,7 @@ public class UI extends javax.swing.JFrame {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
-        jTextArea16.getAccessibleContext().setAccessibleName("");
+        jTextArea16.getAccessibleContext().setAccessibleName("$");
         searchSuspectFields[1]=jTextArea16;
 
         jLabel38.setText("Apellido 1");
@@ -1687,7 +1694,7 @@ public class UI extends javax.swing.JFrame {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
-        jTextArea17.getAccessibleContext().setAccessibleName("");
+        jTextArea17.getAccessibleContext().setAccessibleName("$");
         searchSuspectFields[2]=jTextArea17;
 
         jLabel40.setText("Acompañantes (Varios)");
@@ -1711,7 +1718,7 @@ public class UI extends javax.swing.JFrame {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
-        jTextArea18.getAccessibleContext().setAccessibleName("");
+        jTextArea18.getAccessibleContext().setAccessibleName("$");
         searchSuspectFields[3]=jTextArea18;
 
         jButton21.setBackground(primaryColor);
@@ -1747,7 +1754,7 @@ public class UI extends javax.swing.JFrame {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
-        jTextArea19.getAccessibleContext().setAccessibleName("");
+        jTextArea19.getAccessibleContext().setAccessibleName("$");
         searchSuspectFields[4]=jTextArea19;
 
         jLabel41.setText("Antecedentes (Varios)");
@@ -1773,7 +1780,7 @@ public class UI extends javax.swing.JFrame {
                 view.EnteredExited.mouseComponentEffect(evt);
             }
         });
-        jTextArea20.getAccessibleContext().setAccessibleName("");
+        jTextArea20.getAccessibleContext().setAccessibleName("$");
         searchSuspectFields[5]=jTextArea20;
 
         jButton23.setBackground(primaryColor);
@@ -3368,7 +3375,10 @@ public class UI extends javax.swing.JFrame {
                             .addComponent(jLabel28)
                             .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
                     .addGroup(pnlAddLayout.createSequentialGroup()
                         .addGroup(pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3397,11 +3407,8 @@ public class UI extends javax.swing.JFrame {
                             .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
 
         jButton9.getAccessibleContext().setAccessibleName("1$0$0");
@@ -3656,8 +3663,8 @@ public class UI extends javax.swing.JFrame {
     private void myInitComponents() {
         CreateAndFillTables.setMainTable(tblMain);
         CreateAndFillTables.fillMainTable();
-        modifySuspectImageManager = new ImageManager(me, true);
-        addSuspectImageManager = new ImageManager(me, true);
+        modifySuspectImageManager = new ImageManager(me, true,true);
+        addSuspectImageManager = new ImageManager(me, true,false);
         setLocationRelativeTo(null);
         hideLayouts();
         pnlMain.setVisible(true);
@@ -3815,7 +3822,7 @@ public class UI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        modifySuspectImageManager.showSuspect(suspectBeenModified);
+        modifySuspectImageManager.showSuspect(myController.getPhotos(suspectBeenModified.getCodeSuspect()));
         modifySuspectImageManager.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 

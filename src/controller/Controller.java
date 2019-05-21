@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import model.Communication;
+import model.Images;
 import model.Suspect;
 import view.CreateAndFillTables;
 import view.PrintComponents;
@@ -66,7 +67,6 @@ public class Controller implements ActionListener {
                 CreateAndFillTables.fillMainTable();
                 break;
             case "modify":
-                System.out.println("imag" + myUI.getModifySuspect().getImages().size());
                 Query.Update(myUI.getModifySuspect());
                 CreateAndFillTables.fillMainTable();
                 break;
@@ -87,8 +87,9 @@ public class Controller implements ActionListener {
         return Query.findSuspect(suspectCode);
     }
 
-    public static void getPhotos(Integer idSuspect) {
-        //Query.getPhotos(idSuspect);
+    public Images[] getPhotos(Integer idSuspect) {
+        Images[] suspectBeenModifiedPhotos=Query.showImg(idSuspect);
+        return suspectBeenModifiedPhotos;
     }
 
     public static void deleteSuspect(Integer id) {

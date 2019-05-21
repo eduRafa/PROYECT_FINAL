@@ -8,13 +8,7 @@ package view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Address;
 import model.Car_Registration;
 import model.Email;
@@ -53,9 +47,6 @@ public class UiUtils {
                     }
                 }
             }
-        }
-        if (eachValue.length == 0 && !(allTheValues.trim()).isEmpty()) {
-            myPhones.add(new Phone(Integer.valueOf(allTheValues), suspetCode));
         }
 
         return myPhones;
