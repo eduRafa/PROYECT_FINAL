@@ -6,31 +6,18 @@
 package view;
 
 import controller.Controller;
-import database.Query;
 import java.awt.Component;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
-import model.Communication;
 import model.Suspect;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.Images;
-import model.Phone;
 
 /**
  *
@@ -122,14 +109,12 @@ public class CreateAndFillTables {
                  * botón, si tuviéramos más de un botón por fila tendríamos que
                  * además preguntar por el contenido del botón o el nombre de la
                  * columna
-                 */
-                if (tblMain.getModel().getColumnClass(columna).equals(TrashJButton.class
-                )) {
+                 */         
+                if (columna==11) {
                     Controller.deleteSuspect(getValue(tblMain.getSelectedRow() + 1));
                     fillMainTable();
 
-                } else if (tblMain.getModel().getColumnClass(columna).equals(ProfileJButton.class
-                )) {
+                } else if (columna==10) {
                     if (getValue(tblMain.getSelectedRow() + 1) != null) {
                         Suspect suspectToUpdate = Controller.findSuspect(getValue(tblMain.getSelectedRow() + 1));
 

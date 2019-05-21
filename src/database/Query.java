@@ -630,7 +630,7 @@ public class Query {
             c = Connect.getMyConnection();
             Statement s = c.createStatement();
             rs = s.executeQuery("SELECT Image,CodeImage, Description,"
-                    + "CodeDescription FROM IMAGES "
+                    + "CodeSuspect FROM IMAGES "
                     + "where CodeSuspect=" + sus.toString());
             if (rs != null) {
                 int j = 0;
@@ -640,7 +640,7 @@ public class Query {
                     BufferedImage image = ImageIO.read(in);
                     imgs[i]=new Images(image, null);
                     imgs[i].setCodeImage(rs.getInt(2));
-                    imgs[i].setDescription(rs.getString(3));//ES un blob
+                    imgs[i].setDescription(rs.getString(3));
                     imgs[i].setCodeSuspect(rs.getInt(4));
                 }
             }
