@@ -35,7 +35,7 @@ public class Query {
     static Connection c = Connect.getMyConnection();
     static ResultSet rs;
     static int maxPosition = 11;
-    public static int currentPosition = 1;
+    static int currentPosition = 1;
     static int numberOfSuspects = 10;
 
     /*
@@ -761,11 +761,9 @@ public class Query {
      */
     public static ArrayList<Suspect> searchBy(String key, String value) {
         ArrayList<Suspect> sus = new ArrayList<>();
-        ResultSet rs1=null;
-        try {            
+        try {
             if (!value.equals("") || value != null) {
                 Connect.startConnection();
-                
                 c = Connect.getMyConnection();
                 Statement s = c.createStatement();
                 switch (key) {
@@ -774,66 +772,53 @@ public class Query {
                     case "lastname2":
                         System.out.println("RESULTSET LASTNAME 2 ");
                         
-                        rs1 = s.executeQuery("Select CodeSuspect from Suspect "
+                        rs = s.executeQuery("Select CodeSuspect from Suspect "
                                 + "where " + key + "='" + value + "'");
-                        if(!(rs1.isClosed())){
-                            while (rs1.next()) {
-                                sus.add(Query.findSuspect(rs1.getInt(1)));//lo cierra
-                            }
+                        
+                        while (rs.next()) {
+                            sus.add(Query.findSuspect(rs.getInt(1)));//lo cierra
                         }
                         break;
                     case "PhoneNumber":
                         System.out.println("entra");
-                        rs1 = s.executeQuery("Select CodeSuspect from PHONE "
+                        rs = s.executeQuery("Select CodeSuspect from PHONE "
                                 + "where " + key + "='" + value + "'");
-                        if(!rs1.isClosed()){
-                            while (rs1.next()) {
-                                sus.add(Query.findSuspect(rs1.getInt(1)));
-                            }
+                        while (rs.next()) {
+                            sus.add(Query.findSuspect(rs.getInt(1)));
                         }
                         break;
                     case "Email":
-                        rs1 = s.executeQuery("Select CodeSuspect from E_MAIL "
+                        rs = s.executeQuery("Select CodeSuspect from E_MAIL "
                                 + "where " + key + "='" + value + "'");
-                        if(!rs1.isClosed()){
-                            while (rs1.next()) {
-                                sus.add(Query.findSuspect(rs1.getInt(1)));
-                            }
+                        while (rs.next()) {
+                            sus.add(Query.findSuspect(rs.getInt(1)));
                         }
                         break;
                     case "Registration_number":
 
-                        rs1 = s.executeQuery("Select CodeSuspect from CAR_REGISTRATION "
+                        rs = s.executeQuery("Select CodeSuspect from CAR_REGISTRATION "
                                 + "where " + key + "='" + value + "'");
-                        if(!rs1.isClosed()){
-                            while (rs1.next()) {
-                                sus.add(Query.findSuspect(rs1.getInt(1)));
-                            }
+                        while (rs.next()) {
+                            sus.add(Query.findSuspect(rs.getInt(1)));
                         }
                         break;
                     case "Address":
                         rs = s.executeQuery("Select CodeSuspect from ADDRESS "
                                 + "where " + key + "='" + value + "'");
-                        if(!rs1.isClosed()){
-                            while (rs1.next()) {
-                                sus.add(Query.findSuspect(rs1.getInt(1)));
-                            }
+                        while (rs.next()) {
+                            sus.add(Query.findSuspect(rs.getInt(1)));
                         }
                         break;
                     case "Companions":
-                        rs1 = s.executeQuery("Select CodeSuspect from COMPANIONS "
+                        rs = s.executeQuery("Select CodeSuspect from COMPANIONS "
                                 + "where " + key + "='" + value + "'");
-                        if(!rs1.isClosed()){
-                            while (rs1.next()) {
-                                sus.add(Query.findSuspect(rs1.getInt(1)));
-                            }
+                        while (rs.next()) {
+                            sus.add(Query.findSuspect(rs.getInt(1)));
                         }
                         break;
                 }
                 s.close();
-                if(rs1!=null){
-                    rs1.close();
-                }
+                rs.close();
                 Connect.closeConnection();
             }
         } catch (SQLException ex) {
