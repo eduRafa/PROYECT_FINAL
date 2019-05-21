@@ -1577,14 +1577,27 @@ public class UI extends javax.swing.JFrame {
         }
         tblMain.getAccessibleContext().setAccessibleName("1$1$0");
 
+        jButton4.setBackground(primaryColor);
+        jButton4.setForeground(secundaryColor);
         jButton4.setText("Siguiente");
+        jButton4.setBorder(javax.swing.BorderFactory.createLineBorder(secundaryColor));
+        jButton4.setFocusable(false);
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
 
+        jButton5.setBackground(UI.getPrimaryColor());
+        jButton5.setForeground(UI.getSecundaryColor());
         jButton5.setText("Anterior");
+        jButton5.setBorder(javax.swing.BorderFactory.createLineBorder(UI.getSecundaryColor()));
+        jButton5.setFocusable(false);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
         pnlMain.setLayout(pnlMainLayout);
@@ -1597,10 +1610,10 @@ public class UI extends javax.swing.JFrame {
                         .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(51, 51, 51))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
-                        .addComponent(jButton5)
-                        .addGap(172, 172, 172)
-                        .addComponent(jButton4)
-                        .addGap(198, 198, 198))))
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(118, 118, 118)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(228, 228, 228))))
         );
         pnlMainLayout.setVerticalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1609,10 +1622,13 @@ public class UI extends javax.swing.JFrame {
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(36, 36, 36))
         );
+
+        jButton4.getAccessibleContext().setAccessibleName("1$0$0");
+        jButton5.getAccessibleContext().setAccessibleName("1$0$0");
 
         pnlSearch.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -3942,6 +3958,10 @@ public class UI extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         CreateAndFillTables.fillMainTable(myController.getNextTen());
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        CreateAndFillTables.fillMainTable(myController.getPreviousTen());
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     public static void start() {
         /* Set the Nimbus look and feel */
