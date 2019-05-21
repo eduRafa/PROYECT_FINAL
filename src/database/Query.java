@@ -35,7 +35,7 @@ public class Query {
     static Connection c = Connect.getMyConnection();
     static ResultSet rs;
     static int maxPosition = 10;
-    static int currentPosition = 1;
+    static int currentPosition = 0;
     static int numberOfSuspects = 10;
 
     /*
@@ -584,7 +584,7 @@ public class Query {
             rs2 = s.executeQuery("Select CodeSuspect from SUSPECT");
             if (rs2 != null) {
                 for (int i = 0; i < maxPosition && rs2.next(); i++) {
-                    if(i<=currentPosition){
+                    if(i>=currentPosition){
                         show[i] = findSuspect(rs2.getInt(1));
                     }
                 }
