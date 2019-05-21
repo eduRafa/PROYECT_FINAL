@@ -681,8 +681,8 @@ public class Query {
             if (coincidences.size() > 0) {
                 for (int j = 0; j < coincidences.size(); j++) {
                     for (int k = 0; k < newCoincidences.size(); k++) {
-                        if (coincidences.get(i).getCodeSuspect().equals(newCoincidences.get(j).getCodeSuspect())) {
-                            coincidences.add(newCoincidences.get(j));
+                        if (coincidences.get(j).getCodeSuspect().equals(newCoincidences.get(k).getCodeSuspect())) {
+                            coincidences.add(newCoincidences.get(k));
                         }
                     }
                 }
@@ -695,8 +695,8 @@ public class Query {
             if (coincidences.size() > 0) {
                 for (int j = 0; j < coincidences.size(); j++) {
                     for (int k = 0; k < newCoincidences.size(); k++) {
-                        if (coincidences.get(i).getCodeSuspect().equals(newCoincidences.get(j).getCodeSuspect())) {
-                            coincidences.add(newCoincidences.get(j));
+                        if (coincidences.get(j).getCodeSuspect().equals(newCoincidences.get(k).getCodeSuspect())) {
+                            coincidences.add(newCoincidences.get(k));
                         }
                     }
                 }
@@ -709,8 +709,8 @@ public class Query {
             if (coincidences.size() > 0) {
                 for (int j = 0; j < coincidences.size(); j++) {
                     for (int k = 0; k < newCoincidences.size(); k++) {
-                        if (coincidences.get(i).getCodeSuspect().equals(newCoincidences.get(j).getCodeSuspect())) {
-                            coincidences.add(newCoincidences.get(j));
+                        if (coincidences.get(j).getCodeSuspect().equals(newCoincidences.get(k).getCodeSuspect())) {
+                            coincidences.add(newCoincidences.get(k));
                         }
                     }
                 }
@@ -723,8 +723,8 @@ public class Query {
             if (coincidences.size() > 0) {
                 for (int j = 0; j < coincidences.size(); j++) {
                     for (int k = 0; k < newCoincidences.size(); k++) {
-                        if (coincidences.get(i).getCodeSuspect().equals(newCoincidences.get(j).getCodeSuspect())) {
-                            coincidences.add(newCoincidences.get(j));
+                        if (coincidences.get(j).getCodeSuspect().equals(newCoincidences.get(k).getCodeSuspect())) {
+                            coincidences.add(newCoincidences.get(k));
                         }
                     }
                 }
@@ -739,8 +739,8 @@ public class Query {
                     if (coincidences.size() > 0) {
                         for (int j = 0; j < coincidences.size(); j++) {
                             for (int k = 0; k < newCoincidences.size(); k++) {
-                                if (coincidences.get(i).getCodeSuspect().equals(newCoincidences.get(j).getCodeSuspect())) {
-                                    coincidences.add(newCoincidences.get(j));
+                                if (coincidences.get(j).getCodeSuspect().equals(newCoincidences.get(k).getCodeSuspect())) {
+                                    coincidences.add(newCoincidences.get(k));
                                 }
                             }
                         }
@@ -762,6 +762,7 @@ public class Query {
      */
     public static ArrayList<Suspect> searchBy(String key, String value) {
         ArrayList<Suspect> sus = new ArrayList<>();
+        ResultSet rs2;
         try {
             if (!value.equals("") || value != null) {
                 Connect.startConnection();
@@ -773,51 +774,51 @@ public class Query {
                     case "lastname2":
                         System.out.println("RESULTSET LASTNAME 2 ");
                         
-                        rs = s.executeQuery("Select CodeSuspect from Suspect "
+                        rs2= s.executeQuery("Select CodeSuspect from Suspect "
                                 + "where " + key + "='" + value + "'");
                         
-                        while (rs.next()) {
-                            sus.add(Query.findSuspect(rs.getInt(1)));//lo cierra
+                        while (rs2.next()) {
+                            sus.add(Query.findSuspect(rs2.getInt(1)));//lo cierra
                         }
                         break;
                     case "PhoneNumber":
                         System.out.println("entra");
-                        rs = s.executeQuery("Select CodeSuspect from PHONE "
+                        rs2 = s.executeQuery("Select CodeSuspect from PHONE "
                                 + "where " + key + "='" + value + "'");
                         while (rs.next()) {
-                            sus.add(Query.findSuspect(rs.getInt(1)));
+                            sus.add(Query.findSuspect(rs2.getInt(1)));
                         }
                         break;
                     case "Email":
-                        rs = s.executeQuery("Select CodeSuspect from E_MAIL "
+                        rs2 = s.executeQuery("Select CodeSuspect from E_MAIL "
                                 + "where " + key + "='" + value + "'");
-                        while (rs.next()) {
-                            sus.add(Query.findSuspect(rs.getInt(1)));
+                        while (rs2.next()) {
+                            sus.add(Query.findSuspect(rs2.getInt(1)));
                         }
                         break;
                     case "Registration_number":
 
-                        rs = s.executeQuery("Select CodeSuspect from CAR_REGISTRATION "
+                        rs2 = s.executeQuery("Select CodeSuspect from CAR_REGISTRATION "
                                 + "where " + key + "='" + value + "'");
-                        while (rs.next()) {
+                        while (rs2.next()) {
                             sus.add(Query.findSuspect(rs.getInt(1)));
                         }
                         break;
                     case "Address":
-                        rs = s.executeQuery("Select CodeSuspect from ADDRESS "
+                        rs2 = s.executeQuery("Select CodeSuspect from ADDRESS "
                                 + "where " + key + "='" + value + "'");
-                        if(rs1!=null){
-                            if(!rs1.isClosed()){
-                                while (rs1.next()) {
-                                    sus.add(Query.findSuspect(rs1.getInt(1)));
+                        if(rs2!=null){
+                            if(!rs2.isClosed()){
+                                while (rs2.next()) {
+                                    sus.add(Query.findSuspect(rs2.getInt(1)));
                                 }
                             }
                         }
                         break;
                     case "Companions":
-                        rs = s.executeQuery("Select CodeSuspect from COMPANIONS "
+                        rs2 = s.executeQuery("Select CodeSuspect from COMPANIONS "
                                 + "where " + key + "='" + value + "'");
-                        while (rs.next()) {
+                        while (rs2.next()) {
                             sus.add(Query.findSuspect(rs.getInt(1)));
                         }
                         break;
