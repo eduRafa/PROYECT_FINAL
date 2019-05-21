@@ -157,7 +157,6 @@ public class Query {
                     Statement s = c.createStatement();
                     for (int i = 0; i < sus.getPhone().size(); i++) {
                         if (i < preUpdate.getPhone().size()) {
-                            System.out.println(preUpdate.getPhone().get(i).getCodePhone());
                             s.executeUpdate("Update PHONE set PhoneNumber = " + sus.getPhone().get(i).getPhoneNumber() + " where "
                                     + "CodePhone=" + preUpdate.getPhone().get(i).getCodePhone());
                         } else {
@@ -588,11 +587,9 @@ public class Query {
                 for (int i = 0; i < maxPosition && rs2.next(); i++) {
                     if(i>=currentPosition){
                         show[j] = findSuspect(rs2.getInt(1));
-                        System.out.println(show[j].getName());
-                        System.out.println(j);
                         j++;
                     }
-                }
+                }Tomas
             }
             s.close();
             rs2.close();
@@ -734,8 +731,6 @@ public class Query {
                 }
             }
         }
-        System.out.print("Encuentra:");
-        System.out.println(coincidences.size());
         return coincidences;
     }
     /*
@@ -754,8 +749,6 @@ public class Query {
                         }
                     }
                     if(toAdd){
-                        System.out.println("Anadir");
-                        System.out.println(newCoincidences.get(i).getCodeSuspect().toString());
                         coincidences.add(newCoincidences.get(i));
                     }
                 }
