@@ -59,11 +59,11 @@ public class Controller implements ActionListener{
                 Query.addSuspect(myUI.getAddSuspect());
                 myUI.removeAddSuspectsFields();
                 myUI.getAddSuspectImageManager().resetImageManager();
-                CreateAndFillTables.fillMainTable();
+                CreateAndFillTables.fillMainTable(null);
                 break;
             case "modify":
                 Query.Update(myUI.getModifySuspect());
-                CreateAndFillTables.fillMainTable();
+                CreateAndFillTables.fillMainTable(null);
                 break;
             case "search":
                 ArrayList<Suspect> coincidences = Query.search(myUI.getSearchSuspect());
@@ -82,6 +82,15 @@ public class Controller implements ActionListener{
     public Images[] getPhotos(Integer idSuspect) {
         Images[] suspectBeenModifiedPhotos=Query.showImg(idSuspect);
         return suspectBeenModifiedPhotos;
+    }
+    
+    public Suspect[] getNextTen(){
+        for (Suspect suspect : Query.showNext()) {
+            if(suspect.getName()!=null){
+                            System.out.println(suspect.getName());
+            }
+        }
+        return Query.showNext();
     }
 
     public static void deleteSuspect(Integer id) {

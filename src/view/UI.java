@@ -437,6 +437,8 @@ public class UI extends javax.swing.JFrame {
         pnlMain = new javax.swing.JPanel();
         jScrollPane11 = new javax.swing.JScrollPane();
         tblMain = new javax.swing.JTable();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         pnlSearch = new javax.swing.JPanel();
         lblNameAddSuspect = new javax.swing.JLabel();
         jScrollPane12 = new javax.swing.JScrollPane();
@@ -1575,21 +1577,41 @@ public class UI extends javax.swing.JFrame {
         }
         tblMain.getAccessibleContext().setAccessibleName("1$1$0");
 
+        jButton4.setText("Siguiente");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("Anterior");
+
         javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
         pnlMain.setLayout(pnlMainLayout);
         pnlMainLayout.setHorizontalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51))
+            .addGroup(pnlMainLayout.createSequentialGroup()
+                .addContainerGap(63, Short.MAX_VALUE)
+                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
+                        .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
+                        .addComponent(jButton5)
+                        .addGap(172, 172, 172)
+                        .addComponent(jButton4)
+                        .addGap(198, 198, 198))))
         );
         pnlMainLayout.setVerticalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
                 .addContainerGap(44, Short.MAX_VALUE)
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(93, 93, 93))
+                .addGap(34, 34, 34)
+                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton4)
+                    .addComponent(jButton5))
+                .addGap(36, 36, 36))
         );
 
         pnlSearch.setBackground(new java.awt.Color(255, 255, 255));
@@ -3753,7 +3775,7 @@ public class UI extends javax.swing.JFrame {
 
     private void myInitComponents() {
         CreateAndFillTables.setMainTable(tblMain);
-        CreateAndFillTables.fillMainTable();
+        CreateAndFillTables.fillMainTable(null);
         modifySuspectImageManager = new ImageManager(me, true, true);
         addSuspectImageManager = new ImageManager(me, true, false);
         setLocationRelativeTo(null);
@@ -3917,6 +3939,10 @@ public class UI extends javax.swing.JFrame {
         modifySuspectImageManager.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        CreateAndFillTables.fillMainTable(myController.getNextTen());
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     public static void start() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -3992,6 +4018,8 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton30;
     private javax.swing.JButton jButton31;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel10;

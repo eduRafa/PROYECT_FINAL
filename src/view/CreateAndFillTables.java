@@ -127,7 +127,7 @@ public class CreateAndFillTables {
                  */         
                 if (columna==11) {
                     Controller.deleteSuspect(getValue(tblMain.getSelectedRow() + 1));
-                    fillMainTable();
+                    fillMainTable(null);
 
                 } else if (columna==10) {
                     if (getValue(tblMain.getSelectedRow() + 1) != null) {
@@ -153,9 +153,14 @@ public class CreateAndFillTables {
      * y modifica los valores de Hashmap de esta clase cambiar el valor del
      * mismo a el codigo de los sospechosos.
      */
-    public static void fillMainTable() {
+    public static void fillMainTable(Suspect[] s) {
         removeMainDataTable();
-        Suspect[] s = Controller.getInstance().getSuspects();
+        
+        System.out.println(s==null);
+        if(s==null){
+            s=Controller.getInstance().getSuspects();
+        }
+         
         setHashMap(s);
         JTable tblMain = UI.getMainTable();
 
