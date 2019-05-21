@@ -84,7 +84,7 @@ public class Controller implements ActionListener{
         return suspectBeenModifiedPhotos;
     }
 
-    public void deleteSuspect(Integer id) {
+    public static void deleteSuspect(Integer id) {
         Query.deleteSuspect(id);
     }
 

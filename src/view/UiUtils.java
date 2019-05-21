@@ -38,11 +38,13 @@ public class UiUtils {
 
         if (eachValue.length > 0) {
             for (String string : eachValue) {
-                if (string !=null ) {
-                    if (string.matches("\\d*")) {
-                        myPhones.add(new Phone(Integer.valueOf(string), suspetCode));
-                    } else {
-                        throw new Exception("Telefono no valido");
+                if (string != null) {
+                    if (string.length() > 0) {
+                        if (string.matches("\\d*")) {
+                            myPhones.add(new Phone(Integer.valueOf(string), suspetCode));
+                        } else {
+                            throw new Exception("Telefono no valido");
+                        }
                     }
                 }
             }

@@ -124,9 +124,9 @@ public class CreateAndFillTables {
                  * botón, si tuviéramos más de un botón por fila tendríamos que
                  * además preguntar por el contenido del botón o el nombre de la
                  * columna
-                 */
-                if (columna == 11) {
-                    Controller.getInstance().deleteSuspect(getValue(tblMain.getSelectedRow() + 1));
+                 */         
+                if (columna==11) {
+                    Controller.deleteSuspect(getValue(tblMain.getSelectedRow() + 1));
                     fillMainTable();
 
                 } else if (columna==10) {
