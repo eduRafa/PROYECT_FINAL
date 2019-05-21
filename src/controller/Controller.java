@@ -85,11 +85,6 @@ public class Controller implements ActionListener{
     }
     
     public Suspect[] getNextTen(){
-        for (Suspect suspect : Query.showNext()) {
-            if(suspect.getName()!=null){
-                            System.out.println(suspect.getName());
-            }
-        }
         return Query.showNext();
     }
 
