@@ -442,9 +442,7 @@ public class Query {
 
     /*
     *Este metodo permite añadir un sospechoso desde cero, pudiendo recibir campos nulos en aquellos que puedan serlo en la base de datos
-    *@param attributes: Es un array con los atributos del sospechosos, puede tener campos null que seran guardados asi en la base de datos, 
-    ademas debe de estar guardado en el orden (nombre,primer apellido, segundo apellido,numero(s) de telefono,direcion(es) de correo elctronico,
-    direcion(es),compañero(s),matricula(s),imagen(s)
+    *@param suspect: Es un sospechosos el cual se desea añadir
      */
     public static boolean addSuspect(Suspect suspect) {
         boolean correct = false;
@@ -762,7 +760,7 @@ public class Query {
      */
     public static ArrayList<Suspect> searchBy(String key, String value) {
         ArrayList<Suspect> sus = new ArrayList<>();
-        ResultSet rs2;
+        ResultSet rs2=null;
         try {
             if (!value.equals("") || value != null) {
                 Connect.startConnection();
@@ -824,7 +822,9 @@ public class Query {
                         break;
                 }
                 s.close();
-                rs2.close();
+                if(rs2!=null){
+                    rs2.close();
+                }
                 Connect.closeConnection();
             }
         } catch (SQLException ex) {
@@ -832,11 +832,10 @@ public class Query {
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return sus;
     }
 
-    public static HashMap<Suspect, ArrayList<String>> findCoincidences(Suspect sus) {
+    public static HashMap<Suspect, ArrayList<String>> findCoincidences(Suspect sus){
         HashMap<Suspect, ArrayList<String>> coincidences = new HashMap<>();
         ArrayList<Suspect> suspects = new ArrayList<>();
         ArrayList<String> atributtes = new ArrayList<>();
@@ -925,7 +924,7 @@ public class Query {
         Boolean added = false;
         for (int i = 0; i < toCheck.size(); i++) {
             for (int j = 0; j < saved.size() && !added; j++) {
-                if (toCheck.get(i).getCodeSuspect() == saved.get(j).getCodeSuspect()) {
+                if (toCheck.get(i).getCodeSuspect()==saved.get(j).getCodeSuspect()) {
                     added = true;
                 }
             }
