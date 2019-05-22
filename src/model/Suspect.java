@@ -44,10 +44,7 @@ public class Suspect {
             this.Address=Address;
             this.Car_registration=Car_registration;
             this.Images=Images;
-            this.Suspect=Suspect;
-            
-           
-            
+            this.Suspect=Suspect;  
     }
 
     public Integer getCodeSuspect() {

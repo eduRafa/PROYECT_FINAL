@@ -5,7 +5,6 @@
  */
 package view;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Image;
@@ -16,8 +15,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import static view.UiUtils.getAllComponents;
-import view.UiUtils;
 
 /**
  *
@@ -25,11 +22,11 @@ import view.UiUtils;
  */
 public class EnteredExited {
 
-    ////////////////////////////////////////////////////////////////////////////
     /**
-     * Metodo que agrupa el evento entered de algunos botones de la interfaz.
+     * Metodo que agrupa el evento entered y exited de algunos botones o paneles
+     * de la interfaz.
      *
-     * @param evt Evento, en este caso Entered.
+     * @param evt Evento entered o exited.
      */
     public static void mouseComponentEffect(java.awt.event.MouseEvent evt) {
         Component callingComponent = evt.getComponent();
@@ -39,21 +36,18 @@ public class EnteredExited {
             applyBackgroundColorEffect(callingComponent, values[0]);
             applyButtonBorderColorEffect((JButton) callingComponent, values[1]);
             applyForegroundColorEffect(callingComponent, values[2]);
-            callingComponent.getAccessibleContext().setAccessibleName(changeValues(values));
-
         } else if (evt.getComponent() instanceof JPanel) {
             jPanelEffects((JPanel) callingComponent, values);
         }
+        callingComponent.getAccessibleContext().setAccessibleName(changeValues(values));
     }
 
     public static void jPanelEffects(JPanel pnl, String[] values) {
-
         if (pnl instanceof Container) {
-            ArrayList<Component> innerPanelComponents = getAllComponents(pnl);
+            ArrayList<Component> innerPanelComponents = UiUtils.getAllComponents(pnl);
             for (Component innerPanelComponent : innerPanelComponents) {
-                if (innerPanelComponent instanceof JLabel && innerPanelComponent.getAccessibleContext().getAccessibleName().contains("$")) {////aqui
+                if (innerPanelComponent instanceof JLabel && innerPanelComponent.getAccessibleContext().getAccessibleName().contains("$")) {
                     JLabel tmpLabel = (JLabel) innerPanelComponent;
-
                     if (tmpLabel.getIcon() != null) {
                         setIcon(tmpLabel);
                     } else {
@@ -67,7 +61,6 @@ public class EnteredExited {
         applyBackgroundColorEffect(pnl, values[0]);
         applyPanelBorderColorEffect(pnl, values[1]);
         applyForegroundColorEffect(pnl, values[2]);
-        pnl.getAccessibleContext().setAccessibleName(changeValues(values));
     }
 
     private static void applyBackgroundColorEffect(Component c, String backgroundColor) {
@@ -125,7 +118,6 @@ public class EnteredExited {
             } else if (values[i].equals("-")) {
                 accesibleName.append("-");
             }
-
             if (i != values.length) {
                 accesibleName.append("$");
             }
@@ -136,24 +128,21 @@ public class EnteredExited {
     private static void setIcon(JLabel tmpLabel) {
 
         String oldPath = tmpLabel.getAccessibleContext().getAccessibleDescription();
-        //System.out.println(oldPath);
+        
         if (oldPath != null && oldPath.contains("$")) {
             String oldColor[] = oldPath.split("\\$");
-
             Icon x = null;
             String newPath = null;
+            
             if (UiUtils.rgbFormatted(UI.getPrimaryColor()).equals(oldColor[1])) {
-                //System.out.println(newPath);
                 newPath = oldPath.replaceAll("\\$\\d{3},\\d{3},\\d{3}\\$", "\\$" + UiUtils.rgbFormatted(UI.getSecundaryColor()) + "\\$");
-                //System.out.println(newPath);
                 Image myImage = Toolkit.getDefaultToolkit().getImage(ClassLoader.
                         getSystemResource("view/images/" + newPath));
                 tmpLabel.setIcon(new ImageIcon(myImage));
                 tmpLabel.getAccessibleContext().setAccessibleDescription(newPath);
+                
             } else if (UiUtils.rgbFormatted(UI.getSecundaryColor()).equals(oldColor[1])) {
                 newPath = oldPath.replaceAll("\\$\\d{3},\\d{3},\\d{3}\\$", "\\$" + UiUtils.rgbFormatted(UI.getPrimaryColor()) + "\\$");
-                //System.out.println(newPath);
-
                 Image myImage = Toolkit.getDefaultToolkit().getImage(ClassLoader.
                         getSystemResource("view/images/" + newPath));
                 tmpLabel.setIcon(new ImageIcon(myImage));

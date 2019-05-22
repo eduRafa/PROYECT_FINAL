@@ -10,7 +10,6 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 import model.Communication;
 import model.Images;
 import model.Suspect;
@@ -22,14 +21,10 @@ import view.UI;
  *
  * @author rafa0
  */
-public class Controller implements ActionListener {
+public class Controller implements ActionListener{
 
     private static UI myUI;
     private static Controller me;
-
-    private Controller() {
-
-    }
 
     public static Controller getInstance() {
         if (me == null) {
@@ -40,9 +35,9 @@ public class Controller implements ActionListener {
         }
     }
 
-    public static void setUi(UI ui) {
+    public void setUi(UI ui) {
         myUI = ui;
-        myUI.setController(me);
+        UI.setController(me);
     }
 
     public Color getPrimaryColor() {
@@ -53,7 +48,7 @@ public class Controller implements ActionListener {
         Communication.setPrimaryColor(c);
         PrintComponents.printAllComponents(myUI, c);
         PrintComponents.printAllComponents(myUI.getAddSuspectImageManager(), c);
-        PrintComponents.printAllComponents(myUI.getModifySuspectImageManager(), c);
+        PrintComponents.printAllComponents(UI.getModifySuspectImageManager(), c);
     }
 
     @Override
@@ -64,26 +59,23 @@ public class Controller implements ActionListener {
                 Query.addSuspect(myUI.getAddSuspect());
                 myUI.removeAddSuspectsFields();
                 myUI.getAddSuspectImageManager().resetImageManager();
-                CreateAndFillTables.fillMainTable();
+                CreateAndFillTables.fillMainTable(null);
                 break;
             case "modify":
                 Query.Update(myUI.getModifySuspect());
-                CreateAndFillTables.fillMainTable();
+                CreateAndFillTables.fillMainTable(null);
                 break;
             case "search":
-                System.out.println(myUI.getSearchSuspect().getName());
                 ArrayList<Suspect> coincidences = Query.search(myUI.getSearchSuspect());
-                System.out.println("resultado = "+coincidences.size());
-                System.out.println(coincidences.get(0).getName());
                 break;
         }
     }
 
-    public static Suspect[] getSuspects() {
+    public Suspect[] getSuspects() {
         return Query.showTen();
     }
 
-    public static Suspect findSuspect(Integer suspectCode) {
+    public Suspect findSuspect(Integer suspectCode) {
         return Query.findSuspect(suspectCode);
     }
 
@@ -91,9 +83,17 @@ public class Controller implements ActionListener {
         Images[] suspectBeenModifiedPhotos=Query.showImg(idSuspect);
         return suspectBeenModifiedPhotos;
     }
+    
+    public Suspect[] getNextTen(){
+        return Query.showNext();
+    }
 
     public static void deleteSuspect(Integer id) {
         Query.deleteSuspect(id);
+    }
+
+    public Suspect[] getPreviousTen() {
+        return Query.showPrevious();
     }
 
 }

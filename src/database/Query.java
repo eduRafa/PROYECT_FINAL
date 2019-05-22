@@ -34,9 +34,10 @@ public class Query {
 
     static Connection c = Connect.getMyConnection();
     static ResultSet rs;
-    static int maxPosition = 11;
-    static int currentPosition = 1;
+    static int maxPosition = 10;
+    static int currentPosition = 0;
     static int numberOfSuspects = 10;
+    static Suspect[] lastTen=new Suspect[numberOfSuspects];
 
     /*
     *@return last: es un String que contiene el codigo de sospechoso del ultimo 
@@ -62,6 +63,10 @@ public class Query {
         }
 
         return last;
+    }
+
+    public static int getCurrentPosition() {
+        return currentPosition;
     }
 
     /*
@@ -152,7 +157,7 @@ public class Query {
                     Statement s = c.createStatement();
                     for (int i = 0; i < sus.getPhone().size(); i++) {
                         if (i < preUpdate.getPhone().size()) {
-                            System.out.println(preUpdate.getPhone().get(i).getCodePhone());
+
                             s.executeUpdate("Update PHONE set PhoneNumber = " + sus.getPhone().get(i).getPhoneNumber() + " where "
                                     + "CodePhone=" + preUpdate.getPhone().get(i).getCodePhone());
                         } else {
@@ -576,15 +581,24 @@ public class Query {
             c = Connect.getMyConnection();
             Statement s = c.createStatement();
             rs2 = s.executeQuery("Select CodeSuspect from SUSPECT");
+            int j=0;
             if (rs2 != null) {
-                int j = 0;
-                for (int i = currentPosition; i < maxPosition && rs2.next(); i++, j++) {
-                    show[j] = findSuspect(rs2.getInt(1));
+                for (int i = 0; i < maxPosition && rs2.next(); i++) {
+                    if(i>=currentPosition){
+                        show[j] = findSuspect(rs2.getInt(1));
+                        j++;
+                    }
                 }
             }
             s.close();
             rs2.close();
             c.close();
+            if(show[0]!=null){
+                lastTen=show;
+            }else{
+                show=lastTen;
+                currentPosition-=10;
+            }
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -660,97 +674,87 @@ public class Query {
      */
     public static ArrayList<Suspect> search(Suspect sus) {
         ArrayList<Suspect> coincidences = new ArrayList<>();
-        coincidences.addAll(Query.searchBy("lastName1", sus.getLastname1()));
         ArrayList<Suspect> newCoincidences = new ArrayList<>();
-        newCoincidences = Query.searchBy("lastname2", sus.getLastname2());
-        if (coincidences.size() > 0) {
-            for (int i = 0; i < coincidences.size(); i++) {
-                for (int j = 0; j < newCoincidences.size(); j++) {
-                    if (coincidences.get(i).getCodeSuspect() == newCoincidences.get(j).getCodeSuspect()) {
-                        coincidences.add(newCoincidences.get(j));
-                    }
-                }
-            }
-        } else {
-            coincidences.addAll(newCoincidences);
+        coincidences.clear();
+        newCoincidences.clear();
+        if(!sus.getName().equals("")){
+            coincidences.addAll(Query.searchBy("name", sus.getLastname1()));
+        }
+        if(!sus.getLastname1().equals("")){
+            newCoincidences.addAll(Query.searchBy("lastName1", sus.getLastname1()));
+            Query.checkToAdd(coincidences, newCoincidences);
+        }
+        if(!sus.getLastname2().equals("")){
+            newCoincidences = Query.searchBy("lastname2", sus.getLastname2());
+            Query.checkToAdd(coincidences, newCoincidences);
         }
         for (int i = 0; i < sus.getPhone().size(); i++) {
-            newCoincidences = Query.searchBy("PhoneNumber", sus.getPhone().get(i).getPhoneNumber().toString());
-            if (coincidences.size() > 0) {
-                for (int j = 0; j < coincidences.size(); j++) {
-                    for (int k = 0; k < newCoincidences.size(); k++) {
-                        if (coincidences.get(j).getCodeSuspect().equals(newCoincidences.get(k).getCodeSuspect())) {
-                            coincidences.add(newCoincidences.get(k));
-                        }
-                    }
+            if(sus.getPhone().get(i)!=null){
+                if(sus.getPhone().get(i).getPhoneNumber()!=null){
+                    newCoincidences = Query.searchBy("PhoneNumber", sus.getPhone().get(i).getPhoneNumber().toString());
+                    Query.checkToAdd(coincidences, newCoincidences);
                 }
-            } else {
-                coincidences.addAll(newCoincidences);
             }
         }
         for (int i = 0; i < sus.getEmail().size(); i++) {
-            newCoincidences = Query.searchBy("Email", sus.getEmail().get(i).getEmail());
-            if (coincidences.size() > 0) {
-                for (int j = 0; j < coincidences.size(); j++) {
-                    for (int k = 0; k < newCoincidences.size(); k++) {
-                        if (coincidences.get(j).getCodeSuspect().equals(newCoincidences.get(k).getCodeSuspect())) {
-                            coincidences.add(newCoincidences.get(k));
-                        }
-                    }
+            if(sus.getEmail().get(i)!=null){
+                if(!sus.getEmail().get(i).getEmail().equals("")){
+                    newCoincidences = Query.searchBy("Email", sus.getEmail().get(i).getEmail());
+                    Query.checkToAdd(coincidences, newCoincidences);
                 }
-            } else {
-                coincidences.addAll(newCoincidences);
             }
         }
         for (int i = 0; i < sus.getAddress().size(); i++) {
-            newCoincidences = Query.searchBy("Address", sus.getAddress().get(i).getAddress());
-            if (coincidences.size() > 0) {
-                for (int j = 0; j < coincidences.size(); j++) {
-                    for (int k = 0; k < newCoincidences.size(); k++) {
-                        if (coincidences.get(j).getCodeSuspect().equals(newCoincidences.get(k).getCodeSuspect())) {
-                            coincidences.add(newCoincidences.get(k));
-                        }
-                    }
+            if(sus.getAddress().get(i)!=null){
+                if(!sus.getAddress().get(i).getAddress().equals("")){
+                    newCoincidences = Query.searchBy("Address", sus.getAddress().get(i).getAddress());
+                    Query.checkToAdd(coincidences, newCoincidences);
                 }
-            } else {
-                coincidences.addAll(newCoincidences);
             }
         }
         for (int i = 0; i < sus.getCar_registration().size(); i++) {
-            newCoincidences = Query.searchBy("Registration_number", sus.getCar_registration().get(i).getRegistration());
-            if (coincidences.size() > 0) {
-                for (int j = 0; j < coincidences.size(); j++) {
-                    for (int k = 0; k < newCoincidences.size(); k++) {
-                        if (coincidences.get(j).getCodeSuspect().equals(newCoincidences.get(k).getCodeSuspect())) {
-                            coincidences.add(newCoincidences.get(k));
-                        }
-                    }
+            if(sus.getCar_registration().get(i)!=null){
+                if(!sus.getCar_registration().get(i).getRegistration().equals("")){
+                    newCoincidences = Query.searchBy("Registration_number", sus.getCar_registration().get(i).getRegistration());
+                    Query.checkToAdd(coincidences, newCoincidences);
                 }
-            } else {
-                coincidences.addAll(newCoincidences);
             }
         }
         if (sus.getSuspect() != null) {
             if (!sus.getSuspect().isEmpty()) {
                 for (int i = 0; i < sus.getSuspect().size(); i++) {
-                    newCoincidences = Query.searchBy("Companions", sus.getSuspect().get(i).getCodeSuspect().toString());
-                    if (coincidences.size() > 0) {
-                        for (int j = 0; j < coincidences.size(); j++) {
-                            for (int k = 0; k < newCoincidences.size(); k++) {
-                                if (coincidences.get(j).getCodeSuspect().equals(newCoincidences.get(k).getCodeSuspect())) {
-                                    coincidences.add(newCoincidences.get(k));
-                                }
-                            }
-                        }
-                    } else {
-                        coincidences.addAll(newCoincidences);
+                    if(sus.getSuspect().get(i).getCodeSuspect()!=null){
+                        newCoincidences = Query.searchBy("Companions", sus.getSuspect().get(i).getCodeSuspect().toString());
+                        Query.checkToAdd(coincidences, newCoincidences);
                     }
                 }
             }
         }
         return coincidences;
     }
-
+    /*
+    *Este metodo sera usado en el metodo search para ahorrar codigo,permite comprobar si hay  nuevos valores para añadir 
+    dados dos arraylist
+    *@param coincidences:ES el arraylist en el que ya puede haber coincidencias
+    *@param newCoincidences: Es el arraylist del que se desea saber si contiene valores repetidos para no añadirlos
+    */
+    private static void checkToAdd(ArrayList<Suspect> coincidences,ArrayList<Suspect> newCoincidences){
+        boolean toAdd=true;
+        if (coincidences.size() > 0) {
+                for (int i = 0; i < newCoincidences.size(); i++) {
+                    for (int j = 0; j < coincidences.size(); j++) {
+                        if (newCoincidences.get(i).getCodeSuspect().equals(coincidences.get(j).getCodeSuspect())) {
+                            toAdd=false;
+                        }
+                    }
+                    if(toAdd){
+                        coincidences.add(newCoincidences.get(i));
+                    }
+                }
+            } else {
+                coincidences.addAll(newCoincidences);
+            }
+    }
     /*
     *Este metode permite realizar una consulta en la base de datos buscando con por un valor dado de un paramatro concreto
     *@param key: Es tipo de campo por el cual se esta buscando (name,lastname1,lastname2,Phonenumber,Email,Registration_number,
@@ -770,8 +774,6 @@ public class Query {
                     case "name":
                     case "lastname1":
                     case "lastname2":
-                        System.out.println("RESULTSET LASTNAME 2 ");
-                        
                         rs2= s.executeQuery("Select CodeSuspect from Suspect "
                                 + "where " + key + "='" + value + "'");
                         
@@ -779,11 +781,10 @@ public class Query {
                             sus.add(Query.findSuspect(rs2.getInt(1)));//lo cierra
                         }
                         break;
-                    case "PhoneNumber":
-                        System.out.println("entra");
+                    case "PhoneNumber": 
                         rs2 = s.executeQuery("Select CodeSuspect from PHONE "
                                 + "where " + key + "='" + value + "'");
-                        while (rs.next()) {
+                        while (rs2.next()) {
                             sus.add(Query.findSuspect(rs2.getInt(1)));
                         }
                         break;
@@ -799,7 +800,7 @@ public class Query {
                         rs2 = s.executeQuery("Select CodeSuspect from CAR_REGISTRATION "
                                 + "where " + key + "='" + value + "'");
                         while (rs2.next()) {
-                            sus.add(Query.findSuspect(rs.getInt(1)));
+                            sus.add(Query.findSuspect(rs2.getInt(1)));
                         }
                         break;
                     case "Address":
@@ -817,7 +818,7 @@ public class Query {
                         rs2 = s.executeQuery("Select CodeSuspect from COMPANIONS "
                                 + "where " + key + "='" + value + "'");
                         while (rs2.next()) {
-                            sus.add(Query.findSuspect(rs.getInt(1)));
+                            sus.add(Query.findSuspect(rs2.getInt(1)));
                         }
                         break;
                 }

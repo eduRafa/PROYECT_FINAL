@@ -38,12 +38,13 @@ public class UiUtils {
 
         if (eachValue.length > 0) {
             for (String string : eachValue) {
-                if (string.equals("")) {
-                } else {
-                    if (string.matches("\\d{9}")) {
-                        myPhones.add(new Phone(Integer.valueOf(string), suspetCode));
-                    } else {
-                        throw new Exception("Telefono no valido");
+                if (string != null) {
+                    if (string.length() > 0) {
+                        if (string.matches("\\d*")) {
+                            myPhones.add(new Phone(Integer.valueOf(string), suspetCode));
+                        } else {
+                            throw new Exception("Telefono no valido");
+                        }
                     }
                 }
             }
@@ -90,7 +91,6 @@ public class UiUtils {
             for (String string : eachValue) {
                 if (string != null) {
                     myAddresses.add(new Car_Registration(string, suspetCode));
-
                 }
             }
         }
@@ -105,9 +105,13 @@ public class UiUtils {
             for (int i = 0; i < multipleText.size(); i++) {
                 Phone p = (Phone) multipleText.get(i);
                 if (p.getPhoneNumber() == null) {
-                    miString.append(" ");
+                    miString.append("");
                 } else {
-                    miString.append(p.getPhoneNumber());
+                    if (i == multipleText.size() - 1) {
+                        miString.append(p.getPhoneNumber());
+                    } else {
+                        miString.append(p.getPhoneNumber() + "\n");
+                    }
                 }
             }
         }
@@ -122,9 +126,14 @@ public class UiUtils {
             for (int i = 0; i < multipleText.size(); i++) {
                 Email e = (Email) multipleText.get(i);
                 if (e.getEmail() == null) {
-                    miString.append(" ");
+                    miString.append("");
                 } else {
-                    miString.append(e.getEmail());
+                    if (i == multipleText.size() - 1) {
+                        miString.append(e.getEmail());
+                    } else {
+                        miString.append(e.getEmail() + "\n");
+                    }
+
                 }
             }
         }
@@ -138,9 +147,13 @@ public class UiUtils {
             for (int i = 0; i < multipleText.size(); i++) {
                 Address a = (Address) multipleText.get(i);
                 if (a.getAddress() != null) {
-                    miString.append(" ");
+                    if (i == multipleText.size() - 1) {
+                        miString.append(a.getAddress());
+                    } else {
+                        miString.append(a.getAddress() + "\n");
+                    }
                 } else {
-                    miString.append(a.getAddress());
+                    miString.append("");
                 }
             }
         }
@@ -154,9 +167,13 @@ public class UiUtils {
             for (int i = 0; i < multipleText.size(); i++) {
                 Car_Registration cr = (Car_Registration) multipleText.get(i);
                 if (cr.getRegistration() != null) {
-                    miString.append(" ");
+                    if (i == multipleText.size() - 1) {
+                        miString.append(cr.getRegistration());
+                    } else {
+                        miString.append(cr.getRegistration() + "\n");
+                    }
                 } else {
-                    miString.append(cr.getRegistration());
+                    miString.append(" ");
                 }
             }
         }
