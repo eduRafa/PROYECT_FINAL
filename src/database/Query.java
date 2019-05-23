@@ -272,7 +272,11 @@ public class Query {
         }
         return updated;
     }
-
+    /*
+    *Este metodo se encarga de hacer un update a una imagen de la base de datos
+    *@param code: Ese el codigo del registro de la imagen que se dsea actualizar
+    *@param img: Es la nueva imagen que se desea introducir
+    */
     private static boolean updateImage(String code, Images img) {
         boolean added = false;
         String update = "Update Images set ? = ? where CodeImage=" + code;
@@ -404,7 +408,11 @@ public class Query {
         }
         return added;
     }
-
+    /*
+    *Este metodo introduce las imagenes de un sospechoso en la base de datos
+    *@param code: Es el codigo del sospechoso al cual pertenece la imagen 
+    *@param al: Es el arraylist de images que pertecen al sospechoso y que se desean añadir
+    */
     private static boolean addImage(String code, ArrayList<Images> al) {
         boolean added = true;
         String ruta = null;
@@ -835,7 +843,10 @@ public class Query {
         }
         return sus;
     }
-
+    /*
+    *Este metoso busca las coincidnecias que tiene un sospechoso con otros en la base de datos al ser introducido
+    *@param sus: Es el sospechoso del cual se desea conocer las coincidencias
+    */
     public static HashMap<Suspect, ArrayList<String>> findCoincidences(Suspect sus){
         HashMap<Suspect, ArrayList<String>> coincidences = new HashMap<>();
         ArrayList<Suspect> suspects = new ArrayList<>();
@@ -920,7 +931,12 @@ public class Query {
         }
         return coincidences;
     }
-
+    /*
+    *Este metodo sirve para añadir a un arrylist de sospechosos los sospechosos de otro arraylist,
+    asegurnadose de que no hay sospechosos repetidos
+    *@param toCheck: Es el arraylist de sospechosos del cual se desean añadir los valores
+    *@param saved: Es el arraylist de sospechosos al que se desean añadir los nuevos valores
+    */
     private static void add(ArrayList<Suspect> toCheck, ArrayList<Suspect> saved) {
         Boolean added = false;
         for (int i = 0; i < toCheck.size(); i++) {
