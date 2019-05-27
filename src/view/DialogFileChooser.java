@@ -5,6 +5,7 @@
  */
 package view;
 
+import view.imageManagers.ImageManager;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -88,6 +89,11 @@ public class DialogFileChooser extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Metodo encargad de obteenr el Objeto file que selecciono el usuario
+     * @param evt Evento que representa la opcion de la clase ImageManager que 
+     * permite elegir una foto
+     */
     private void jFileChooser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFileChooser1ActionPerformed
         Image image = null;
 
@@ -99,7 +105,6 @@ public class DialogFileChooser extends javax.swing.JDialog {
                 Logger.getLogger(DialogFileChooser.class.getName()).log(Level.SEVERE, null, ex);
             }
             parent.addPhoto(image,fichero.getPath());
-            parent.putPhoto();
         }
     }//GEN-LAST:event_jFileChooser1ActionPerformed
 

@@ -29,7 +29,6 @@ public class Images {
     /*Constructor para cuando obtengas info de la bd*/
     public Images(Integer CodeImage, String Description,
             Integer CodeSuspect, ImageIcon img) {
-
         this.codeImage = CodeImage;
         this.description = Description;
         this.codeSuspect = CodeSuspect;
@@ -40,7 +39,7 @@ public class Images {
         myImage=image;
         this.image=new ImageIcon(image);
         if (path != null) {
-            this.f = new File(path);
+            f = new File(path);
         }
         this.path=path;
     }

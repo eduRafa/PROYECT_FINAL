@@ -7,48 +7,45 @@ package model;
 
 import java.util.ArrayList;
 
-
-
 /**
  *
  * @author Antonio Jose Adamuz Sereno
  */
 public class Suspect {
-    
-    private Integer CodeSuspect;
+
+    private Integer codeSuspect;
     private String name;
     private String lastname1;
     private String lastname2;
-    private String Record;
-    private String Facts;
-    private ArrayList<Phone> Phone = new ArrayList<>();
-    private ArrayList<Email> Email= new ArrayList<>();
-    private ArrayList<Address> Address= new ArrayList<>();
-    private ArrayList<Car_Registration> Car_registration=
-            new ArrayList<>();
-    private ArrayList<Images> Images= new ArrayList<>();
-    private ArrayList<Suspect> Suspect= new ArrayList<>();
-    
+    private String record;
+    private String facts;
+    private ArrayList<Phone> phones;
+    private ArrayList<Email> emails;
+    private ArrayList<Address> addresses;
+    private ArrayList<Car_Registration> carRegistrations;
+    private Images[] images;
+    private ArrayList<Suspect> companions;
+
     public Suspect(Integer CodeSuspect, String name, String lastname1,
-            String lastname2, ArrayList Suspect, String Record, String Facts,
-            ArrayList Phone, ArrayList Email, ArrayList Address,
-            ArrayList Car_registration, ArrayList Images){
-            this.CodeSuspect=CodeSuspect;
-            this.name=name;
-            this.lastname1=lastname1;
-            this.lastname2=lastname2;
-            this.Record=Record;
-            this.Facts=Facts;
-            this.Phone=Phone;
-            this.Email=Email;
-            this.Address=Address;
-            this.Car_registration=Car_registration;
-            this.Images=Images;
-            this.Suspect=Suspect;  
+            String lastname2, ArrayList<Suspect> companions, String record, String facts,
+            ArrayList<Phone> phones, ArrayList<Email> emails, ArrayList<Address> adresses,
+            ArrayList<Car_Registration> carRegistrations, Images[] images) {
+        this.codeSuspect = CodeSuspect;
+        this.name = name;
+        this.lastname1 = lastname1;
+        this.lastname2 = lastname2;
+        this.record = record;
+        this.facts = facts;
+        this.phones = phones;
+        this.emails = emails;
+        this.addresses = adresses;
+        this.carRegistrations = carRegistrations;
+        setImages(images);
+        this.companions = companions;
     }
 
     public Integer getCodeSuspect() {
-        return CodeSuspect;
+        return codeSuspect;
     }
 
     public String getName() {
@@ -64,64 +61,69 @@ public class Suspect {
     }
 
     public String getRecord() {
-        return Record;
+        return record;
     }
 
     public String getFacts() {
-        return Facts;
+        return facts;
     }
-    
-    public void setFacts(String Facts){
-        this.Facts=Facts;
+
+    public void setFacts(String Facts) {
+        this.facts = Facts;
     }
-    
-    public ArrayList<Phone> getPhone(){
-        return Phone;
+
+    public ArrayList<Phone> getPhone() {
+        return phones;
     }
-    
-    public ArrayList<Email> getEmail(){
-        return Email;
-    } 
-    
-    public void setEmail(ArrayList<Email> Email){
-        this.Email=Email;
+
+    public ArrayList<Email> getEmail() {
+        return emails;
     }
-    
+
+    public void setEmail(ArrayList<Email> emails) {
+        this.emails = emails;
+    }
 
     public ArrayList<Address> getAddress() {
-        return Address;
+        return addresses;
     }
-    
-    public void setAddress(ArrayList<Address> address){
-        this.Address=Address;
+
+    public void setAddress(ArrayList<Address> address) {
+        this.addresses = address;
     }
-    
 
     public ArrayList<Car_Registration> getCar_registration() {
-        return Car_registration;
+        return carRegistrations;
     }
-    
-    public void setCar_Registration(ArrayList<Car_Registration> car_Registration){
-        this.Car_registration=Car_registration;
-    }
-   
 
+    public void setCar_Registration(ArrayList<Car_Registration> car_Registration) {
+        this.carRegistrations = car_Registration;
+    }
 
-    public ArrayList<Images> getImages() {
-        return Images;
+    public Images[] getImages() {
+        return images;
     }
-    
-    public void setImages(ArrayList<Images> img){
-        this.Images=img;
-    }
-    
-    public ArrayList<Suspect> getSuspect() {
-        return Suspect;
-    }
-    
-    public void setSuspect(ArrayList<Suspect> Suspect){
-        this.Suspect=Suspect;
 
+    public void setImages(Images[] img) {
+        if (img != null) {
+            if (img.length >= 5) {
+                this.images = new Images[5];
+                this.images = img;
+            } else {
+                this.images = null;
+            }
+        } else {
+            this.images = null;
+        }
+
+    }
+
+    public ArrayList<Suspect> getCompanions() {
+        return companions;
+    }
+
+    public void setSuspect(ArrayList<Suspect> companions) {
+        this.companions = companions;
 
     }
 
@@ -133,17 +135,16 @@ public class Suspect {
         this.lastname2 = lastname2;
     }
 
-    public void setRecord(String Record) {
-        this.Record = Record;
+    public void setRecord(String record) {
+        this.record = record;
     }
 
-
-    public void setPhone(ArrayList<Phone> Phone) {
-        this.Phone = Phone;
+    public void setPhone(ArrayList<Phone> Phones) {
+        this.phones = phones;
     }
 
-    public void setCar_registration(ArrayList<Car_Registration> Car_registration) {
-        this.Car_registration = Car_registration;
+    public void setCar_registration(ArrayList<Car_Registration> carRegistrations) {
+        this.carRegistrations = carRegistrations;
     }
 
 }

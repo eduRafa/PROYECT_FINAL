@@ -37,22 +37,29 @@ public class Communication {
     public static final String COLORFILE = "./colors.xml";
     public static final String CONNECTIONFILE = "./connection.xml";
 
+    /**
+     * Metodo encargado de obtener un documento en el sistema a traves de su path
+     * @param fileName path del archivo a obtener
+     * @return Devuelve un objeto Document con el archivo
+     */
     static Document getDocumentXML(String fileName) {
         Document docParsed = null;
 
         try {
             DocumentBuilder doc = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            docParsed = doc.parse(new File(fileName));//debería de ser dinámico
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(Communication.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SAXException ex) {
-            Logger.getLogger(Communication.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+            docParsed = doc.parse(new File(fileName));
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
             Logger.getLogger(Communication.class.getName()).log(Level.SEVERE, null, ex);
         }
         return docParsed;
     }
 
+    /**
+     * Metodo encargado de recibir un color y de guardarlo en el archivo
+     * el cual tiene como path el "COLORFILE" (variable almacenada
+     * como variable global de esta clase)
+     * @param c Nuevo color 
+     */
     public static void setPrimaryColor(Color c) {
         if (c != null) {
             boolean changed = false;
@@ -73,20 +80,23 @@ public class Communication {
         }
     }
 
+    /**
+     * Metodo encargado de modificar un documento.
+     * @param doc Documento con el nuevo contenido
+     * @param fileName Path del documento con el contenido antiguo
+     */
     static void saveDocument(Document doc, String fileName) {
         File color = new File(fileName);
 
         try {
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            Result output = new StreamResult(color);//color: Debería de ser dinámico
+            Result output = new StreamResult(color);
             Source input = new DOMSource(doc);
             try {
                 transformer.transform(input, output);
-
             } catch (TransformerException ex) {
                 Logger.getLogger(Communication.class
                         .getName()).log(Level.SEVERE, null, ex);
-
             }
         } catch (TransformerConfigurationException ex) {
             Logger.getLogger(Communication.class
@@ -95,6 +105,11 @@ public class Communication {
 
     }
 
+    /**
+     * Metodo encargado de imprimir el contenido del archivo pasado por parametro
+     * @param xml Documento xml a imprimir
+     * @return Un String con el contenido del archivo
+     */
     public static String xmlToString(Document xml) {
         String xmlString = null;
 
@@ -124,6 +139,12 @@ public class Communication {
         return xmlString;
     }
 
+    /**
+     * Metodo encargado de obtener el color principal del xml guardado en la variable
+     * global COLORFILE
+     * @return Devuelve un objeto Color del archivo guardado en la variable global
+     * COLORFILE
+     */
     public static Color getPrimaryColor() {
         Color c = null;
         Document doc = getDocumentXML(COLORFILE);
@@ -144,7 +165,12 @@ public class Communication {
         }
         return c;
     }
-
+    
+    /**
+     * Metodo encargado de obtener 
+     * @return Devuelve un array de String el cual representa los valores database
+     * localhost, user y password
+     */
     public static String[] getDatabaseAccess() {
         String[] dbValues = new String[4];;
         Document doc = getDocumentXML(CONNECTIONFILE);

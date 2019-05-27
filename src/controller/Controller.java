@@ -10,6 +10,9 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import model.Communication;
 import model.Images;
 import model.Suspect;
@@ -21,7 +24,7 @@ import view.UI;
  *
  * @author rafa0
  */
-public class Controller implements ActionListener{
+public class Controller implements ActionListener {
 
     private static UI myUI;
     private static Controller me;
@@ -44,6 +47,11 @@ public class Controller implements ActionListener{
         return Communication.getPrimaryColor();
     }
 
+    /**
+     * Metodo encargado de modificar el color primario en el archivo colors.xml
+     *
+     * @param c Nuevo color primario
+     */
     public void setPrimaryColor(Color c) {
         Communication.setPrimaryColor(c);
         PrintComponents.printAllComponents(myUI, c);
@@ -51,6 +59,12 @@ public class Controller implements ActionListener{
         PrintComponents.printAllComponents(UI.getModifySuspectImageManager(), c);
     }
 
+    /**
+     * Metodo sobreescrito que recoge las acciones de los botones relacionados
+     * con la base de datos
+     *
+     * @param e Accion del elemento que la invoco
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -66,7 +80,12 @@ public class Controller implements ActionListener{
                 CreateAndFillTables.fillMainTable(null);
                 break;
             case "search":
-                ArrayList<Suspect> coincidences = Query.search(myUI.getSearchSuspect());
+                HashMap<Integer, ArrayList<String>> coincidences = Query.search(myUI.getSearchSuspect());
+
+                for (Map.Entry<Integer, ArrayList<String>> entry : coincidences.entrySet()) {
+                    System.out.println("clave=" + entry.getKey() + ", valor=" + entry.getValue().size());
+
+                }
                 break;
         }
     }
@@ -80,11 +99,11 @@ public class Controller implements ActionListener{
     }
 
     public Images[] getPhotos(Integer idSuspect) {
-        Images[] suspectBeenModifiedPhotos=Query.showImg(idSuspect);
+        Images[] suspectBeenModifiedPhotos = Query.showImg(idSuspect);
         return suspectBeenModifiedPhotos;
     }
-    
-    public Suspect[] getNextTen(){
+
+    public Suspect[] getNextTen() {
         return Query.showNext();
     }
 

@@ -42,6 +42,11 @@ public class EnteredExited {
         callingComponent.getAccessibleContext().setAccessibleName(changeValues(values));
     }
 
+    /**
+     * Metodo encargado de aplicar efectos a los paneles
+     * @param pnl Panel a aplicar efectos
+     * @param values valores a aplicar
+     */
     public static void jPanelEffects(JPanel pnl, String[] values) {
         if (pnl instanceof Container) {
             ArrayList<Component> innerPanelComponents = UiUtils.getAllComponents(pnl);
@@ -107,6 +112,11 @@ public class EnteredExited {
         }
     }
 
+    /**
+     * Metodo encargado de voltear el valor
+     * @param values valor a cambiar (toogle)
+     * @return valor contrarioal introducido
+     */
     private static String changeValues(String[] values) {
         StringBuilder accesibleName = new StringBuilder();
 
@@ -125,6 +135,11 @@ public class EnteredExited {
         return accesibleName.toString();
     }
 
+    /**
+     * Metodo encargado de encontrar y separar el valor de la propiedad accesibleContext
+     * para cambiar el icono del jLabel a blanco o al color primario.
+     * @param tmpLabel JLabel la cual modificará el icono
+     */
     private static void setIcon(JLabel tmpLabel) {
 
         String oldPath = tmpLabel.getAccessibleContext().getAccessibleDescription();

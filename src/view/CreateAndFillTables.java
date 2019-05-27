@@ -149,7 +149,7 @@ public class CreateAndFillTables {
     }
 
     /**
-     * Metodo que rellena la tabla principaln con los datos de los sospechosos,
+     * Metodo que rellena la tabla principal con los datos de los sospechosos,
      * y modifica los valores de Hashmap de esta clase cambiar el valor del
      * mismo a el codigo de los sospechosos.
      */
@@ -159,7 +159,7 @@ public class CreateAndFillTables {
         if (s == null) {
             s = Controller.getInstance().getSuspects();
         }
-
+        
         setHashMap(s);
         JTable tblMain = UI.getMainTable();
 
@@ -186,9 +186,9 @@ public class CreateAndFillTables {
                             ;
                             break;
                         case 3:
-                            if (s[i].getSuspect() != null) {
-                                if (!s[i].getSuspect().isEmpty()) {
-                                    myModel.setValueAt(s[i].getSuspect(), i, j);
+                            if (s[i].getCompanions() != null) {
+                                if (!s[i].getCompanions().isEmpty()) {
+                                    myModel.setValueAt(s[i].getCompanions(), i, j);
                                 } else {
                                     myModel.setValueAt(" ", i, j);
                                 }
@@ -269,6 +269,9 @@ public class CreateAndFillTables {
         }
     }
 
+    /**
+     * Modifica el contenido a blanco en la tabla principal
+     */
     public static void removeMainDataTable() {
         JTable tblMain = UI.getMainTable();
 
@@ -283,6 +286,11 @@ public class CreateAndFillTables {
         }
     }
 
+    /**
+     * Metodo encargado de relacionar posicion de la fila de la tabla con el id
+     * al que pertenece
+     * @param mySuspects Array de sospechosos a relacionar 
+     */
     private static void setHashMap(Suspect[] mySuspects) {
         for (int i = 0; i < mySuspects.length; i++) {
             if (mySuspects[i] != null) {
@@ -294,6 +302,12 @@ public class CreateAndFillTables {
         }
     }
 
+    
+    /**
+     * 
+     * @param key fila de la tabla que ha sido pulsada
+     * @return  Clave que representa al codigo del sospechoso
+     */
     private static Integer getValue(Integer key) {
         Iterator<Entry<Integer, Integer>> it = mySuspects.entrySet().iterator();
         Integer value = null;

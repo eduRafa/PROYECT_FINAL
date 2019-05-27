@@ -5,6 +5,7 @@
  */
 package view;
 
+import view.imageManagers.ImageManager;
 import controller.Controller;
 import database.Query;
 import java.awt.Color;
@@ -12,19 +13,16 @@ import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.sql.rowset.serial.SerialBlob;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableColumnModel;
 import javax.swing.text.JTextComponent;
 import model.Communication;
 import model.Images;
 import model.Suspect;
+import view.imageManagers.AddSuspectImageManager;
+import view.imageManagers.ModifySuspectImageManager;
 
 /**
  *
@@ -65,6 +63,9 @@ public class UI extends javax.swing.JFrame {
         return myImage;
     }
 
+    /**
+     * Metodo encargado de ocultar los paneles de la aplicación
+     */
     public void hideLayouts() {
         pnlModifySuspect.setVisible(false);
         pnlConf.setVisible(false);
@@ -75,6 +76,9 @@ public class UI extends javax.swing.JFrame {
         this.getAccessibleContext().getAccessibleName();
     }
 
+    /**
+     * Metodo encargado de ocultar los paneles del menu Configuracion
+     */
     private void hideConfLayouts() {
         pnlConfMain.setVisible(false);
         pnlConfTheme.setVisible(false);
@@ -82,15 +86,24 @@ public class UI extends javax.swing.JFrame {
         pnlConfStadistics.setVisible(false);
     }
 
+    /**
+     * Metodo encargado de mostrar los paneles del menu del sospechoso
+     */
     public void showSuspectLayouts() {
         pnlSearch.setVisible(true);
         pnlModifySuspect.setVisible(true);
     }
 
+    /**
+     * Metodo encargado de ocultar el panel search
+     */
     public void hiddePnlSearch() {
         pnlSearch.setVisible(false);
     }
 
+    /**
+     * Metodo encargado de mostrar el panel search
+     */
     public void showPnlSearch() {
         pnlSearch.setVisible(true);
     }
@@ -209,8 +222,9 @@ public class UI extends javax.swing.JFrame {
         }
 
         Suspect mySuspect = null;
+
         try {
-            mySuspect = new Suspect(suspectBeenModified.getCodeSuspect(), values[0].trim(), values[1].trim(), values[2].trim(), null/*companions*/,
+            mySuspect = new Suspect(suspectBeenModified.getCodeSuspect(), values[0], values[1], values[2], null/*companions*/,
                     values[4], values[5], UiUtils.transformStringToArrayListPhone(values[6], suspectBeenModified.getCodeSuspect()), UiUtils.transformStringToArrayListEmail(values[7], suspectBeenModified.getCodeSuspect()),
                     UiUtils.transformStringToArrayListAddress(values[8], suspectBeenModified.getCodeSuspect()), UiUtils.transformStringToArrayListCar_Registration(values[9], suspectBeenModified.getCodeSuspect()),
                     modifySuspectImageManager.getPhotos());
@@ -229,11 +243,11 @@ public class UI extends javax.swing.JFrame {
         suspectBeenModified = s;
     }
 
-    public ImageManager getAddSuspectImageManager() {
+    public AddSuspectImageManager getAddSuspectImageManager() {
         return addSuspectImageManager;
     }
 
-    public static ImageManager getModifySuspectImageManager() {
+    public static ModifySuspectImageManager getModifySuspectImageManager() {
         return modifySuspectImageManager;
     }
 
@@ -256,6 +270,9 @@ public class UI extends javax.swing.JFrame {
         new TextDialog(this, true, x);
     }
 
+    /**
+     * Elimina los campos del panel AddSuspect
+     */
     public void removeAddSuspectsFields() {
         for (JTextComponent suspectField : addSuspectFields) {
             if (suspectField != null) {
@@ -264,6 +281,9 @@ public class UI extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Elimina los campos del panel ModifySuspect
+     */
     public void removeModifySuspectsFields() {
         for (JTextComponent suspectField : modifySuspectFields) {
             if (suspectField != null) {
@@ -305,8 +325,8 @@ public class UI extends javax.swing.JFrame {
                     }
                     break;
                 case 3:
-                    if (s.getSuspect() != null) {
-                        modifySuspectFields[i].setText(s.getSuspect().toString());
+                    if (s.getCompanions() != null) {
+                        modifySuspectFields[i].setText(s.getCompanions().toString());
                     } else {
                         modifySuspectFields[i].setText("");
                     }
@@ -355,7 +375,16 @@ public class UI extends javax.swing.JFrame {
                     break;
             }
         }
-        jLabel51.setText(s.getImages().size() + "/" + ImageManager.NPHOTOS);
+
+        int suspectNPhotos = 0;
+        for (Images image : s.getImages()) {
+            if (image != null) {
+                if (image.getCodeImage() != null) {
+                    suspectNPhotos++;
+                }
+            }
+        }
+        jLabel51.setText(suspectNPhotos + "/" + ImageManager.NPHOTOS);
     }
 
     /**
@@ -435,6 +464,7 @@ public class UI extends javax.swing.JFrame {
         tblMain = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         pnlSearch = new javax.swing.JPanel();
         lblNameAddSuspect = new javax.swing.JLabel();
         jScrollPane12 = new javax.swing.JScrollPane();
@@ -686,7 +716,7 @@ public class UI extends javax.swing.JFrame {
         lblMenu33.setBackground(new java.awt.Color(255, 255, 255));
         lblMenu33.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblMenu33.setForeground(secundaryColor);
-        lblMenu33.setText("Añadir Sospechososo");
+        lblMenu33.setText("Añadir Sospechoso");
 
         lblMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-anadir-usuario-masculino-30-$255,255,255$.png"))); // NOI18N
 
@@ -1595,36 +1625,56 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("jLabel1");
+
         javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
         pnlMain.setLayout(pnlMainLayout);
         pnlMainLayout.setHorizontalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMainLayout.createSequentialGroup()
-                .addContainerGap(63, Short.MAX_VALUE)
-                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
-                        .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(51, 51, 51))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(111, 111, 111)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(179, 179, 179))))
+                .addGap(152, 152, 152)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(139, 154, Short.MAX_VALUE))
+            .addGroup(pnlMainLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane11)
+                .addGap(31, 31, 31))
         );
         pnlMainLayout.setVerticalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
-                .addContainerGap(44, Short.MAX_VALUE)
+                .addGap(35, 35, 35)
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addGap(36, 36, 36))
         );
 
         jButton4.getAccessibleContext().setAccessibleName("1$0$0");
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
         jButton5.getAccessibleContext().setAccessibleName("1$0$0");
+        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
 
         pnlSearch.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -3788,8 +3838,8 @@ public class UI extends javax.swing.JFrame {
     private void myInitComponents() {
         CreateAndFillTables.setMainTable(tblMain);
         CreateAndFillTables.fillMainTable(null);
-        modifySuspectImageManager = new ImageManager(me, true, true);
-        addSuspectImageManager = new ImageManager(me, true, false);
+        modifySuspectImageManager = new ModifySuspectImageManager(me, true);
+        addSuspectImageManager = new AddSuspectImageManager(me, true);
         setLocationRelativeTo(null);
         hideLayouts();
         pnlMain.setVisible(true);
@@ -3947,7 +3997,7 @@ public class UI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        modifySuspectImageManager.showSuspect(myController.getPhotos(suspectBeenModified.getCodeSuspect()));
+        modifySuspectImageManager.setImages(suspectBeenModified, myController.getPhotos(suspectBeenModified.getCodeSuspect()));
         modifySuspectImageManager.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -3956,7 +4006,7 @@ public class UI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        if(Query.getCurrentPosition()!=0){
+        if (Query.getCurrentPosition() != 0) {
             CreateAndFillTables.fillMainTable(myController.getPreviousTen());
         }
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -4040,6 +4090,7 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -4226,8 +4277,8 @@ public class UI extends javax.swing.JFrame {
     private static Controller myController;
     private static UI me;
     private Images[] photos;
-    private static ImageManager addSuspectImageManager;
-    private static ImageManager modifySuspectImageManager;
+    private static AddSuspectImageManager addSuspectImageManager;
+    private static ModifySuspectImageManager modifySuspectImageManager;
     private static JTextComponent[] addSuspectFields = new JTextComponent[10];
     private JTextComponent[] modifySuspectFields = new JTextComponent[10];
     private JTextComponent[] searchSuspectFields = new JTextComponent[10];

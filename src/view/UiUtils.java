@@ -20,6 +20,12 @@ import model.Phone;
  */
 public class UiUtils {
 
+    /**
+     * Metodo el cual Obtiene toda la rama de componentes hijos del contenedor
+     * pasado por referencia.
+     * @param c Contenedor a buscar sus componentes
+     * @return Decuelve un ArrayList de Componentes.
+     */
     public static ArrayList<Component> getAllComponents(Container c) {
         Component[] comps = c.getComponents();
         ArrayList<Component> compList = new ArrayList<>();

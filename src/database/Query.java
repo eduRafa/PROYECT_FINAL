@@ -19,7 +19,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -32,12 +42,19 @@ import model.*;
  */
 public class Query {
 
-    static Connection c = Connect.getMyConnection();
+    static Connect c;
+    static Connection connection;
     static ResultSet rs;
     static int maxPosition = 10;
     static int currentPosition = 0;
     static int numberOfSuspects = 10;
-    static Suspect[] lastTen=new Suspect[numberOfSuspects];
+    static Suspect[] lastTen = new Suspect[numberOfSuspects];
+    static HashMap<Integer, ArrayList<String>> coincidences = new HashMap<>();
+
+    public static void setConnect(Connect c) {
+        Query.c = c;
+        connection = c.getMyConnection();
+    }
 
     /*
     *@return last: es un String que contiene el codigo de sospechoso del ultimo 
@@ -48,14 +65,11 @@ public class Query {
     private static String findLast() {
         String last = null;
         try {
-            Connect.startConnection();
-            c = Connect.getMyConnection();
-            Statement s = c.createStatement();
+            Statement s = connection.createStatement();
             rs = s.executeQuery("SELECT CodeSuspect from SUSPECT");
             if (rs.last()) {
                 last = rs.getString(1);
             }
-            Connect.closeConnection();
         } catch (SQLException ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -77,11 +91,15 @@ public class Query {
         boolean deleted = false;
         try {
             if (sus != null) {
-                Connect.startConnection();
-                c = Connect.getMyConnection();
-                Statement s = c.createStatement();
+                ResultSet rs2;
+                Statement s2 = connection.createStatement();
+                Statement s = connection.createStatement();
                 s.executeUpdate("Delete from Suspect where CodeSuspect = " + sus.toString());
-                Connect.closeConnection();
+                rs2 = s2.executeQuery("Select * from SUSPECT limit " + currentPosition + ", 10");
+                if (!rs2.next()) {
+                    System.out.println("esta vacio");
+                    currentPosition -= 10;
+                }
             }
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
@@ -101,9 +119,7 @@ public class Query {
             String table, String key) {
         boolean updated = false;
         try {
-            Connect.startConnection();
-            c = Connect.getMyConnection();
-            Statement s = c.createStatement();
+            Statement s = connection.createStatement();
             if (!type.equals("PhoneNumber")) {
                 s.executeUpdate("Update " + table + " set " + type + "='" + value + "' where " + key + "=" + code);
                 updated = true;
@@ -112,7 +128,6 @@ public class Query {
                 updated = true;
             }
             s.close();
-            Connect.closeConnection();
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -125,9 +140,13 @@ public class Query {
     (Los codigos deben de ser los mismos en todos los parametros, asi que lo qu ese debe hacer es usar los setter para cambiar los valores antiguos por los nuevos)
      */
     public static boolean Update(Suspect sus) {
+
+        Images[] susImages = sus.getImages();
+
         boolean updated = false;
         if (sus != null) {
             Suspect preUpdate = Query.findSuspect(sus.getCodeSuspect());
+
             if (!sus.getName().equals(preUpdate.getName())) {
                 updated = updateAttribute("Name", sus.getCodeSuspect().toString(), sus.getName(), "Suspect", "CodeSuspect");
             }
@@ -143,18 +162,16 @@ public class Query {
             if (!sus.getFacts().equals(preUpdate.getFacts())) {
                 updated = updateAttribute("Facts", sus.getCodeSuspect().toString(), sus.getFacts().toString(), "Suspect", "CodeSuspect");
             }
-            if (sus.getSuspect() != null) {
-                for (int i = 0; i < sus.getSuspect().size(); i++) {
-                    if (sus.getSuspect().get(i) != null) {
-                        updated = updateAttribute("CodeSuspect2", sus.getCodeSuspect().toString(), sus.getSuspect().get(i).toString(), "COMPANIONS", "CodeSuspect");
+            if (sus.getCompanions() != null) {
+                for (int i = 0; i < sus.getCompanions().size(); i++) {
+                    if (sus.getCompanions().get(i) != null) {
+                        updated = updateAttribute("CodeSuspect2", sus.getCodeSuspect().toString(), sus.getCompanions().get(i).toString(), "COMPANIONS", "CodeSuspect");
                     }
                 }
             }
             if (sus.getPhone() != null) {
                 try {
-                    Connect.startConnection();
-                    c = Connect.getMyConnection();
-                    Statement s = c.createStatement();
+                    Statement s = connection.createStatement();
                     for (int i = 0; i < sus.getPhone().size(); i++) {
                         if (i < preUpdate.getPhone().size()) {
 
@@ -168,16 +185,13 @@ public class Query {
                     }
                     s.close();
                     rs.close();
-                    Connect.closeConnection();
                 } catch (Exception ex) {
                     Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (sus.getEmail() != null) {
                 try {
-                    Connect.startConnection();
-                    c = Connect.getMyConnection();
-                    Statement s = c.createStatement();
+                    Statement s = connection.createStatement();
                     for (int i = 0; i < sus.getEmail().size(); i++) {
                         if (i < preUpdate.getEmail().size()) {
                             if (sus.getEmail().get(i).getEmail().equals("")) {
@@ -195,16 +209,13 @@ public class Query {
                     }
                     s.close();
                     rs.close();
-                    Connect.closeConnection();
                 } catch (Exception ex) {
                     Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (sus.getAddress() != null) {
                 try {
-                    Connect.startConnection();
-                    c = Connect.getMyConnection();
-                    Statement s = c.createStatement();
+                    Statement s = connection.createStatement();
                     for (int i = 0; i < sus.getAddress().size(); i++) {
                         if (i < preUpdate.getAddress().size()) {
                             if (sus.getAddress().get(i).getAddress().equals("")) {
@@ -222,16 +233,13 @@ public class Query {
                     }
                     s.close();
                     rs.close();
-                    Connect.closeConnection();
                 } catch (Exception ex) {
                     Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (sus.getCar_registration() != null) {
                 try {
-                    Connect.startConnection();
-                    c = Connect.getMyConnection();
-                    Statement s = c.createStatement();
+                    Statement s = connection.createStatement();
                     for (int i = 0; i < sus.getCar_registration().size(); i++) {
                         if (i < preUpdate.getCar_registration().size()) {
                             if (sus.getCar_registration().get(i).getRegistration().equals("")) {
@@ -250,20 +258,36 @@ public class Query {
                     }
                     s.close();
                     rs.close();
-                    Connect.closeConnection();
                 } catch (Exception ex) {
                     Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (sus.getImages() != null) {
-                for (int i = 0; i < sus.getImages().size(); i++) {
-                    if (sus.getImages().get(i) != null) {
-                        if (i < preUpdate.getImages().size()) {
-                            updateImage(preUpdate.getImages().get(i).getCodeImage().toString(), sus.getImages().get(i));
+                Images[] suspectImg = sus.getImages();
+                Images[] suspectImgPreUpdate = preUpdate.getImages();
+
+                for (int i = 0; i < sus.getImages().length; i++) {
+                    if (suspectImg[i] != null) {
+                        if (suspectImgPreUpdate[i] != null) {
+                            if (suspectImgPreUpdate[i].getCodeImage() != null) {
+                                updateImage(suspectImgPreUpdate[i].getCodeImage().toString(), suspectImg[i]);
+                            } else {
+                                ArrayList<Images> img = new ArrayList<>();
+                                img.add(suspectImg[i]);
+                                Query.addImage(preUpdate.getCodeSuspect().toString(), img);
+                            }
                         } else {
                             ArrayList<Images> img = new ArrayList<>();
-                            img.add(sus.getImages().get(i));
+                            img.add(suspectImg[i]);
                             Query.addImage(preUpdate.getCodeSuspect().toString(), img);
+                        }
+                    } else {
+                        if (suspectImgPreUpdate[i] != null) {
+                            if (suspectImgPreUpdate[i].getCodeImage() != null) {
+                                ArrayList<Images> img = new ArrayList<>();
+                                img.add(suspectImg[i]);
+                                Query.updateImage(Integer.toString(suspectImgPreUpdate[i].getCodeImage()), null);
+                            }
                         }
                     }
                 }
@@ -272,38 +296,32 @@ public class Query {
         }
         return updated;
     }
+
     /*
     *Este metodo se encarga de hacer un update a una imagen de la base de datos
     *@param code: Ese el codigo del registro de la imagen que se dsea actualizar
     *@param img: Es la nueva imagen que se desea introducir
-    */
+     */
     private static boolean updateImage(String code, Images img) {
         boolean added = false;
-        String update = "Update Images set ? = ? where CodeImage=" + code;
+        String update = "Update Images set Image = ? where CodeImage=" + code;
         FileInputStream fis = null;
+
         try {
-            Connect.startConnection();
-            c = Connect.getMyConnection();
             PreparedStatement ps = null;
-            if (img.getFile() != null) {
-                fis = new FileInputStream(img.getFile());
-                ps = c.prepareStatement(update);
-                ps.setString(1, "Image");
-                ps.setString(2, "null");
-                ps.execute();
-                ps.setString(1, "Image");
-                ps.setBinaryStream(2, fis, img.getFile().length());
-                ps.execute();
-                ps.setString(1, "Description");
-                ps.setString(2, img.getDescription());
-                ps.execute();
-                c.close();
+            if (img != null) {
+                if (img.getFile() != null) {
+                    fis = new FileInputStream(img.getFile());
+                    ps = connection.prepareStatement(update);
+                    ps.setBinaryStream(1, fis, img.getFile().length());
+                    ps.execute();
+                }
             } else {
-                Statement s = c.createStatement();
+                Statement s = connection.createStatement();
                 s.execute("Delete from IMAGES where CodeImage=" + code.toString());
                 s.close();
-                c.close();
             }
+
             if (ps != null) {
                 ps.close();
             }
@@ -325,9 +343,7 @@ public class Query {
         boolean added = false;
         if (al != null) {
             try {
-                Connect.startConnection();
-                c = Connect.getMyConnection();
-                Statement s = c.createStatement();
+                Statement s = connection.createStatement();
                 FileInputStream fis = null;
                 PreparedStatement ps = null;
                 if (type != null) {
@@ -399,7 +415,6 @@ public class Query {
                 added = true;
                 s.close();
                 rs.close();
-                Connect.closeConnection();
             } catch (SQLException ex) {
                 Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
@@ -408,31 +423,32 @@ public class Query {
         }
         return added;
     }
+
     /*
     *Este metodo introduce las imagenes de un sospechoso en la base de datos
     *@param code: Es el codigo del sospechoso al cual pertenece la imagen 
     *@param al: Es el arraylist de images que pertecen al sospechoso y que se desean añadir
-    */
+     */
     private static boolean addImage(String code, ArrayList<Images> al) {
         boolean added = true;
         String ruta = null;
         FileInputStream fis = null;
         try {
-            Connect.startConnection();
-            c = Connect.getMyConnection();
             PreparedStatement ps = null;
             for (int i = 0; i < al.size(); i++) {
                 try {
-                    if (al.get(i).getFile() != null) {
-                        fis = new FileInputStream(al.get(i).getFile());
-                        String insert = ("insert into Images (Image,Description,CodeSuspect)"
-                                + "values(?,?,?)");
-                        ps = c.prepareStatement(insert);
-                        ps.setBinaryStream(1, fis, (int) al.get(i).getFile().length());
-                        ps.setString(2, al.get(i).getDescription());
-                        Image img;
-                        ps.setString(3, code);
-                        ps.execute();
+                    if (al.get(i) != null) {
+                        if (al.get(i).getFile() != null) {
+                            fis = new FileInputStream(al.get(i).getFile());
+                            String insert = ("insert into Images (Image,Description,CodeSuspect)"
+                                    + "values(?,?,?)");
+                            ps = connection.prepareStatement(insert);
+                            ps.setBinaryStream(1, fis, (int) al.get(i).getFile().length());
+                            ps.setString(2, al.get(i).getDescription());
+                            Image img;
+                            ps.setString(3, code);
+                            ps.execute();
+                        }
                     }
 
                 } catch (SQLException ex) {
@@ -446,7 +462,6 @@ public class Query {
             if (ps != null) {
                 ps.close();
             }
-            c.close();
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -460,9 +475,7 @@ public class Query {
     public static boolean addSuspect(Suspect suspect) {
         boolean correct = false;
         try {
-            Connect.startConnection();
-            c = Connect.getMyConnection();
-            Statement s = c.createStatement();
+            Statement s = connection.createStatement();
             s.executeUpdate("INSERT INTO SUSPECT (name,lastname1, lastname2, Record,Facts) "
                     + "values ('" + suspect.getName() + "','" + suspect.getLastname1() + "','"
                     + suspect.getLastname2() + "','" + suspect.getRecord() + "','" + suspect.getFacts() + "')");
@@ -471,12 +484,11 @@ public class Query {
             correct = Query.<Phone>addAtrivute(last, suspect.getPhone(), "Phone");
             correct = Query.<Email>addAtrivute(last, suspect.getEmail(), "Email");
             correct = Query.<Address>addAtrivute(last, suspect.getAddress(), "Address");
-            correct = Query.<Suspect>addAtrivute(last, suspect.getSuspect(), "Suspect");
+            correct = Query.<Suspect>addAtrivute(last, suspect.getCompanions(), "Suspect");
             correct = Query.<Car_Registration>addAtrivute(last, suspect.getCar_registration(), "Car_Registration");
-            correct = Query.addImage(last, suspect.getImages());
+            correct = Query.addImage(last, new ArrayList<>(Arrays.asList(suspect.getImages())));
             s.close();
             rs.close();
-            Connect.closeConnection();
         } catch (SQLException ex) {
             Logger.getLogger(Query.class.getName() + "--").log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -507,12 +519,10 @@ public class Query {
             Address address;
             ArrayList<Car_Registration> cr = new ArrayList<>();
             Car_Registration cregistration;
-            ArrayList<Images> img = new ArrayList<>();
+            Images[] img = new Images[5];
             Images images;
 
-            Connect.startConnection();
-            c = Connect.getMyConnection();
-            Statement s = c.createStatement();
+            Statement s = connection.createStatement();
             rs = s.executeQuery("Select name,lastname1,lastname2,Record,Facts "
                     + "from Suspect where CodeSuspect=" + code);
             Integer codeSuspect = code;
@@ -555,6 +565,7 @@ public class Query {
             }
             rs = s.executeQuery("Select Image,CodeImage,Description from IMAGES "
                     + "where CodeSuspect=" + code);
+            int i = 0;
             while (rs.next()) {
                 Blob blob = rs.getBlob(1);
                 byte[] data = blob.getBytes(1, (int) blob.length());
@@ -562,11 +573,11 @@ public class Query {
                 image = ImageIO.read(new ByteArrayInputStream(data));
                 ImageIcon imageICON = new ImageIcon(image);
                 images = new Images(rs.getInt(2), rs.getString(3), code, imageICON);
-                img.add(images);
+                img[i] = images;
+                i++;
             }
             s.close();
             rs.close();
-            Connect.closeConnection();
 
             sus = new Suspect(code, name, lastname1, lastname2, as, Record, Facts, ph, em, ad, cr, img);
         } catch (Exception ex) {
@@ -585,28 +596,24 @@ public class Query {
         Suspect[] show = new Suspect[numberOfSuspects];
         try {
             ResultSet rs2;
-            Connect.startConnection();
-            c = Connect.getMyConnection();
-            Statement s = c.createStatement();
-            rs2 = s.executeQuery("Select CodeSuspect from SUSPECT");
-            int j=0;
+            Statement s = connection.createStatement();
+            rs2 = s.executeQuery("Select CodeSuspect from SUSPECT limit " + currentPosition + ", 10");
+            int j = 0;
             if (rs2 != null) {
-                for (int i = 0; i < maxPosition && rs2.next(); i++) {
-                    if(i>=currentPosition){
-                        show[j] = findSuspect(rs2.getInt(1));
-                        j++;
-                    }
+                for (int i = currentPosition; i < maxPosition && rs2.next(); i++) {
+                    show[j] = findSuspect(rs2.getInt(1));
+                    j++;
                 }
             }
             s.close();
             rs2.close();
-            c.close();
-            if(show[0]!=null){
-                lastTen=show;
-            }else{
-                show=lastTen;
-                currentPosition-=10;
+            if (show[0] != null) {
+                lastTen = show;
+            } else {
+                show = lastTen;
+                currentPosition -= 10;
             }
+
         } catch (Exception ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -646,9 +653,7 @@ public class Query {
     public static Images[] showImg(Integer sus) {
         Images[] imgs = new Images[5];
         try {
-            Connect.startConnection();
-            c = Connect.getMyConnection();
-            Statement s = c.createStatement();
+            Statement s = connection.createStatement();
             rs = s.executeQuery("SELECT Image,CodeImage, Description,"
                     + "CodeSuspect FROM IMAGES "
                     + "where CodeSuspect=" + sus.toString());
@@ -658,7 +663,7 @@ public class Query {
                     Blob blob = rs.getBlob("Image");
                     InputStream in = blob.getBinaryStream();
                     BufferedImage image = ImageIO.read(in);
-                    imgs[i]=new Images(image, null);
+                    imgs[i] = new Images((Image) image, null);
                     imgs[i].setCodeImage(rs.getInt(2));
                     imgs[i].setDescription(rs.getString(3));
                     imgs[i].setCodeSuspect(rs.getInt(4));
@@ -666,7 +671,6 @@ public class Query {
             }
             s.close();
             rs.close();
-            Connect.closeConnection();
         } catch (SQLException ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -675,94 +679,152 @@ public class Query {
         return imgs;
     }
 
-    /*
-    Este metodo busca ene la base de datos sospechosos que coincidan con lo que se introduzca en la interfaz
-    *@param sus:Es el sospechoso que guarda los parametros buscados
-    @return coincidenes: Es un ArrayList de sospechosos que coinciden con los buscado
+    /**
+     * En este metodo se realiza una consulta que devuelve el numero de
+     * sospechosos que hacen match por cada campo. Una vez obtenidos estos
+     * sospechosos se continuaria con el metodo checkToAdd
+     *
+     * @param sus Sospechoso a buscar
+     * @return HashMap con Codigo de sospechoso, Campos con los que concuerda.
+     * Ordenado por sospechoso con mayor numero de coincidencias.
      */
-    public static ArrayList<Suspect> search(Suspect sus) {
-        ArrayList<Suspect> coincidences = new ArrayList<>();
-        ArrayList<Suspect> newCoincidences = new ArrayList<>();
+    public static HashMap<Integer, ArrayList<String>> search(Suspect sus) {
+        ArrayList<Suspect> suspectMatched = new ArrayList<>();
         coincidences.clear();
-        newCoincidences.clear();
-        if(!sus.getName().equals("")){
-            coincidences.addAll(Query.searchBy("name", sus.getLastname1()));
+        if (!sus.getLastname1().equals("")) {
+            suspectMatched = Query.searchBy("lastName1", sus.getLastname1());
+            Query.checkToAdd("lastName1", suspectMatched);
         }
-        if(!sus.getLastname1().equals("")){
-            newCoincidences.addAll(Query.searchBy("lastName1", sus.getLastname1()));
-            Query.checkToAdd(coincidences, newCoincidences);
-        }
-        if(!sus.getLastname2().equals("")){
-            newCoincidences = Query.searchBy("lastname2", sus.getLastname2());
-            Query.checkToAdd(coincidences, newCoincidences);
+        if (!sus.getLastname2().equals("")) {
+            suspectMatched = Query.searchBy("lastName2", sus.getLastname2());
+            Query.checkToAdd("lastName2", suspectMatched);
         }
         for (int i = 0; i < sus.getPhone().size(); i++) {
-            if(sus.getPhone().get(i)!=null){
-                if(sus.getPhone().get(i).getPhoneNumber()!=null){
-                    newCoincidences = Query.searchBy("PhoneNumber", sus.getPhone().get(i).getPhoneNumber().toString());
-                    Query.checkToAdd(coincidences, newCoincidences);
+            if (sus.getPhone().get(i) != null) {
+                if (sus.getPhone().get(i).getPhoneNumber() != null) {
+                    suspectMatched = Query.searchBy("PhoneNumber", sus.getPhone().get(i).getPhoneNumber().toString());
+                    Query.checkToAdd("PhoneNumber", suspectMatched);
                 }
             }
         }
         for (int i = 0; i < sus.getEmail().size(); i++) {
-            if(sus.getEmail().get(i)!=null){
-                if(!sus.getEmail().get(i).getEmail().equals("")){
-                    newCoincidences = Query.searchBy("Email", sus.getEmail().get(i).getEmail());
-                    Query.checkToAdd(coincidences, newCoincidences);
+            if (sus.getEmail().get(i) != null) {
+                if (!sus.getEmail().get(i).getEmail().equals("")) {
+                    suspectMatched = Query.searchBy("Email", sus.getEmail().get(i).getEmail());
+                    Query.checkToAdd("lastName2", suspectMatched);
                 }
             }
         }
         for (int i = 0; i < sus.getAddress().size(); i++) {
-            if(sus.getAddress().get(i)!=null){
-                if(!sus.getAddress().get(i).getAddress().equals("")){
-                    newCoincidences = Query.searchBy("Address", sus.getAddress().get(i).getAddress());
-                    Query.checkToAdd(coincidences, newCoincidences);
+            if (sus.getAddress().get(i) != null) {
+                if (!sus.getAddress().get(i).getAddress().equals("")) {
+                    suspectMatched = Query.searchBy("Address", sus.getAddress().get(i).getAddress());
+                    Query.checkToAdd("Address", suspectMatched);
                 }
             }
         }
         for (int i = 0; i < sus.getCar_registration().size(); i++) {
-            if(sus.getCar_registration().get(i)!=null){
-                if(!sus.getCar_registration().get(i).getRegistration().equals("")){
-                    newCoincidences = Query.searchBy("Registration_number", sus.getCar_registration().get(i).getRegistration());
-                    Query.checkToAdd(coincidences, newCoincidences);
+            if (sus.getCar_registration().get(i) != null) {
+                if (!sus.getCar_registration().get(i).getRegistration().equals("")) {
+                    suspectMatched = Query.searchBy("Registration_number", sus.getCar_registration().get(i).getRegistration());
+                    Query.checkToAdd("Registration_number", suspectMatched);
                 }
             }
         }
-        if (sus.getSuspect() != null) {
-            if (!sus.getSuspect().isEmpty()) {
-                for (int i = 0; i < sus.getSuspect().size(); i++) {
-                    if(sus.getSuspect().get(i).getCodeSuspect()!=null){
-                        newCoincidences = Query.searchBy("Companions", sus.getSuspect().get(i).getCodeSuspect().toString());
-                        Query.checkToAdd(coincidences, newCoincidences);
+        if (sus.getCompanions() != null) {
+            if (!sus.getCompanions().isEmpty()) {
+                for (int i = 0; i < sus.getCompanions().size(); i++) {
+                    if (sus.getCompanions().get(i).getCodeSuspect() != null) {
+                        suspectMatched = Query.searchBy("Companions", sus.getCompanions().get(i).getCodeSuspect().toString());
+                        Query.checkToAdd("Companions", suspectMatched);
                     }
                 }
             }
         }
-        return coincidences;
+        return sortByValues(coincidences);
     }
-    /*
-    *Este metodo sera usado en el metodo search para ahorrar codigo,permite comprobar si hay  nuevos valores para añadir 
-    dados dos arraylist
-    *@param coincidences:ES el arraylist en el que ya puede haber coincidencias
-    *@param newCoincidences: Es el arraylist del que se desea saber si contiene valores repetidos para no añadirlos
-    */
-    private static void checkToAdd(ArrayList<Suspect> coincidences,ArrayList<Suspect> newCoincidences){
-        boolean toAdd=true;
-        if (coincidences.size() > 0) {
-                for (int i = 0; i < newCoincidences.size(); i++) {
-                    for (int j = 0; j < coincidences.size(); j++) {
-                        if (newCoincidences.get(i).getCodeSuspect().equals(coincidences.get(j).getCodeSuspect())) {
-                            toAdd=false;
-                        }
-                    }
-                    if(toAdd){
-                        coincidences.add(newCoincidences.get(i));
-                    }
+
+    /**
+     * Metoto que recorre los sospechoso con los que se hizo match el el metodo
+     * search, si estos se encuentran en el HashMap "coincidences" de esta clase
+     * se le añade a su lista de campos matcheados el campo pasado por
+     * parametro.
+     *
+     * @param fieldMatched
+     * @param suspectMatched
+     */
+    private static void checkToAdd(String fieldMatched, ArrayList<Suspect> suspectMatched) {
+        for (Suspect suspect : suspectMatched) {
+            addFieldInCoincidences(fieldMatched, suspect.getCodeSuspect());
+        }
+
+    }
+
+    private static boolean findSuspectInCoincidences(Integer id) {
+        boolean matched = false;
+
+        Iterator<Integer> sIterator = coincidences.keySet().iterator();
+
+        if (!coincidences.isEmpty() && !matched) {
+            while (!sIterator.hasNext()) {
+                Integer tmpSuspect = sIterator.next();
+                if (tmpSuspect == id.intValue()) {
+                    matched = true;
                 }
-            } else {
-                coincidences.addAll(newCoincidences);
             }
+        }
+        return matched;
     }
+
+    /**
+     * Este metodo se encarga de encontrar el sospechoso en el HashMap
+     * "cincidences" de esta clase y si no existe añadirlo. De lo contrario
+     * remplaza sus campos por los que ha sido matcheado y le añade el nuevo.
+     *
+     * @param field Campo nuevo
+     * @param id Identificador del sospechoso
+     */
+    private static void addFieldInCoincidences(String field, Integer id) {
+        ArrayList<String> oldArrayList = coincidences.get(id);
+
+        if (oldArrayList != null) {
+            oldArrayList.add(field);
+            coincidences.replace(id, oldArrayList);
+        } else {
+            ArrayList<String> fields = new ArrayList<>();
+            fields.add(field);
+            coincidences.put(id, fields);
+        }
+    }
+
+    private static HashMap<Integer, ArrayList<String>> sortByValues(HashMap<Integer, ArrayList<String>> map) {
+
+        Map<Integer, Integer> sortableMap = new HashMap<>();
+        for (Map.Entry<Integer, ArrayList<String>> entry : coincidences.entrySet()) {
+            sortableMap.put(entry.getKey(), entry.getValue().size());
+        }
+
+        List list = new LinkedList(sortableMap.entrySet());
+        // Defined Custom Comparator here
+        Collections.sort(list, new Comparator() {
+            public int compare(Object o1, Object o2) {
+                return ((Comparable) ((Map.Entry) (o2)).getValue())
+                        .compareTo(((Map.Entry) (o1)).getValue());
+            }
+        });
+
+        // Here I am copying the sorted list in HashMap
+        // using LinkedHashMap to preserve the insertion order
+        HashMap sortedHashMap = new LinkedHashMap();
+        for (Iterator it = list.iterator(); it.hasNext();) {
+            Map.Entry entry = (Map.Entry) it.next();
+            sortedHashMap.put(entry.getKey(), map.get(entry.getKey()));
+        }
+
+        return sortedHashMap;
+    }
+
+
     /*
     *Este metode permite realizar una consulta en la base de datos buscando con por un valor dado de un paramatro concreto
     *@param key: Es tipo de campo por el cual se esta buscando (name,lastname1,lastname2,Phonenumber,Email,Registration_number,
@@ -772,24 +834,22 @@ public class Query {
      */
     public static ArrayList<Suspect> searchBy(String key, String value) {
         ArrayList<Suspect> sus = new ArrayList<>();
-        ResultSet rs2=null;
+        ResultSet rs2 = null;
         try {
             if (!value.equals("") || value != null) {
-                Connect.startConnection();
-                c = Connect.getMyConnection();
-                Statement s = c.createStatement();
+                Statement s = connection.createStatement();
                 switch (key) {
                     case "name":
-                    case "lastname1":
-                    case "lastname2":
-                        rs2= s.executeQuery("Select CodeSuspect from Suspect "
+                    case "lastName1":
+                    case "lastName2":
+                        rs2 = s.executeQuery("Select CodeSuspect from Suspect "
                                 + "where " + key + "='" + value + "'");
-                        
+
                         while (rs2.next()) {
-                            sus.add(Query.findSuspect(rs2.getInt(1)));//lo cierra
+                            sus.add(Query.findSuspect(rs2.getInt(1)));
                         }
                         break;
-                    case "PhoneNumber": 
+                    case "PhoneNumber":
                         rs2 = s.executeQuery("Select CodeSuspect from PHONE "
                                 + "where " + key + "='" + value + "'");
                         while (rs2.next()) {
@@ -814,8 +874,8 @@ public class Query {
                     case "Address":
                         rs2 = s.executeQuery("Select CodeSuspect from ADDRESS "
                                 + "where " + key + "='" + value + "'");
-                        if(rs2!=null){
-                            if(!rs2.isClosed()){
+                        if (rs2 != null) {
+                            if (!rs2.isClosed()) {
                                 while (rs2.next()) {
                                     sus.add(Query.findSuspect(rs2.getInt(1)));
                                 }
@@ -831,10 +891,9 @@ public class Query {
                         break;
                 }
                 s.close();
-                if(rs2!=null){
+                if (rs2 != null) {
                     rs2.close();
                 }
-                Connect.closeConnection();
             }
         } catch (SQLException ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
@@ -843,11 +902,12 @@ public class Query {
         }
         return sus;
     }
+
     /*
     *Este metoso busca las coincidnecias que tiene un sospechoso con otros en la base de datos al ser introducido
     *@param sus: Es el sospechoso del cual se desea conocer las coincidencias
-    */
-    public static HashMap<Suspect, ArrayList<String>> findCoincidences(Suspect sus){
+     */
+    public static HashMap<Suspect, ArrayList<String>> findCoincidences(Suspect sus) {
         HashMap<Suspect, ArrayList<String>> coincidences = new HashMap<>();
         ArrayList<Suspect> suspects = new ArrayList<>();
         ArrayList<String> atributtes = new ArrayList<>();
@@ -917,8 +977,8 @@ public class Query {
                 }
             }
         }
-        for (int i = 0; i < sus.getSuspect().size(); i++) {
-            ArrayList<Suspect> com = Query.searchBy("Companions", sus.getSuspect().get(i).getCodeSuspect().toString());
+        for (int i = 0; i < sus.getCompanions().size(); i++) {
+            ArrayList<Suspect> com = Query.searchBy("Companions", sus.getCompanions().get(i).getCodeSuspect().toString());
             Query.add(com, suspects);
             for (int j = 0; j < suspects.size(); j++) {
                 if (coincidences.containsKey(suspects.get(j))) {
@@ -931,17 +991,18 @@ public class Query {
         }
         return coincidences;
     }
+
     /*
     *Este metodo sirve para añadir a un arrylist de sospechosos los sospechosos de otro arraylist,
     asegurnadose de que no hay sospechosos repetidos
     *@param toCheck: Es el arraylist de sospechosos del cual se desean añadir los valores
     *@param saved: Es el arraylist de sospechosos al que se desean añadir los nuevos valores
-    */
+     */
     private static void add(ArrayList<Suspect> toCheck, ArrayList<Suspect> saved) {
         Boolean added = false;
         for (int i = 0; i < toCheck.size(); i++) {
             for (int j = 0; j < saved.size() && !added; j++) {
-                if (toCheck.get(i).getCodeSuspect()==saved.get(j).getCodeSuspect()) {
+                if (toCheck.get(i).getCodeSuspect() == saved.get(j).getCodeSuspect()) {
                     added = true;
                 }
             }
