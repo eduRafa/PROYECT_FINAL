@@ -147,4 +147,44 @@ public class Suspect {
         this.carRegistrations = carRegistrations;
     }
 
+    public boolean isEmpty() {
+        boolean empty = true;
+
+        if (empty && name != null) {
+            empty = false;
+        }
+        if (empty && lastname1 != null) {
+            empty = false;
+        }
+        if (empty && lastname2 != null) {
+            empty = false;
+        }
+        if (empty && record != null) {
+            empty = false;
+        }
+        if (empty && facts != null) {
+            empty = false;
+        }
+        if (empty && phones != null) {
+            empty = false;
+        }
+        if (empty && emails != null) {
+            empty = false;
+        }
+        if (empty && addresses != null) {
+            empty = false;
+        }
+        if (empty && carRegistrations != null) {
+            empty = false;
+        }
+        if (empty && images != null) {
+            empty = false;
+        }
+        if (empty && companions != null) {
+            empty = false;
+        }
+
+        return empty;
+    }
+
 }

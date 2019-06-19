@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package view.Dialogs;
 
 import view.imageManagers.ImageManager;
 import java.awt.Image;
@@ -12,9 +12,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import view.PrintComponents;
 
 /**
  *
@@ -50,7 +50,8 @@ public class DialogFileChooser extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(UI.getSecundaryColor()));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(PrintComponents.getSecundaryColor()
+        ));
 
         jFileChooser1.setCurrentDirectory(new java.io.File("C:\\Users\\rafa0\\Downloads"));
         jFileChooser1.setFileSelectionMode(javax.swing.JFileChooser.FILES_AND_DIRECTORIES);

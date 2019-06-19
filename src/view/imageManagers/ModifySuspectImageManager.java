@@ -5,8 +5,9 @@
  */
 package view.imageManagers;
 
+import controller.Controller;
 import model.Images;
-import model.Suspect;
+import view.PrintComponents;
 import view.UI;
 
 /**
@@ -15,21 +16,27 @@ import view.UI;
  */
 public class ModifySuspectImageManager extends ImageManager {
 
-    Suspect oldSuspectBeenModified;
+    private Images[] preModifiedSuspectImages;
 
     public ModifySuspectImageManager(UI parent, boolean modal) {
         super(parent, modal);
     }
 
-    public void setImages(Suspect newSuspectBeenModified, Images[] suspectImages) {
-        if (oldSuspectBeenModified != null) {
-            if (newSuspectBeenModified.getCodeSuspect().intValue() != newSuspectBeenModified
-                    .getCodeSuspect().intValue()) {
-                setImageManager(suspectImages);
-            }
-        } else {
-            setImageManager(suspectImages);
-        }
-        oldSuspectBeenModified = newSuspectBeenModified;
+    public void setImages(Integer codeNewSuspectBeenModified) {
+        setImageManager(Controller.getInstance().getPhotos(codeNewSuspectBeenModified));
+    }
+
+    @Override
+    public void setLabels() {
+        safeDesc();
+        suspectImages = preModifiedSuspectImages;
+        parent.jLabel51.setText(getInsertedPhotos() + " / "
+                + NPHOTOS);
+    }
+
+    @Override
+    protected void resetLabels() {
+        parent.jLabel51.setText(getInsertedPhotos() + " / "
+                + NPHOTOS);
     }
 }

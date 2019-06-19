@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package view.Tables;
 
 import controller.Controller;
 import java.awt.Component;
@@ -21,51 +21,94 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import javax.swing.ImageIcon;
+import view.UI;
+import view.UiUtils;
 
 /**
- *
  * @author rafa0
  */
-public class CreateAndFillTables {
+public final class CreateAndFillMainTable {
 
     private static HashMap<Integer, Integer> mySuspects = new HashMap<>();
+    private static Integer lastCodeOfSuspectClicked;
+    private static final int PROFILE_COLUMN = 10;
+    private static final int TRASH_COLUMN = 11;
+    private static final int SEARCH_COLUMN = 12;
+    private static JButton profileButton;
+    private static JButton trashButton;
+    private static JButton searchSuspectButton;
 
-    public static void setMainTable(JTable tblMain) {
-        DefaultTableModel modelo = (DefaultTableModel) tblMain.getModel();
+    private static void setButtons() {
         Image profile = Toolkit.getDefaultToolkit().getImage(ClassLoader.
                 getSystemResource("view/images/icons8-usuario-de-genero-neutro-20.png"));
         Image trash = Toolkit.getDefaultToolkit().getImage(ClassLoader.
                 getSystemResource("view/images/icons8-papelera-vacia-20.png"));
+        Image search = Toolkit.getDefaultToolkit().getImage(ClassLoader.
+                getSystemResource("view/images/icons8-busqueda-20.png"));
 
-        JButton profileButton = new JButton(new ImageIcon(profile));
-        JButton trashButton = new JButton(new ImageIcon(trash));
+        profileButton = new JButton(new ImageIcon(profile));
+        trashButton = new JButton(new ImageIcon(trash));
+        searchSuspectButton = new JButton(new ImageIcon(search));
 
         profileButton.setBorderPainted(false);
         profileButton.setContentAreaFilled(false);
         trashButton.setContentAreaFilled(false);
         trashButton.setBorderPainted(false);
+        searchSuspectButton.setBorderPainted(false);
+        searchSuspectButton.setContentAreaFilled(false);
+
+        profileButton.setActionCommand("profileOfMainSuspect");
+        profileButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Controller.getInstance().actionPerformed(evt);
+            }
+        });
+
+        trashButton.setActionCommand("remove");
+        trashButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Controller.getInstance().actionPerformed(evt);
+            }
+        });
+
+        searchSuspectButton.setActionCommand("searchSpecificSuspect");
+        searchSuspectButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Controller.getInstance().actionPerformed(evt);
+            }
+        });
+    }
+
+    public static void setMainTable(JTable tblMain) {
+        DefaultTableModel modelo = (DefaultTableModel) tblMain.getModel();
+        setButtons();
 
         Object[][] registros = new Object[modelo.getRowCount()][modelo.getColumnCount()];
 
         String[] head = {"Nombre", "Apellido 1", "Apellido 2", "Sospechosos",
             "Antecedentes", "Hechos", "Telefono", "E-mail", "Direcciones", "Matriculas",
-            "Perfil", "Eliminar"
+            "Perfil", "Eliminar", "Buscar"
         };
 
         for (int i = 0; i < registros.length; i++) {
-            for (int j = 0; j < registros[i].length - 2; j++) {
+            for (int j = 0; j < registros[i].length - 3; j++) {
                 registros[i][j] = "";
             }
 
-            registros[i][registros[i].length - 2] = profileButton;
-            registros[i][registros[i].length - 1] = trashButton;
+            registros[i][registros[i].length - 3] = profileButton;
+            registros[i][registros[i].length - 2] = trashButton;
+            registros[i][registros[i].length - 1] = searchSuspectButton;
         }
 
         final Class[] tiposColumnas = new Class[modelo.getColumnCount()];
-        for (int i = 0; i < tiposColumnas.length - 2; i++) {
+        for (int i = 0; i < tiposColumnas.length - 3; i++) {
             tiposColumnas[i] = java.lang.String.class;
         }
 
+        tiposColumnas[tiposColumnas.length - 3] = JButton.class;
         tiposColumnas[tiposColumnas.length - 2] = JButton.class;
         tiposColumnas[tiposColumnas.length - 1] = JButton.class;
 
@@ -92,7 +135,7 @@ public class CreateAndFillTables {
         //En esta parte cambiamos de tamaño las columnas menos las dos últimas
         tblMain.setModel(model);
         TableColumnModel defModel = tblMain.getColumnModel();
-        for (int i = 0; i < defModel.getColumnCount() - 2; i++) {
+        for (int i = 0; i < defModel.getColumnCount() - 3; i++) {
             defModel.getColumn(i).setMinWidth(150);
 
         }
@@ -116,8 +159,7 @@ public class CreateAndFillTables {
         tblMain.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int fila = tblMain.rowAtPoint(e.getPoint());
-                int columna = tblMain.columnAtPoint(e.getPoint());
+                lastCodeOfSuspectClicked = getValue(tblMain.getSelectedRow() + 1);
 
                 /**
                  * Preguntamos si hicimos clic sobre la celda que contiene el
@@ -125,22 +167,18 @@ public class CreateAndFillTables {
                  * además preguntar por el contenido del botón o el nombre de la
                  * columna
                  */
-                if (columna == 11) {
-                    Controller.deleteSuspect(getValue(tblMain.getSelectedRow() + 1));
-                    fillMainTable(null);
-
-                } else if (columna == 10) {
-                    if (getValue(tblMain.getSelectedRow() + 1) != null) {
-                        Suspect suspectToUpdate = Controller.getInstance().findSuspect(getValue(tblMain.getSelectedRow() + 1));
-
-                        if (suspectToUpdate != null) {
-                            UI myUI = UI.getInstance();
-                            myUI.setSuspectBeenModified(suspectToUpdate);
-                            myUI.setModifySuspectFields(suspectToUpdate);
-                            myUI.hideLayouts();
-                            myUI.showSuspectLayouts();
-                            myUI.hiddePnlSearch();
-                        }
+                if (lastCodeOfSuspectClicked != null) {
+                    int columna = tblMain.columnAtPoint(e.getPoint());
+                    switch (columna) {
+                        case PROFILE_COLUMN:
+                            profileButton.doClick();
+                            break;
+                        case TRASH_COLUMN:
+                            trashButton.doClick();
+                            break;
+                        case SEARCH_COLUMN:
+                            searchSuspectButton.doClick();
+                            break;
                     }
                 }
             }
@@ -148,10 +186,14 @@ public class CreateAndFillTables {
 
     }
 
+    public static Integer getLastCodeOfSuspectClicked() {
+        return lastCodeOfSuspectClicked;
+    }
+
     /**
-     * Metodo que rellena la tabla principal con los datos de los sospechosos,
-     * y modifica los valores de Hashmap de esta clase cambiar el valor del
-     * mismo a el codigo de los sospechosos.
+     * Metodo que rellena la tabla principal con los datos de los sospechosos, y
+     * modifica los valores de Hashmap de esta clase cambiar el valor del mismo
+     * a el codigo de los sospechosos.
      */
     public static void fillMainTable(Suspect[] s) {
         removeMainDataTable();
@@ -159,7 +201,7 @@ public class CreateAndFillTables {
         if (s == null) {
             s = Controller.getInstance().getSuspects();
         }
-        
+
         setHashMap(s);
         JTable tblMain = UI.getMainTable();
 
@@ -167,9 +209,9 @@ public class CreateAndFillTables {
         int col = myModel.getColumnCount();
         int row = myModel.getRowCount();
         int k = 0;
-        boolean lastOne=false;
+        boolean lastOne = false;
 
-        for (int i = 0; i < col - 2 &&!lastOne; i++) {
+        for (int i = 0; i < col - 3 && !lastOne; i++) {
             for (int j = 0; j < row && !lastOne; j++) {
                 if (s[i] != null) {
                     switch (k) {
@@ -190,22 +232,30 @@ public class CreateAndFillTables {
                                 if (!s[i].getCompanions().isEmpty()) {
                                     myModel.setValueAt(s[i].getCompanions(), i, j);
                                 } else {
-                                    myModel.setValueAt(" ", i, j);
+                                    myModel.setValueAt("", i, j);
                                 }
                             } else {
-                                myModel.setValueAt(" ", i, j);
+                                myModel.setValueAt("", i, j);
                             }
                             ;
                             break;
                         case 4:
-                            if (!s[i].getRecord().isEmpty()) {
-                                myModel.setValueAt(s[i].getRecord(), i, j);
+                            if (s[i].getRecord() != null) {
+                                if (!s[i].getRecord().isEmpty()) {
+                                    myModel.setValueAt(s[i].getRecord(), i, j);
+                                }
+                            } else {
+                                myModel.setValueAt("", i, j);
                             }
                             ;
                             break;
                         case 5:
-                            if (!s[i].getFacts().isEmpty()) {
-                                myModel.setValueAt(s[i].getFacts(), i, j);
+                            if (s[i].getFacts() != null) {
+                                if (!s[i].getFacts().isEmpty()) {
+                                    myModel.setValueAt(s[i].getFacts(), i, j);
+                                }
+                            } else {
+                                myModel.setValueAt("", i, j);
                             }
                             ;
                             break;
@@ -219,7 +269,7 @@ public class CreateAndFillTables {
                                     }
                                 }
                             } else {
-                                myModel.setValueAt(" ", i, j);
+                                myModel.setValueAt("", i, j);
                             }
                             ;
                             break;
@@ -231,6 +281,8 @@ public class CreateAndFillTables {
                                     } else {
                                         myModel.setValueAt("Ver en Perfil", i, j);
                                     }
+                                } else {
+                                    myModel.setValueAt("", i, j);
                                 }
                             }
                             ;
@@ -244,6 +296,8 @@ public class CreateAndFillTables {
                                         myModel.setValueAt("Ver en Perfil", i, j);
                                     }
                                 }
+                            } else {
+                                myModel.setValueAt("", i, j);
                             }
                             ;
                             break;
@@ -260,8 +314,8 @@ public class CreateAndFillTables {
                             ;
                             break;
                     }
-                }else{
-                    lastOne=true;
+                } else {
+                    lastOne = true;
                 }
                 k++;
             }
@@ -279,7 +333,7 @@ public class CreateAndFillTables {
         int col = myModel.getColumnCount();
         int row = myModel.getRowCount();
 
-        for (int i = 0; i < col - 2; i++) {
+        for (int i = 0; i < col - 3; i++) {
             for (int j = 0; j < row; j++) {
                 myModel.setValueAt(" ", i, j);
             }
@@ -289,32 +343,33 @@ public class CreateAndFillTables {
     /**
      * Metodo encargado de relacionar posicion de la fila de la tabla con el id
      * al que pertenece
-     * @param mySuspects Array de sospechosos a relacionar 
+     *
+     * @param mySuspects Array de sospechosos a relacionar
      */
     private static void setHashMap(Suspect[] mySuspects) {
+        CreateAndFillMainTable.mySuspects.clear();
+
         for (int i = 0; i < mySuspects.length; i++) {
             if (mySuspects[i] != null) {
-                CreateAndFillTables.mySuspects.put(i + 1, mySuspects[i].getCodeSuspect());
+                CreateAndFillMainTable.mySuspects.put(i + 1, mySuspects[i].getCodeSuspect());
             } else {
-                CreateAndFillTables.mySuspects.put(i + 1, null);
+                CreateAndFillMainTable.mySuspects.put(i + 1, null);
 
             }
         }
     }
 
-    
     /**
-     * 
-     * @param key fila de la tabla que ha sido pulsada
-     * @return  Clave que representa al codigo del sospechoso
+     * @param row fila de la tabla que ha sido clicada
+     * @return Clave que representa al codigo del sospechoso
      */
-    private static Integer getValue(Integer key) {
+    private static Integer getValue(Integer row) {
         Iterator<Entry<Integer, Integer>> it = mySuspects.entrySet().iterator();
         Integer value = null;
 
         while (it.hasNext()) {
             Entry<Integer, Integer> e = it.next();
-            if (e.getKey() == key) {
+            if (e.getKey().intValue() == row.intValue()) {
                 value = e.getValue();
             }
         }

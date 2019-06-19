@@ -23,6 +23,7 @@ public class UiUtils {
     /**
      * Metodo el cual Obtiene toda la rama de componentes hijos del contenedor
      * pasado por referencia.
+     *
      * @param c Contenedor a buscar sus componentes
      * @return Decuelve un ArrayList de Componentes.
      */
@@ -38,70 +39,42 @@ public class UiUtils {
         return compList;
     }
 
-    public static ArrayList<Phone> transformStringToArrayListPhone(String allTheValues, Integer suspetCode) throws Exception {
-        String[] eachValue = allTheValues.split("\\n");
-        ArrayList<Phone> myPhones = new ArrayList<>();
+    public static <T> ArrayList<T> transformStringToArrayList(String allTheValues, Integer suspetCode, String field) throws Exception {
+        ArrayList<T> x = null;
 
-        if (eachValue.length > 0) {
+        if (allTheValues != null) {
+            x = new ArrayList<>();
+            String[] eachValue = allTheValues.split("\\n");
+
             for (String string : eachValue) {
                 if (string != null) {
                     if (string.length() > 0) {
-                        if (string.matches("\\d*")) {
-                            myPhones.add(new Phone(Integer.valueOf(string), suspetCode));
-                        } else {
-                            throw new Exception("Telefono no valido");
+                        if (field != null) {
+                            switch (field) {
+                                case "Phone":
+                                    try {
+                                        x.add((T) new Phone(Integer.valueOf(string.trim()), suspetCode));
+                                    } catch (NumberFormatException nfe) {
+                                        throw new Exception("Introduzca un numero válido");
+                                    }
+                                    break;
+                                case "Email":
+                                    x.add((T) new Email(string.trim(), suspetCode));
+                                    break;
+                                case "Address":
+                                    x.add((T) new Address(string.trim(), suspetCode));
+                                    break;
+                                case "Car_Registration":
+                                    x.add((T) new Car_Registration(string.trim(), suspetCode));
+                                    break;
+                            }
                         }
                     }
                 }
             }
         }
 
-        return myPhones;
-    }
-
-    public static ArrayList<Email> transformStringToArrayListEmail(String allTheValues, Integer suspetCode) {
-        String[] eachValue = allTheValues.split("\\n");
-        ArrayList<Email> myEmails = new ArrayList<>();
-
-        if (eachValue.length > 0) {
-            for (String string : eachValue) {
-                if (string != null) {
-                    myEmails.add(new Email(string, suspetCode));
-                }
-            }
-        }
-
-        return myEmails;
-    }
-
-    public static ArrayList<Address> transformStringToArrayListAddress(String allTheValues, Integer suspetCode) {
-        String[] eachValue = allTheValues.split("\\n");
-        ArrayList<Address> myAddresses = new ArrayList<>();
-
-        if (eachValue.length > 0) {
-            for (String string : eachValue) {
-                if (string != null) {
-                    myAddresses.add(new Address(string, suspetCode));
-                }
-            }
-        }
-
-        return myAddresses;
-    }
-
-    public static ArrayList<Car_Registration> transformStringToArrayListCar_Registration(String allTheValues, Integer suspetCode) {
-        String[] eachValue = allTheValues.split("\\n");
-        ArrayList<Car_Registration> myAddresses = new ArrayList<>();
-
-        if (eachValue.length > 0) {
-            for (String string : eachValue) {
-                if (string != null) {
-                    myAddresses.add(new Car_Registration(string, suspetCode));
-                }
-            }
-        }
-
-        return myAddresses;
+        return x;
     }
 
     public static String transformArrayListPhoneToString(ArrayList<Phone> multipleText) {
@@ -187,12 +160,13 @@ public class UiUtils {
     }
 
     public static String rgbFormatted(Color rgb) {
-        StringBuilder stringRGB = new StringBuilder();
-
-        stringRGB.append(rgb.getRed() + "," + rgb.getGreen() + "," + rgb.getBlue());
+        StringBuilder stringRGB = null;
+        if (rgb != null) {
+            stringRGB = new StringBuilder();
+            stringRGB.append(rgb.getRed() + "," + rgb.getGreen() + "," + rgb.getBlue());
+        }
 
         return stringRGB.toString();
 
     }
-
 }

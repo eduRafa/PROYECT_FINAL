@@ -16,4 +16,17 @@ public class AddSuspectImageManager extends ImageManager {
     public AddSuspectImageManager(UI parent, boolean modal) {
         super(parent, modal);
     }
+
+    @Override
+    public void setLabels() {
+        safeDesc();
+        parent.jLabel30.setText(getInsertedPhotos() + " / "
+                + NPHOTOS);
+    }
+
+    @Override
+    protected void resetLabels() {
+        parent.jLabel30.setText(getInsertedPhotos() + " / "
+                + NPHOTOS);
+    }
 }

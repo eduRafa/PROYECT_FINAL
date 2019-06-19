@@ -8,37 +8,44 @@ package view.imageManagers;
 import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Robot;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import model.Images;
-import view.DialogFileChooser;
+import view.Dialogs.DialogFileChooser;
+import view.PrintComponents;
 import view.UI;
+import view.UiUtils;
 
 /**
  *
  * @author rafa0
  */
-public class ImageManager extends javax.swing.JDialog {
+public abstract class ImageManager extends javax.swing.JDialog {
 
-    private UI parent;
+    protected UI parent;
     private int xMousePosition;
     private int yMousePosition;
     private int insertedPhotos = 0;
     public static final int NPHOTOS = 5;
     protected static int selectedPhoto = 1;
-    public static String imageDefPath = "view/images/icons8-añadir-imagen-100.png";
-    protected static Image myImage = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource(imageDefPath));
-    private static ImageIcon myIcon = new ImageIcon(myImage);
+    private static String imageDefPath;
+    protected static Image myImage;
+    private static ImageIcon myIcon;
     protected Images[] suspectImages;
 
-    public ImageManager(UI parent, boolean modal) {
+    protected ImageManager(UI parent, boolean modal) {
         super(parent, modal);
         this.parent = parent;
         suspectImages = new Images[NPHOTOS];
+        imageDefPath = "view/images/photo-camera (1).png";
+        myImage = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource(imageDefPath));
+        myIcon = new ImageIcon(myImage);
         initComponents();
         resetImageManager();
-        setLocationRelativeTo(parent);
+        setLocationRelativeTo(null);
         setSize(parent.getWidth(), parent.getHeight());
+        hiddeSafePanel();
     }
 
     /**
@@ -60,7 +67,7 @@ public class ImageManager extends javax.swing.JDialog {
             if (image == null) {
                 image = new Images(myImage, imageDefPath);
             } else {
-                if (image.getImage() != null) {
+                if (image.getImageIcon() != null) {
                     insertedPhotos++;
                 }
             }
@@ -79,13 +86,7 @@ public class ImageManager extends javax.swing.JDialog {
         }
         refreshSelectedImage();
         putPhoto();
-        if (this instanceof AddSuspectImageManager) {
-            parent.jLabel30.setText(getInsertedPhotos() + " / "
-                    + NPHOTOS);
-        } else {
-            parent.jLabel51.setText(getInsertedPhotos() + " / "
-                    + NPHOTOS);
-        }
+        resetLabels();
     }
 
     public void refreshSelectedImage() {
@@ -102,13 +103,15 @@ public class ImageManager extends javax.swing.JDialog {
         }
     }
 
-    private void saveDesc() {
-        if (suspectImages[selectedPhoto - 1] != null) {
-            suspectImages[selectedPhoto - 1].setDescription(jTextArea1.getText());
+    public void safeDesc() {
+        if (suspectImages != null) {
+            if (suspectImages[selectedPhoto - 1] != null) {
+                suspectImages[selectedPhoto - 1].setDescription(jTextArea1.getText());
+            }
         }
     }
 
-    private int getInsertedPhotos() {
+    protected int getInsertedPhotos() {
         return insertedPhotos;
     }
 
@@ -131,6 +134,12 @@ public class ImageManager extends javax.swing.JDialog {
         return suspectWellImages;
     }
 
+    private void hiddeSafePanel() {
+        jPanel3.setVisible(false);
+        jPanel2.setVisible(true);
+        jPanel1.setVisible(true);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -140,13 +149,18 @@ public class ImageManager extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel3 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        btnRemoveImage = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -169,8 +183,85 @@ public class ImageManager extends javax.swing.JDialog {
             }
         });
 
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(PrintComponents.getPrimaryColor()
+        ));
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setText("¿Desea guardar sus imágenes?");
+
+        jButton4.setBackground(PrintComponents.getPrimaryColor());
+        jButton4.setForeground(PrintComponents.getSecundaryColor());
+        jButton4.setText("Guardar");
+        jButton4.setBorder(javax.swing.BorderFactory.createLineBorder(PrintComponents.getSecundaryColor()));
+        jButton4.setFocusable(false);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setBackground(PrintComponents.getPrimaryColor()   );
+        jButton5.setForeground(PrintComponents.getSecundaryColor());
+        jButton5.setText("No guardar");
+        jButton5.setBorder(javax.swing.BorderFactory.createLineBorder(PrintComponents.getSecundaryColor()));
+        jButton5.setFocusable(false);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setBackground(PrintComponents.getPrimaryColor());
+        jButton6.setForeground(PrintComponents.getSecundaryColor());
+        jButton6.setText("Continuar modificándolas");
+        jButton6.setBorder(javax.swing.BorderFactory.createLineBorder(PrintComponents.getSecundaryColor()));
+        jButton6.setFocusable(false);
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(269, 269, 269)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(142, 142, 142)
+                        .addComponent(jLabel5)))
+                .addGap(272, 272, 272))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(218, 218, 218)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(220, 220, 220))
+        );
+
+        jLabel5.getAccessibleContext().setAccessibleName("");
+        jButton4.getAccessibleContext().setAccessibleName("1$0$0");
+        jButton5.getAccessibleContext().setAccessibleName("1$0$0");
+        jButton6.getAccessibleContext().setAccessibleName("1$0$0");
+
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(UI.getPrimaryColor()));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(PrintComponents.getPrimaryColor()
+        ));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -198,14 +289,12 @@ public class ImageManager extends javax.swing.JDialog {
         );
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-añadir-imagen-100.png"))); // NOI18N
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel1MouseClicked(evt);
             }
         });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-chevron-derecha-en-círculo-40.png"))); // NOI18N
         jButton1.setBorderPainted(false);
         jButton1.setContentAreaFilled(false);
         jButton1.setFocusable(false);
@@ -215,7 +304,6 @@ public class ImageManager extends javax.swing.JDialog {
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-chevron-izquierda-en-círculo-40.png"))); // NOI18N
         jButton2.setBorderPainted(false);
         jButton2.setContentAreaFilled(false);
         jButton2.setFocusable(false);
@@ -225,27 +313,32 @@ public class ImageManager extends javax.swing.JDialog {
             }
         });
 
-        jButton6.setBackground(UI.getPrimaryColor());
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Borrar imagen");
-        jButton6.setBorder(javax.swing.BorderFactory.createLineBorder(UI.getSecundaryColor()));
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        btnRemoveImage.setBackground(PrintComponents.getPrimaryColor()
+        );
+        btnRemoveImage.setForeground(new java.awt.Color(255, 255, 255));
+        btnRemoveImage.setText("Borrar imagen");
+        btnRemoveImage.setBorder(javax.swing.BorderFactory.createLineBorder(PrintComponents.getSecundaryColor()
+        ));
+        btnRemoveImage.setFocusable(false);
+        btnRemoveImage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                btnRemoveImageActionPerformed(evt);
             }
         });
 
-        jSeparator1.setForeground(UI.getPrimaryColor());
+        jSeparator1.setForeground(PrintComponents.getPrimaryColor()
+        );
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(UI.getPrimaryColor()));
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(PrintComponents.getPrimaryColor()
+        ));
 
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jTextArea1.setRows(5);
         jTextArea1.setBorder(null);
         jScrollPane1.setViewportView(jTextArea1);
-        jTextArea1.getAccessibleContext().setAccessibleName("");
+        jTextArea1.getAccessibleContext().setAccessibleName("$");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -255,14 +348,17 @@ public class ImageManager extends javax.swing.JDialog {
         jLabel2.setText("Introduzca si lo desea una descripción de su imagen.");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setForeground(UI.getPrimaryColor());
+        jLabel3.setForeground(PrintComponents.getPrimaryColor()
+        );
         jLabel3.setText("Foto");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setForeground(UI.getPrimaryColor());
+        jLabel4.setForeground(PrintComponents.getPrimaryColor()
+        );
         jLabel4.setText(selectedPhoto+ " / "+ NPHOTOS);
 
-        jSeparator2.setForeground(UI.getPrimaryColor());
+        jSeparator2.setForeground(PrintComponents.getPrimaryColor()
+        );
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -273,7 +369,7 @@ public class ImageManager extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(454, 454, 454)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnRemoveImage, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -332,12 +428,32 @@ public class ImageManager extends javax.swing.JDialog {
                                     .addGap(130, 130, 130)
                                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(26, 26, 26)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnRemoveImage, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE))))
         );
 
+        jButton1.getAccessibleContext().setAccessibleName("$$$");
+        jButton1.getAccessibleContext().setAccessibleDescription("icons8-chevron-derecha-en-circulo-40-$"+UiUtils.rgbFormatted(PrintComponents.getPrimaryColor())+"$.png");
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-chevron-derecha-en-circulo-40-$"+UiUtils.rgbFormatted(PrintComponents.getPrimaryColor())+"$.png"))); // NOI18N
+        jButton2.getAccessibleContext().setAccessibleName("$$$");
+        jButton2.getAccessibleContext().setAccessibleDescription("icons8-chevron-izquierda-en-circulo-40-$"+UiUtils.rgbFormatted(PrintComponents.getPrimaryColor())+"$.png");
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-chevron-izquierda-en-circulo-40-$"+UiUtils.rgbFormatted(PrintComponents.getPrimaryColor())+"$.png"))); // NOI18N
+        btnRemoveImage.getAccessibleContext().setAccessibleName("1$0$0");
+        btnRemoveImage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
+        // Code adding the component to the parent container - not shown here
+        btnRemoveImage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.EnteredExited.mouseComponentEffect(evt);
+            }
+        });
         jSeparator1.getAccessibleContext().setAccessibleName("$");
+        jLabel3.getAccessibleContext().setAccessibleName("-$-$1");
+        jLabel4.getAccessibleContext().setAccessibleName("-$-$1");
         jSeparator2.getAccessibleContext().setAccessibleName("$");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -345,25 +461,31 @@ public class ImageManager extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel3.getAccessibleContext().setAccessibleName("0$1$-");
+        jPanel1.getAccessibleContext().setAccessibleName("0$1$-");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        saveDesc();
-        if (this instanceof AddSuspectImageManager) {
-            parent.jLabel30.setText(getInsertedPhotos() + " / "
-                    + NPHOTOS);
+        if (this instanceof ModifySuspectImageManager) {//Hacer handle abstract
+            jPanel3.setVisible(true);
+            jPanel2.setVisible(false);
+            jPanel1.setVisible(false);
         } else {
-            parent.jLabel51.setText(getInsertedPhotos() + " / "
-                    + NPHOTOS);
+            super.dispose();
+            setLabels();
         }
-        super.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
@@ -381,7 +503,7 @@ public class ImageManager extends javax.swing.JDialog {
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        saveDesc();
+        safeDesc();
         if (selectedPhoto == NPHOTOS) {
             selectedPhoto = 1;
         } else {
@@ -391,8 +513,16 @@ public class ImageManager extends javax.swing.JDialog {
         refreshSelectedImage();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnRemoveImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveImageActionPerformed
+        if (insertedPhotos > 0) {
+            suspectImages[selectedPhoto - 1] = new Images(myImage, imageDefPath);
+            insertedPhotos--;
+            putPhoto();
+        }
+    }//GEN-LAST:event_btnRemoveImageActionPerformed
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        saveDesc();
+        safeDesc();
         if (selectedPhoto == 1) {
             selectedPhoto = NPHOTOS;
         } else {
@@ -403,33 +533,67 @@ public class ImageManager extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        if (insertedPhotos > 0) {
-            suspectImages[selectedPhoto - 1] = new Images(myImage, imageDefPath);
-            insertedPhotos--;
-            putPhoto();
-        }
+        jPanel3.setVisible(false);
+        jPanel2.setVisible(true);
+        jPanel1.setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        super.dispose();
+        hiddeSafePanel();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        safeDesc();
+        controller.Controller.getInstance().saveImages(UI.getInstance().getSupectBennModified().getCodeSuspect(), getPhotos());
+        setLabels();
+        super.dispose();
+        hiddeSafePanel();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     public void addPhoto(Image image, String path) {
-        suspectImages[selectedPhoto - 1] = new Images(image, path);
-        insertedPhotos++;
+        if (suspectImages[selectedPhoto - 1] != null) {
+            if (suspectImages[selectedPhoto - 1].getCodeImage() != null) {
+                Integer codeImage = suspectImages[selectedPhoto - 1].getCodeImage();
+                String description = suspectImages[selectedPhoto - 1].getDescription();
+                suspectImages[selectedPhoto - 1] = new Images(image, path);
+                suspectImages[selectedPhoto - 1].setCodeImage(codeImage);
+                if (description != null) {
+                    suspectImages[selectedPhoto - 1].setDescription(description);
+                }
+            } else {
+                suspectImages[selectedPhoto - 1] = new Images(image, path);
+                insertedPhotos++;
+            }
+        } else {
+            suspectImages[selectedPhoto - 1] = new Images(image, path);
+            insertedPhotos++;
+        }
         putPhoto();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnRemoveImage;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     protected javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton6;
+    protected javax.swing.JButton jButton4;
+    protected javax.swing.JButton jButton5;
+    protected javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     protected javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 
+    public abstract void setLabels();
+
+    protected abstract void resetLabels();
 }

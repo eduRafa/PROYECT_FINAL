@@ -80,7 +80,7 @@ public class Images {
     }
 
     public void setCodeImage(Integer CodeImage) {
-        this.codeSuspect = CodeImage;
+        this.codeImage = CodeImage;
     }
 
     public String getDescription() {

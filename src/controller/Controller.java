@@ -9,16 +9,15 @@ import database.Query;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import model.Communication;
 import model.Images;
 import model.Suspect;
-import view.CreateAndFillTables;
+import view.Tables.CreateAndFillMainTable;
+import static view.Tables.CreateAndFillMainTable.fillMainTable;
 import view.PrintComponents;
+import view.Tables.CreateAndFillSearchTable;
 import view.UI;
+import view.imageManagers.ImageManager;
 
 /**
  *
@@ -56,11 +55,11 @@ public class Controller implements ActionListener {
         Communication.setPrimaryColor(c);
         PrintComponents.printAllComponents(myUI, c);
         PrintComponents.printAllComponents(myUI.getAddSuspectImageManager(), c);
-        PrintComponents.printAllComponents(UI.getModifySuspectImageManager(), c);
+        PrintComponents.printAllComponents(myUI.getModifySuspectImageManager(), c);
     }
 
     /**
-     * Metodo sobreescrito que recoge las acciones de los botones relacionados
+     * Metodo sobreescrito que recoge las acciones de los botones relacionadas
      * con la base de datos
      *
      * @param e Accion del elemento que la invoco
@@ -73,19 +72,45 @@ public class Controller implements ActionListener {
                 Query.addSuspect(myUI.getAddSuspect());
                 myUI.removeAddSuspectsFields();
                 myUI.getAddSuspectImageManager().resetImageManager();
-                CreateAndFillTables.fillMainTable(null);
+                CreateAndFillMainTable.fillMainTable(null);
                 break;
             case "modify":
                 Query.Update(myUI.getModifySuspect());
-                CreateAndFillTables.fillMainTable(null);
+                CreateAndFillMainTable.fillMainTable(null);
                 break;
             case "search":
-                HashMap<Integer, ArrayList<String>> coincidences = Query.search(myUI.getSearchSuspect());
-
-                for (Map.Entry<Integer, ArrayList<String>> entry : coincidences.entrySet()) {
-                    System.out.println("clave=" + entry.getKey() + ", valor=" + entry.getValue().size());
-
+                CreateAndFillSearchTable.setSearchPage(Query.searchRelations(myUI.getSearchSuspect()));
+                CreateAndFillSearchTable.fillSearchTable();
+                break;
+            case "searchSpecificSuspect":
+                myUI.setSearchFields(Query.findSuspect(CreateAndFillMainTable.getLastCodeOfSuspectClicked()));
+                myUI.hideLayouts();
+                myUI.showPnlSearch();
+                myUI.pnlSearchSearch.setVisible(true);
+                break;
+            case "profileOfSearchedSuspect":
+                Suspect profileOfSearchedSuspect = Query.findSuspect(CreateAndFillSearchTable.getLastCodeOfSuspectClicked());
+                if (profileOfSearchedSuspect != null) {
+                    myUI.setSuspectBeenModified(profileOfSearchedSuspect);
+                    myUI.setModifySuspectFields(profileOfSearchedSuspect);
+                    myUI.hideLayouts();
+                    myUI.showSuspectLayouts();
+                    myUI.hiddePnlSearch();
                 }
+                break;
+            case "profileOfMainSuspect":
+                Suspect profileOfMainSuspect = Query.findSuspect(CreateAndFillMainTable.getLastCodeOfSuspectClicked());
+                if (profileOfMainSuspect != null) {
+                    myUI.setSuspectBeenModified(profileOfMainSuspect);
+                    myUI.setModifySuspectFields(profileOfMainSuspect);
+                    myUI.hideLayouts();
+                    myUI.showSuspectLayouts();
+                    myUI.hiddePnlSearch();
+                }
+                break;
+            case "remove":
+                Query.deleteSuspect(CreateAndFillMainTable.getLastCodeOfSuspectClicked());
+                CreateAndFillMainTable.fillMainTable(null);
                 break;
         }
     }
@@ -94,8 +119,8 @@ public class Controller implements ActionListener {
         return Query.showTen();
     }
 
-    public Suspect findSuspect(Integer suspectCode) {
-        return Query.findSuspect(suspectCode);
+    public int getSuspectNPhotos(Integer id) {
+        return Query.getSuspectNPhotos(id);
     }
 
     public Images[] getPhotos(Integer idSuspect) {
@@ -107,12 +132,15 @@ public class Controller implements ActionListener {
         return Query.showNext();
     }
 
-    public static void deleteSuspect(Integer id) {
-        Query.deleteSuspect(id);
-    }
-
     public Suspect[] getPreviousTen() {
         return Query.showPrevious();
     }
 
+    public Suspect[] getTenSpecificSuspects(Integer[] tenSuspectsCodes) {
+        return Query.getTenSpecificSuspects(tenSuspectsCodes);
+    }
+    
+    public void saveImages(Integer codeSuspect, Images[] imgs){
+        Query.updateImages(codeSuspect,imgs);
+    }
 }

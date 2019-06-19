@@ -9,10 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Communication;
-import view.WarningDialog;
 
 /**
  *
@@ -26,45 +23,38 @@ public class Connect {
     static private boolean CREATED = false;
     static private Connect me;
 
-    private Connect(){
-        startConnection();
-        me = this;
+    private Connect() {
+
     }
 
     public static Connect getInstance() {
         if (me == null) {
-            Connect c = new Connect();
-            Query.setConnect(c);
-            return c;
-        } else {
-            return me;
+            me = new Connect();
         }
+        return me;
     }
 
     /*Método: startConnection()
-	Tipo: boolean
-	Parámetros: ninguno
-	Devuelve: booleano que indica el estado de la conexión
 	Funcionalidad: Realiza la conexión a la base de datos y si se realiza con exito
         pone el indicador de estado a true
      */
-    private boolean startConnection() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+    public void startConnection() throws ClassNotFoundException, SQLException {
+        if (myConnection == null) {
             String[] parameters = Communication.getDatabaseAccess();
+
+            Class.forName(parameters[0]);
             // Setup the connection with the DB
 
             //miConexion= DriverManager.getConnection("jdbc:mysql://"+HOST_DE+"/"+BBDD_DE+"?user="+LOGIN_DE+"&password="+PASSWORD_DE);
             //conexión completa para evitar errores de sincronizacion con el servidor
-            myConnection = DriverManager.getConnection("jdbc:mysql://" + parameters[0] + "/" + parameters[1] + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&user=" + parameters[2] + "&password=" + parameters[3]);
+            myConnection = DriverManager.getConnection(parameters[1], parameters[2], parameters[3]);
 
             if (CREATED == false) {
                 generateStructure();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+
+            Query.setConnect(me);
         }
-        return Connect.state;
     }
 
     /*Método: getState()
@@ -113,10 +103,10 @@ public class Connect {
         Statement sentence;
         try {
             lineSQL = "CREATE TABLE IF NOT EXISTS SUSPECT"
-                    + "(CodeSuspect         int unsigned zerofill PRIMARY KEY auto_increment,"
-                    + "name                 varchar(30) DEFAULT 'desconocido',"
-                    + "lastname1            varchar(30) DEFAULT 'desconocido',"
-                    + "lastname2            varchar(30) DEFAULT 'desconocido',"
+                    + "(CodeSuspect         int unsigned PRIMARY KEY auto_increment,"
+                    + "name                 varchar(30) DEFAULT null,"
+                    + "lastname1            varchar(30) DEFAULT null,"
+                    + "lastname2            varchar(30) DEFAULT null,"
                     + "Record               text ,"
                     + "Facts                text"
                     + ")ENGINE=INNODB";
@@ -140,8 +130,8 @@ public class Connect {
 
             lineSQL = "CREATE TABLE IF NOT EXISTS PHONE"
                     + "(CodeSuspect          int unsigned,"
-                    + "CodePhone             int zerofill auto_increment PRIMARY KEY,"
-                    + "PhoneNumber           int DEFAULT 000000000,"
+                    + "CodePhone             int auto_increment PRIMARY KEY,"
+                    + "PhoneNumber           int unsigned,"
                     + "FOREIGN KEY (CodeSuspect) references SUSPECT(CodeSuspect) ON DELETE CASCADE ON UPDATE CASCADE"
                     + ")ENGINE=INNODB";
 
@@ -149,7 +139,7 @@ public class Connect {
             sentence.executeUpdate(lineSQL);
 
             lineSQL = "CREATE TABLE IF NOT EXISTS E_MAIL"
-                    + "(CodeE_mail          int zerofill auto_increment PRIMARY KEY,"
+                    + "(CodeE_mail          int auto_increment PRIMARY KEY,"
                     + "CodeSuspect          int unsigned,"
                     + "Email                varchar(50) DEFAULT 'desconocido',"
                     + "FOREIGN KEY (CodeSuspect) REFERENCES SUSPECT (CodeSuspect) ON DELETE CASCADE ON UPDATE CASCADE"
@@ -159,9 +149,9 @@ public class Connect {
             sentence.executeUpdate(lineSQL);
 
             lineSQL = "CREATE TABLE IF NOT EXISTS ADDRESS"
-                    + "(CodeAddress          int zerofill auto_increment PRIMARY KEY,"
+                    + "(CodeAddress          int auto_increment PRIMARY KEY,"
                     + "CodeSuspect           int unsigned,"
-                    + "Address               varchar(100) DEFAULT 'desconocido',"
+                    + "Address               varchar(100) DEFAULT null,"
                     + "FOREIGN KEY (CodeSuspect) REFERENCES SUSPECT (CodeSuspect) ON DELETE CASCADE ON UPDATE CASCADE"
                     + ")ENGINE=INNODB";
 
@@ -169,8 +159,8 @@ public class Connect {
             sentence.executeUpdate(lineSQL);
 
             lineSQL = "CREATE TABLE IF NOT EXISTS CAR_REGISTRATION"
-                    + "(Registration_number varchar (11) DEFAULT 'desconocido',"
-                    + "CodeRegistration      int zerofill auto_increment PRIMARY KEY,"
+                    + "(Registration_number varchar (11) DEFAULT null,"
+                    + "CodeRegistration      int auto_increment PRIMARY KEY,"
                     + "CodeSuspect           int unsigned,"
                     + "FOREIGN KEY (CodeSuspect) REFERENCES SUSPECT (CodeSuspect) ON DELETE CASCADE ON UPDATE CASCADE"
                     + ")ENGINE=INNODB";
@@ -180,8 +170,8 @@ public class Connect {
 
             lineSQL = "CREATE TABLE IF NOT EXISTS IMAGES"
                     + "(Image                blob,"
-                    + "CodeImage             int zerofill auto_increment PRIMARY KEY,"
-                    + "Description           blob,"
+                    + "CodeImage             int auto_increment PRIMARY KEY,"
+                    + "Description           text,"
                     + "CodeSuspect           int unsigned,"
                     + "FOREIGN KEY (CodeSuspect) REFERENCES SUSPECT (CodeSuspect) ON DELETE CASCADE ON UPDATE CASCADE"
                     + ")ENGINE=INNODB";

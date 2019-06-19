@@ -71,10 +71,10 @@ public class EnteredExited {
     private static void applyBackgroundColorEffect(Component c, String backgroundColor) {
         switch (backgroundColor) {
             case "0":
-                c.setBackground(UI.getPrimaryColor());
+                c.setBackground(PrintComponents.getPrimaryColor());
                 break;
             case "1":
-                c.setBackground(UI.getSecundaryColor());
+                c.setBackground(PrintComponents.getSecundaryColor());
                 break;
         }
     }
@@ -82,10 +82,10 @@ public class EnteredExited {
     private static void applyButtonBorderColorEffect(JButton btn, String borderColor) {
         switch (borderColor) {
             case "1":
-                btn.setBorder(javax.swing.BorderFactory.createLineBorder(UI.getSecundaryColor()));
+                btn.setBorder(javax.swing.BorderFactory.createLineBorder(PrintComponents.getSecundaryColor()));
                 break;
             case "0":
-                btn.setBorder(javax.swing.BorderFactory.createLineBorder(UI.getPrimaryColor()));
+                btn.setBorder(javax.swing.BorderFactory.createLineBorder(PrintComponents.getPrimaryColor()));
                 break;
         }
     }
@@ -93,10 +93,10 @@ public class EnteredExited {
     private static void applyPanelBorderColorEffect(JPanel pnl, String borderColor) {
         switch (borderColor) {
             case "1":
-                pnl.setBorder(javax.swing.BorderFactory.createLineBorder(UI.getSecundaryColor()));
+                pnl.setBorder(javax.swing.BorderFactory.createLineBorder(PrintComponents.getSecundaryColor()));
                 break;
             case "0":
-                pnl.setBorder(javax.swing.BorderFactory.createLineBorder(UI.getPrimaryColor()));
+                pnl.setBorder(javax.swing.BorderFactory.createLineBorder(PrintComponents.getPrimaryColor()));
                 break;
         }
     }
@@ -104,10 +104,10 @@ public class EnteredExited {
     private static void applyForegroundColorEffect(Component c, String foregroundColor) {
         switch (foregroundColor) {
             case "1":
-                c.setForeground(UI.getSecundaryColor());
+                c.setForeground(PrintComponents.getSecundaryColor());
                 break;
             case "0":
-                c.setForeground(UI.getPrimaryColor());
+                c.setForeground(PrintComponents.getPrimaryColor());
                 break;
         }
     }
@@ -149,15 +149,15 @@ public class EnteredExited {
             Icon x = null;
             String newPath = null;
             
-            if (UiUtils.rgbFormatted(UI.getPrimaryColor()).equals(oldColor[1])) {
-                newPath = oldPath.replaceAll("\\$\\d{3},\\d{3},\\d{3}\\$", "\\$" + UiUtils.rgbFormatted(UI.getSecundaryColor()) + "\\$");
+            if (UiUtils.rgbFormatted(PrintComponents.getPrimaryColor()).equals(oldColor[1])) {
+                newPath = oldPath.replaceAll("\\$\\d{3},\\d{3},\\d{3}\\$", "\\$" + UiUtils.rgbFormatted(PrintComponents.getSecundaryColor()) + "\\$");
                 Image myImage = Toolkit.getDefaultToolkit().getImage(ClassLoader.
                         getSystemResource("view/images/" + newPath));
                 tmpLabel.setIcon(new ImageIcon(myImage));
                 tmpLabel.getAccessibleContext().setAccessibleDescription(newPath);
                 
-            } else if (UiUtils.rgbFormatted(UI.getSecundaryColor()).equals(oldColor[1])) {
-                newPath = oldPath.replaceAll("\\$\\d{3},\\d{3},\\d{3}\\$", "\\$" + UiUtils.rgbFormatted(UI.getPrimaryColor()) + "\\$");
+            } else if (UiUtils.rgbFormatted(PrintComponents.getSecundaryColor()).equals(oldColor[1])) {
+                newPath = oldPath.replaceAll("\\$\\d{3},\\d{3},\\d{3}\\$", "\\$" + UiUtils.rgbFormatted(PrintComponents.getPrimaryColor()) + "\\$");
                 Image myImage = Toolkit.getDefaultToolkit().getImage(ClassLoader.
                         getSystemResource("view/images/" + newPath));
                 tmpLabel.setIcon(new ImageIcon(myImage));

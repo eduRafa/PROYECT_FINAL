@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package view.Dialogs;
 
 import java.awt.MouseInfo;
 import java.awt.Point;
+import view.PrintComponents;
 
 /**
  *
@@ -51,13 +52,15 @@ public class WarningDialog extends javax.swing.JDialog {
         });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(UI.getPrimaryColor()));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(PrintComponents.getPrimaryColor()
+        ));
 
-        jButton1.setBackground(UI.getPrimaryColor()
+        jButton1.setBackground(PrintComponents.getPrimaryColor()
         );
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Aceptar");
-        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(UI.getPrimaryColor()));
+        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(PrintComponents.getPrimaryColor()
+        ));
         jButton1.setFocusable(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

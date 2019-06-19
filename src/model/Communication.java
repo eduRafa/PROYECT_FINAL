@@ -38,7 +38,9 @@ public class Communication {
     public static final String CONNECTIONFILE = "./connection.xml";
 
     /**
-     * Metodo encargado de obtener un documento en el sistema a traves de su path
+     * Metodo encargado de obtener un documento en el sistema a traves de su
+     * path
+     *
      * @param fileName path del archivo a obtener
      * @return Devuelve un objeto Document con el archivo
      */
@@ -55,10 +57,11 @@ public class Communication {
     }
 
     /**
-     * Metodo encargado de recibir un color y de guardarlo en el archivo
-     * el cual tiene como path el "COLORFILE" (variable almacenada
-     * como variable global de esta clase)
-     * @param c Nuevo color 
+     * Metodo encargado de recibir un color y de guardarlo en el archivo el cual
+     * tiene como path el "COLORFILE" (variable almacenada como variable global
+     * de esta clase)
+     *
+     * @param c Nuevo color
      */
     public static void setPrimaryColor(Color c) {
         if (c != null) {
@@ -82,6 +85,7 @@ public class Communication {
 
     /**
      * Metodo encargado de modificar un documento.
+     *
      * @param doc Documento con el nuevo contenido
      * @param fileName Path del documento con el contenido antiguo
      */
@@ -106,7 +110,9 @@ public class Communication {
     }
 
     /**
-     * Metodo encargado de imprimir el contenido del archivo pasado por parametro
+     * Metodo encargado de imprimir el contenido del archivo pasado por
+     * parametro
+     *
      * @param xml Documento xml a imprimir
      * @return Un String con el contenido del archivo
      */
@@ -140,10 +146,11 @@ public class Communication {
     }
 
     /**
-     * Metodo encargado de obtener el color principal del xml guardado en la variable
+     * Metodo encargado de obtener el color principal del xml guardado en la
+     * variable global COLORFILE
+     *
+     * @return Devuelve un objeto Color del archivo guardado en la variable
      * global COLORFILE
-     * @return Devuelve un objeto Color del archivo guardado en la variable global
-     * COLORFILE
      */
     public static Color getPrimaryColor() {
         Color c = null;
@@ -165,27 +172,28 @@ public class Communication {
         }
         return c;
     }
-    
+
     /**
-     * Metodo encargado de obtener 
-     * @return Devuelve un array de String el cual representa los valores database
-     * localhost, user y password
+     * Metodo encargado de obtener
+     *
+     * @return Devuelve un array de String el cual representa los valores
+     * database localhost, user y password
      */
     public static String[] getDatabaseAccess() {
-        String[] dbValues = new String[4];;
+        String[] dbValues = new String[4];
         Document doc = getDocumentXML(CONNECTIONFILE);
         NodeList object = doc.getDocumentElement().getChildNodes();
 
         for (int i = 0; i < object.getLength(); i++) {
             Node tempNode = object.item(i);
-            if (tempNode.getNodeName().equals("host")) {
+            if (tempNode.getNodeName().equals("driver")) {
                 NodeList x = tempNode.getChildNodes();
                 for (int j = 0; j < x.getLength(); j++) {
                     if (tempNode.getNodeType() == Node.ELEMENT_NODE) {
                         dbValues[0] = x.item(j).getTextContent();
                     }
                 }
-            } else if (tempNode.getNodeName().equals("database")) {
+            } else if (tempNode.getNodeName().equals("url")) {
                 NodeList x = tempNode.getChildNodes();
                 for (int j = 0; j < x.getLength(); j++) {
                     if (tempNode.getNodeType() == Node.ELEMENT_NODE) {
